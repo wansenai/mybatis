@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/fastrust.iml" filepath="$PROJECT_DIR$/fastrust.iml" />
       <module fileurl="file://$PROJECT_DIR$/formatprint/formatprint.iml" filepath="$PROJECT_DIR$/formatprint/formatprint.iml" />
+      <module fileurl="file://$PROJECT_DIR$/primitives/primitives.iml" filepath="$PROJECT_DIR$/primitives/primitives.iml" />
     </modules>
   </component>
 </project>
