@@ -1,4 +1,5 @@
 mod TextAndOperators;
+mod Tuples;
 
 fn main() {
     let logical : bool = true;
