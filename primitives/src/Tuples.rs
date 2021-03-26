@@ -49,3 +49,15 @@ fn main (){
 
 #[derive(Debug)]
 struct Structure(f32, f32, f32, f32);
+
+#[test]
+fn learn(){
+
+    let matrx = Structure(1.1, 1.2, 2.1, 2.2);
+
+    impl fmt::Display for Structure{
+        fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{
+            write!(f, "({}, {})", self.0, self.1)
+        }
+    }
+}
