@@ -1,5 +1,6 @@
 mod TextAndOperators;
 mod Tuples;
+mod ArraysAndSlices;
 
 fn main() {
     let logical : bool = true;
