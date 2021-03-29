@@ -1,4 +1,6 @@
-//
+// 自定义结构类型
+
+mod Structures;
 
 #[cfg(test)]
 mod tests {
