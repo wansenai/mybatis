@@ -2,6 +2,7 @@
 
 mod Structures;
 mod Enums;
+mod UseEnums;
 
 #[cfg(test)]
 mod tests {

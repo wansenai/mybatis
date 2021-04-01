@@ -59,3 +59,30 @@ fn main(){
         y   :   -984.1535,
     })
 }
+
+enum VeryverboseEnumOfThingsToDoWithNumbers {
+    Add,
+    Subtract,
+}
+
+// 创建类型别名
+type Operations = VeryverboseEnumOfThingsToDoWithNumbers;
+
+#[test]
+fn main2(){
+    let x = Operations::Add;
+}
+
+enum VeryVerboseEnumOfThingsToDoWithNumbers {
+    Add,
+    Subtract,
+}
+
+impl VeryVerboseEnumOfThingsToDoWithNumbers{
+    fn run(&self, x: i32, y: i32) -> i32{
+        match self{
+            Self::Add => x + y,
+            Self::Subtract => x - y,
+        }
+    }
+}
