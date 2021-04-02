@@ -3,6 +3,7 @@
 mod Structures;
 mod Enums;
 mod UseEnums;
+mod CLikeEnums;
 
 #[cfg(test)]
 mod tests {
