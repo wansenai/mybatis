@@ -5,6 +5,7 @@ mod Enums;
 mod UseEnums;
 mod CLikeEnums;
 mod LinkedList;
+mod Constants;
 
 #[cfg(test)]
 mod tests {
