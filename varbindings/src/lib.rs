@@ -1,4 +1,5 @@
 mod Mutability;
+mod ScopeAndShadowing;
 
 ///
 /// Rust 通过静态类型提供类型安全性，声明时，变量绑定可以用类型标注
