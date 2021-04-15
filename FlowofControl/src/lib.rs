@@ -1,6 +1,7 @@
 mod IfandElse;
 mod Loop;
 mod NestingAndLabels;
+mod ReturningFromLoops;
 
 #[cfg(test)]
 mod tests {
