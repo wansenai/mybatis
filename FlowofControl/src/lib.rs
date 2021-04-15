@@ -1,4 +1,5 @@
 mod IfandElse;
+mod Loop;
 
 #[cfg(test)]
 mod tests {
