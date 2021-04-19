@@ -3,6 +3,7 @@ mod Loop;
 mod NestingAndLabels;
 mod ReturningFromLoops;
 mod While;
+mod ForAndRange;
 
 #[cfg(test)]
 mod tests {
