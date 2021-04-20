@@ -4,6 +4,7 @@ mod NestingAndLabels;
 mod ReturningFromLoops;
 mod While;
 mod ForAndRange;
+mod Match;
 
 #[cfg(test)]
 mod tests {
