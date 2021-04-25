@@ -5,6 +5,8 @@ mod ReturningFromLoops;
 mod While;
 mod ForAndRange;
 mod Match;
+mod MatchGuards;
+mod MatchBinding;
 
 #[cfg(test)]
 mod tests {
