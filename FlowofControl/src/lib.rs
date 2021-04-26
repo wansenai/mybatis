@@ -8,6 +8,7 @@ mod Match;
 mod MatchGuards;
 mod MatchBinding;
 mod Iflet;
+mod WhileLet;
 
 #[cfg(test)]
 mod tests {
