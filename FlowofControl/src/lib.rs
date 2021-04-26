@@ -7,6 +7,7 @@ mod ForAndRange;
 mod Match;
 mod MatchGuards;
 mod MatchBinding;
+mod Iflet;
 
 #[cfg(test)]
 mod tests {
