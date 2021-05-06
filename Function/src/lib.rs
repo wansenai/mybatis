@@ -3,6 +3,7 @@ mod Closures;
 mod InuptParameters;
 mod TypeAnonymity;
 mod InputFunction;
+mod OutputFunction;
 
 ///
 /// 函数 使用fn 关键字定义一个函数, 如果函数有返回值，则必须在方法体后 执行 ->
