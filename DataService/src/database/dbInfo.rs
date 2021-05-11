@@ -1,7 +1,6 @@
 use mysql::*;
 use mysql::prelude::*;
 
-
 pub fn testCoon(){
     let url = "mysql://root:123456@localhost:3306/cloud_service_db";
     let pool = Pool::new(url);

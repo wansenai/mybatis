@@ -12,7 +12,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new(|| {
         App::new()
             .route("/v1", web::get().to(route :: greet))
-            .route("/v2/{name}", web::get().to(route :: greet))
+            .route("/v2/{name}", web::get().to(route :: craat))
     })
         .bind(("127.0.0.1", 8787))?
         .run().await
