@@ -3,8 +3,24 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/Conversion/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/DataService/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/FlowofControl/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Function/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Modules/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Types/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/expressions/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/varbindings/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
+      <excludeFolder url="file://$MODULE_DIR$/DataService/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Conversion/target" />
+      <excludeFolder url="file://$MODULE_DIR$/expressions/target" />
+      <excludeFolder url="file://$MODULE_DIR$/FlowofControl/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Function/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Types/target" />
+      <excludeFolder url="file://$MODULE_DIR$/varbindings/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Modules/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
