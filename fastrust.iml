@@ -12,6 +12,8 @@
       <sourceFolder url="file://$MODULE_DIR$/expressions/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/varbindings/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Generics/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/Attributes/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
       <excludeFolder url="file://$MODULE_DIR$/DataService/target" />
       <excludeFolder url="file://$MODULE_DIR$/Conversion/target" />
@@ -21,6 +23,8 @@
       <excludeFolder url="file://$MODULE_DIR$/Types/target" />
       <excludeFolder url="file://$MODULE_DIR$/varbindings/target" />
       <excludeFolder url="file://$MODULE_DIR$/Modules/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Generics/target" />
+      <excludeFolder url="file://$MODULE_DIR$/Attributes/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
