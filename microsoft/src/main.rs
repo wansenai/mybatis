@@ -1,5 +1,7 @@
 mod FunctionTest;
 mod User;
+mod Array;
+mod Condition;
 
 use std::borrow::Borrow;
 
