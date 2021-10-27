@@ -2,6 +2,8 @@ mod FunctionTest;
 mod User;
 mod Array;
 mod Condition;
+mod HashMap;
+mod LoopWhileFor;
 
 use std::borrow::Borrow;
 
