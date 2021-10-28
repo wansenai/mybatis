@@ -4,6 +4,8 @@ mod Array;
 mod Condition;
 mod HashMap;
 mod LoopWhileFor;
+mod Error;
+mod Option;
 
 use std::borrow::Borrow;
 
