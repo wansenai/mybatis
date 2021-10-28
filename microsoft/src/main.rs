@@ -6,6 +6,7 @@ mod HashMap;
 mod LoopWhileFor;
 mod Error;
 mod Exception;
+mod OptionTest;
 
 use std::borrow::Borrow;
 
