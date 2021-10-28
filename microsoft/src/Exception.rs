@@ -57,7 +57,7 @@ fn expect_test(){
 
 fn unwrap_or_test(){
     // 一般不建议调用unwrap() 方法， 调用unwrap_or()方法可以避免程序崩溃
-    assert_eq!(None.unwrap_or("cat"), "cat2");
+    assert_eq!(None.unwrap_or("cat"), "cat");
 }
 
 #[test]
