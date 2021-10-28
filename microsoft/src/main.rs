@@ -7,6 +7,7 @@ mod LoopWhileFor;
 mod Error;
 mod Exception;
 mod OptionTest;
+mod Result;
 
 use std::borrow::Borrow;
 
