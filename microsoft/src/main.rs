@@ -5,7 +5,7 @@ mod Condition;
 mod HashMap;
 mod LoopWhileFor;
 mod Error;
-mod Option;
+mod Exception;
 
 use std::borrow::Borrow;
 
