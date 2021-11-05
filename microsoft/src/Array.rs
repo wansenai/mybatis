@@ -29,7 +29,7 @@ fn customArray(){
 
     // delete 末尾元素 pop()
     println!("删除元素{:?}", user.pop());
-    println!("删除元素{:?}", user);
+    println!("已经删除的元素{:?}", user);
 
     let mut numbers = Vec::new();
     numbers.push(12);
