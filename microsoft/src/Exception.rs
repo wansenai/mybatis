@@ -1,9 +1,6 @@
-enum Options<T>{
-    None, // 值不存在
-    Some(T), // 值存在
-}
 
-fn getCar(){
+
+fn get_car(){
 
     let mut more_car = Vec::new();
     more_car.push("奔驰");
@@ -44,14 +41,13 @@ fn unwrap_test(){
     let gift = Some("candy");
     assert_eq!(gift.unwrap(), "candy");
 
-    let empty_gift : Option<&str> = None;
     // 报错 因为方法说none 代表没有值 如果直接用unwrap访问内部值 将报错
     // assert_eq!(empty_gift.unwrap(), "candy");
 }
 
 fn expect_test(){
     // expect 和 unwrap 方法相同，但他提供2个参数，第二个参数可以自定义panic
-    let empty_user : Option<u32> = None;
+    // let empty_user : Option<u32> = None;
    // assert_eq!(empty_user.expect("内部数据为null"), 1);
 }
 
@@ -62,7 +58,7 @@ fn unwrap_or_test(){
 
 #[test]
 fn main(){
-    getCar();
+    get_car();
     match_test();
     match_test_two();
     // test unwrap

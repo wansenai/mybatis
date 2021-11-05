@@ -1,16 +1,3 @@
-mod FunctionTest;
-mod User;
-mod Array;
-mod Condition;
-mod HashMap;
-mod LoopWhileFor;
-mod Error;
-mod Exception;
-mod OptionTest;
-mod Result;
-
-use std::borrow::Borrow;
-
 fn main() {
     println!("Hello, world!");
     // todo!("this code not use");
@@ -60,7 +47,6 @@ fn main() {
         VarThree(MouseClick)
     }
 
-    let v_test = Test::VarThree{ 0: MouseClick {x : 12, y : 15}};
     let v_test_two = KeyPress("zhaowei".to_string(), 'y');
     println!("{}: {}", v_test_two.0, v_test_two.1);
 

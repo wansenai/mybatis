@@ -1,8 +1,6 @@
 fn createArray(){
     // 没有定义长度的数组
     let animals = ["Tiger", "Cat", "Dog", "Lion"];
-    // 长度为6的数组
-    let numbers = [5; 8];
 
     let var_cat = animals[1];
 
@@ -46,7 +44,7 @@ fn customArray(){
 
 #[test]
 fn main(){
-    // createArray();
-    // createVector();
+    createArray();
+    createVector();
     customArray();
 }
