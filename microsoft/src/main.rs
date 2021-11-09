@@ -8,7 +8,6 @@ mod Error;
 mod Exception;
 mod OptionTest;
 mod Result;
-mod all;
 
 use std::borrow::Borrow;
 

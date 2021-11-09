@@ -24,6 +24,5 @@ fn test_three(num : i32) -> i32 {
 
 #[test]
 fn test_flour(){
-    let var_two = 5;
     println!("value: {}", test_three(5));
 }
