@@ -9,6 +9,8 @@ mod Exception;
 mod OptionTest;
 mod Result;
 mod all;
+mod Paradigm;
+mod json;
 
 use std::borrow::Borrow;
 
