@@ -11,6 +11,7 @@ mod Result;
 mod all;
 mod Paradigm;
 mod json;
+mod modLoad;
 
 use std::borrow::Borrow;
 
