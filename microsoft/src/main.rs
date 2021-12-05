@@ -13,6 +13,8 @@ mod Paradigm;
 mod json;
 mod modLoad;
 mod UtilTest;
+mod DocTest;
+mod Pizza;
 
 use std::borrow::Borrow;
 
