@@ -12,6 +12,7 @@ mod all;
 mod Paradigm;
 mod json;
 mod modLoad;
+mod UtilTest;
 
 use std::borrow::Borrow;
 
