@@ -17,7 +17,7 @@ fn get_windows_system_info(){
 fn main(){
     get_windows_system_info();
 
-    if cfg!(target_os = "linux"){
+    if cfg!(target_os = "windows"){
         println!("windows X86 4V CPU 16G SSD550")
     } else {
         println!("系统不支持")
