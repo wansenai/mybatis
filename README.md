@@ -57,3 +57,5 @@ Rust，我最初是先看了一些概念，然后看了官方的book，以及学
 
 
 * `webservice` 模块用于第三方库actix-web以及mysql 进行api开发
+
+* `cindy` 从新回顾学习
