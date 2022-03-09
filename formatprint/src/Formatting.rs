@@ -18,7 +18,7 @@ impl Display for City{
         let lat_c = if self.lat >= 0.0 { 'N' } else { 'S' };
         let lon_c = if self.lon >= 0.0 { 'N' } else { 'S' };
 
-        write!(f, "{}: {:.3} {} {:.3} {}", self.name, self.lat.abs(), lat_c, self.lon.abs(), lon_c);
+        write!(f, "{}: {:.3} {} {:.3} {}", self.name, self.lat.abs(), lat_c, self.lon.abs(), lon_c)
     }
 }
 
