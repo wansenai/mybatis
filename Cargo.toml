@@ -1,0 +1,23 @@
+[workspace]
+members = [
+    "attributes",
+    "cindy",
+    "conversion",
+    "crates",
+    "customtypes",
+    "expressions",
+    "flowofcontrol",
+    "formatprint",
+    "function",
+    "generics",
+    "httpie",
+    "journal",
+    "leetcode",
+    "microsoft",
+    "modules",
+    "primitives",
+    "thumbor",
+    "types",
+    "varbindings",
+    "webservice"
+]
