@@ -11,27 +11,31 @@ use syntect::{
     util::{as_24_bit_terminal_escaped, LinesWithEndings}
 };
 
-
+/// 显示终端header output info
 #[derive(Parser, Debug)]
 #[clap(version = "1.0", author = "James Zow <JamesZow@163.com>")]
 
+/// 输出命令 结构体
 struct Opts {
     #[clap(subcommand)]
     subcmd: SubCommand,
 }
 
+/// 命令枚举 包含get 和 post处理命令
 #[derive(Parser, Debug)]
 enum SubCommand {
     Get(Get),
     Post(Post),
 }
 
+// get 结构体
 #[derive(Parser, Debug)]
 struct Get {
     #[clap(parse(try_from_str = parse_url))]
     url: String,
 }
 
+// post 结构体
 #[derive(Parser, Debug)]
 struct Post {
     // 请求url
@@ -42,12 +46,14 @@ struct Post {
     body: Vec<KVPair>,
 }
 
+// post请求body参数kv形式封装 结构体
 #[derive(Debug, PartialEq)]
 struct KVPair {
     k: String,
     v: String,
 }
 
+// 对body封装对数据进行解析转换，分割参数
 impl FromStr for KVPair {
     type Err = anyhow::Error;
     fn from_str(s: &str) -> Result<Self, Self::Err> {
@@ -61,20 +67,24 @@ impl FromStr for KVPair {
     }
 }
 
+// 解析url reqwest::Url
 fn parse_url(s: &str) -> Result<String> {
     let _url: Url = s.parse()?;
     Ok(s.into())
 }
 
+// 参数kv解析
 fn parse_kv_pair(s: &str) -> Result<KVPair> {
     Ok(s.parse()?)
 }
 
+// 打印响应状态
 fn print_status(resp: &Response) {
     let status = format!("version: {:?},  status: {}", resp.version(), resp.status()).blue();
     println!("{}\n", status);
 }
 
+// 打印响应headers
 fn print_headers(resp: &Response) {
     for (name, value) in resp.headers() {
         println!("{}: {:?}", name.to_string().green(), value);
@@ -83,6 +93,7 @@ fn print_headers(resp: &Response) {
     println!()
 }
 
+// 打印解析出来的body json结构
 fn print_body(m: Option<Mime>, body: &str) {
     match m {
         Some(v) if v == mime::APPLICATION_JSON => print_syntect(body, "json"),
@@ -92,6 +103,7 @@ fn print_body(m: Option<Mime>, body: &str) {
     }
 }
 
+// 主题格式化打印
 fn print_syntect(s: &str, ext: &str) {
     let ps = SyntaxSet::load_defaults_newlines();
     let ts = ThemeSet::load_defaults();
@@ -105,12 +117,14 @@ fn print_syntect(s: &str, ext: &str) {
     }
 }
 
+// 获取响应后的Content-Type
 fn get_content_type(resp: &Response) -> Option<Mime> {
     resp.headers()
         .get(header::CONTENT_TYPE)
         .map(|v| v.to_str().unwrap().parse().unwrap())
 }
 
+// 打印响应信息
 async fn print_resp(resp: Response) -> Result<()> {
     print_status(&resp);
     print_headers(&resp);
@@ -120,11 +134,13 @@ async fn print_resp(resp: Response) -> Result<()> {
     Ok(())
 }
 
+// get处理命令
 async fn get(client: Client, args: &Get) -> Result<()>{
     let resp = client.get(&args.url).send().await?;
     Ok(print_resp(resp).await?)
 }
 
+// post处理命令
 async fn post(client: Client, args: &Post) -> Result<()> {
     let mut body = HashMap::new();
     for pair in args.body.iter() {
@@ -134,6 +150,7 @@ async fn post(client: Client, args: &Post) -> Result<()> {
     Ok(print_resp(resp).await?)
 }
 
+// main application 
 #[tokio::main]
 async fn main() -> Result<()> {
     let opts: Opts = Opts::parse(); 
