@@ -49,8 +49,3 @@ fn config(){
     assert_eq!(params, query_test);
     println!("start....");
 }
-
-#[test]
-fn main(){
-    config();
-}

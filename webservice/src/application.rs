@@ -6,7 +6,6 @@ use crate::service::route;
 ///
 
 #[actix_web::main]
-#[test]
 async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
@@ -18,7 +17,6 @@ async fn main() -> std::io::Result<()> {
         .run().await
 }
 
-#[test]
 fn getCoon(){
     dbInfo::testCoon();
 }
