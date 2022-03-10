@@ -15,6 +15,7 @@ fn main(){
             break count * 2.0;
         }
     };
+    
     println!("{}", count);
-    assert_eq!(result, 0.5)
+    println!("{}", result);
 }

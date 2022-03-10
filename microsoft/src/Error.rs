@@ -1,4 +1,4 @@
 #[test]
 fn main(){
-    panic!("处理错误")
+    // panic!("处理错误");
 }
