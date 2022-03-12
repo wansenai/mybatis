@@ -19,5 +19,6 @@ members = [
     "thumbor",
     "types",
     "varbindings",
-    "webservice"
+    "webservice",
+    "queryer",
 ]
