@@ -1,5 +1,6 @@
-use std::rc::Rc;
-
+///
+/// rust programming language book 1 ~ 3 learing
+/// 
 fn main() {
     let x = 5;
     let x = x * 7;
