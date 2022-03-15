@@ -1,5 +1,5 @@
 ///
-/// rust programming language book 1 ~ 3 learing
+/// rust programming language book 1 ~ 3 learing :)
 /// 
 fn main() {
     let x = 5;
