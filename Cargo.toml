@@ -22,4 +22,5 @@ members = [
     "webservice",
     "queryer",
     "ownership",
+    "guessgame",
 ]
