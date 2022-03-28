@@ -27,6 +27,7 @@ fn main() {
             Ordering::Greater => println!("太大啦"),
             Ordering::Equal => {
                 println!("恭喜你，猜对了！");
+                println!("==================游戏结束==================");
                 break;
             }
         }

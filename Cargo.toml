@@ -23,4 +23,5 @@ members = [
     "queryer",
     "ownership",
     "guessgame",
+    "utiltest",
 ]
