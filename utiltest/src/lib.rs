@@ -62,7 +62,7 @@ fn life_time_test(){
     }
 }
 
-fn sum_two(v: i32) -> i32 {
+pub fn sum_two(v: i32) -> i32 {
     v + 2
 }
 
