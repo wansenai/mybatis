@@ -21,6 +21,26 @@ impl Config {
 
         Ok(Config {query, filename, case_sensitive})
     }
+
+    pub fn new_two(mut args: std::env::Args) -> Result<Config, &'static str> {
+        if args.len() < 3 {
+            return Err("没有足够请求参数")
+        }
+        args.next();
+
+        let query = match args.next(){
+            Some(arg) => arg,
+            None => return Err("没有找到query参数")
+        };
+
+        let filename = match args.next() {
+            Some(arg) => arg,
+            None => return Err("没有找到filename参数")
+        };
+
+        let case_sensitive = env::var("CASE_INSENSITIVE").is_err();
+        Ok(Config {query, filename, case_sensitive})
+    }
 }
 
 pub fn run(config: Config) -> Result<(), Box<dyn Error>> {
