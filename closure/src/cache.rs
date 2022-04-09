@@ -44,7 +44,8 @@ fn generate_workout(intensity: u32, random: u32) {
 #[cfg(test)]
 mod test {
     use super::*;
-
+    
+    
     #[test]
     fn test_cache() {
         let x_closure = |x| x;
