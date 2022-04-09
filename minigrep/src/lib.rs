@@ -103,4 +103,30 @@ mod test {
 
         assert_eq!(vec!["Rust"], search_case_insensitive(query, contents));
     }
+
+    #[test]
+    fn test_sss() {
+        let s1 = String::from("hello");
+        let s2 = &s1;
+        // ⚠️：这里会导致编译错误 s1的所有权已经交给了s2 此时在调用s1会出错
+        println!("{},{}", s1, s2);
+
+        let a = [1, 2, 3, 4, 5];
+  
+        let slice = &a[1..3];
+
+        println!("{:?}", slice);
+
+    }
+
+    #[test]
+    fn test_inte() {
+        let v = vec![1, 2, 3, 4];
+
+        let v_iter = v.iter();
+
+        let total: i32 = v_iter.sum();
+
+        assert_eq!(10, total);
+    }
 }
