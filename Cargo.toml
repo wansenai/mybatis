@@ -25,4 +25,5 @@ members = [
     "guessgame",
     "utiltest",
     "minigrep",
+    'closure',
 ]
