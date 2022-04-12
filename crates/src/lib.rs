@@ -17,9 +17,9 @@ mod tests {
 /// 
 /// ```
 /// let x: i32 = 5;
-/// let a = crates::add_fun(x);
+/// let a = add-one::add_fun(x);
 /// 
-/// assert_eq!(7, a);
+/// assert_eq!(6, a);
 /// ```
 /// 
 /// # Errors
@@ -31,5 +31,5 @@ mod tests {
 /// 如果内存不足，或者等其他情况会导致该函数在运行时起报错
 /// 
 pub fn add_fun(x: i32) -> i32 {
-    x + 2
+    x + 1
 }

@@ -5,12 +5,3 @@ version = "0.2.0"
 authors = ["JamesZow <Jameszow@163.com>"]
 edition = "2018"
 description = "this package test publish crates.io"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-[profile.dev]
-opt-level = 0
-
-[profile.release]
-opt-level = 3
-
-[dependencies]
