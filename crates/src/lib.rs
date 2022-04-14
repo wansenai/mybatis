@@ -16,8 +16,12 @@ mod tests {
 /// # Examples
 /// 
 /// ```
+/// fn add_fun(x: i32) -> i32 {
+///     x + 1
+/// }
+/// 
 /// let x: i32 = 5;
-/// let a = add-one::add_fun(x);
+/// let a = add_fun(x);
 /// 
 /// assert_eq!(6, a);
 /// ```
