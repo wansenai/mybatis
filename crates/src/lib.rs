@@ -37,3 +37,28 @@ mod tests {
 pub fn add_fun(x: i32) -> i32 {
     x + 1
 }
+
+mod back_house {
+    pub struct Breakfast {
+      pub food: String,
+      fruit: String,
+    }
+    
+    impl Breakfast {
+      pub fn today(food: String) -> Breakfast {
+        Breakfast {
+          food,
+          fruit: String::from("apple"),
+        }
+      }
+    }
+  }
+
+  pub fn eat_breakfast_today() {
+    let food = String::from("bread");
+    let mut meal = back_house::Breakfast::today(food);
+    // 修改食物
+    meal.food = String::from("dumplings");
+    println!("今天吃: {}", meal.food);
+}
+  

@@ -28,4 +28,5 @@ members = [
     "closure",
     "smartpointer",
     "concurrent",
+    "restaurant",
 ]
