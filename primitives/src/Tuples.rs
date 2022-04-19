@@ -54,6 +54,7 @@ struct Structure(f32, f32, f32, f32);
 fn learn(){
 
     let matrx = Structure(1.1, 1.2, 2.1, 2.2);
+    println!("{}", matrx);
 
     impl fmt::Display for Structure{
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{

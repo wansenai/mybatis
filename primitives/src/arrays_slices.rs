@@ -1,16 +1,15 @@
 // 数组和切片
 
-use std::mem;
-
-
+#[allow(dead_code)]
 fn analyze_slice(slice: &[i32]){
     println!("切片的第一个元素:{}", slice[0]);
     println!("切片有{}个元素", slice.len());
 }
 
-
 #[test]
 fn main(){
+
+    use std::mem;
 
     let xs : [i32; 5] = [1, 2, 3, 4, 5];
     let ys : [i32; 500] = [0; 500];
