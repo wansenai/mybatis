@@ -1,5 +1,3 @@
-use utiltest;
-
 mod common;
 
 #[test]

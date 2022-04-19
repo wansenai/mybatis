@@ -1,15 +1,16 @@
 use std::fs::File;
 use std::io::ErrorKind;
 
+#[test]
 fn main() {
     read_file();
 }
 
-#[warn(dead_code)]
+#[allow(dead_code)]
 fn read_file() {
     let f = File::open("hello.txt");
 
-    let result = match f {
+    let _result = match f {
         Ok(file) => file,
         Err(error) => match error.kind() {
             ErrorKind::NotFound => match File::create("hello.txt") {
@@ -21,37 +22,38 @@ fn read_file() {
     };
 }
 
-fn largest<T: PartialOrd + Copy>(list: &[T]) -> &T {
-    let mut largest = &list[0];
-
-    for item in list.iter() {
-        if item > largest {
-            largest = item;
-        }
-    }
-
-    largest
-}
-
 #[test]
 fn test_copy_trait() {
     let numbers = vec![75, 57, 99, 105];
+
+    fn largest<T: PartialOrd + Copy>(list: &[T]) -> &T {
+        let mut largest = &list[0];
+    
+        for item in list.iter() {
+            if item > largest {
+                largest = item;
+            }
+        }
+    
+        largest
+    }
 
     let result = largest(&numbers);
 
     println!("{}", result);
 }
 
-fn longset<'a>(x: &'a str, y: &'a str) -> & 'a str{
-    if x.len() > y.len() {
-        x
-    } else {
-        y 
-    }
-}
-
 #[test]
 fn life_time_test(){
+
+    fn longset<'a>(x: &'a str, y: &'a str) -> & 'a str{
+        if x.len() > y.len() {
+            x
+        } else {
+            y 
+        }
+    }
+
     let result;
     let s1 = String::from("asdasda");
 
