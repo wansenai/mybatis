@@ -1,5 +1,5 @@
-mod DeadeCode;
-mod CratesLib;
+mod deade_code;
+mod crateslib;
 mod cfg;
 
 #[cfg(test)]
