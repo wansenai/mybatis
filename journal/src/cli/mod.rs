@@ -1,3 +1,3 @@
 pub mod cli;
-pub mod CommandLineArgs;
-pub mod StructOpt;
+pub mod command_line_args;
+pub mod struct_opt;
