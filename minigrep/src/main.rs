@@ -6,7 +6,7 @@ use minigrep::Config;
 fn main() {
     let args: Vec<String> = env::args().collect();
 
-    let config = Config::new(&args).unwrap_or_else(|err| {
+    let _config = Config::new(&args).unwrap_or_else(|err| {
         eprintln!("实例化Config出错 : {}", err);
         process::exit(1);
     });
