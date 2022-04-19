@@ -3,11 +3,11 @@
 /// 使用泛函数有时需要明确指定类型参数，如果在返回类型是泛型的情况下调用函数，或者编译器没有足够的信息来推断必要的类型参数
 /// 和显式指定类型参数的函数调用
 ///
-#[allow(dead_code)]
+
 struct A;
-#[allow(dead_code)]
+
 struct S(A);
-#[allow(dead_code)]
+
 struct SGen<T>(T);
 
 #[allow(dead_code)]
