@@ -1,7 +1,7 @@
-mod Casting;
-mod Literals;
-mod Inference;
-mod Aliasing;
+mod casting;
+mod literals;
+mod inference;
+mod aliasing;
 
 fn main() {
     println!("Hello, world!");
