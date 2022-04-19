@@ -6,7 +6,7 @@ members = [
     "crates",
     "customtypes",
     "expressions",
-    "flowofcontrol",
+    "flow_of_control",
     "formatprint",
     "function",
     "generics",
@@ -29,4 +29,5 @@ members = [
     "smartpointer",
     "concurrent",
     "restaurant",
+    "webapp",
 ]
