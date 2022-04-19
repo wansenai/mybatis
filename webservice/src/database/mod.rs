@@ -1,2 +1,2 @@
-pub mod dbInfo;
+pub mod db_info;
 pub mod test;
