@@ -12,6 +12,7 @@ fn main() {
     println!("{:?}",strc);
 
     let y: u8 = 255;
+    println!("{}", y);
 
     let nums: [i32; 5] = [0,1,2,3,4];
 
