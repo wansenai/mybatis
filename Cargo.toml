@@ -6,7 +6,7 @@ members = [
     "crates",
     "customtypes",
     "expressions",
-    "flow_of_control",
+    "flowofcontrol",
     "formatprint",
     "function",
     "generics",
