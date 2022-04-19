@@ -1,7 +1,7 @@
-mod Mutability;
-mod ScopeAndShadowing;
-mod DeclareFirst;
-mod VarFreezing;
+mod mutability;
+mod scope_shadowing;
+mod declare_first;
+mod var_freezing;
 
 ///
 /// Rust 通过静态类型提供类型安全性，声明时，变量绑定可以用类型标注
@@ -33,4 +33,7 @@ fn main(){
     let _unused_variable = 55u32;
 
     let noisy_unused_variable = 2u32;
+
+    assert_eq!(sex2, 2u32);
+    assert_eq!(noisy_unused_variable, 2u32);
 }

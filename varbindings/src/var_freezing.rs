@@ -9,7 +9,7 @@ fn main(){
     let mut var_integer = 5i32;
 
     {
-        let var_integer = var_integer;
+        let _var_integer = var_integer;
 
         // 这里报错 因为不能对不可变变量赋值2次
         // var_integer = 6;

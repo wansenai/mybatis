@@ -8,6 +8,9 @@
 fn main(){
 
     let not_var = 1;
+
+    assert_eq!(not_var,1);
+
     let mut yes_var = 2;
 
     println!("变量可变之前: {}", yes_var);
