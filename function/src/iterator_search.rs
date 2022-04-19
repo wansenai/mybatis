@@ -25,7 +25,7 @@ fn main(){
     let array2 = [36, 20, 15];
 
     println!("array1 : {:?}", array1.iter().find(|&&x| x == 5));
-    println!("array2 : {:?}", array2.into_iter().find(|&& y | y == 26));
+    println!("array2 : {:?}", array2.iter().find(|&& y | y == 26));
 }
 
 

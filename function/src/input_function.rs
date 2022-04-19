@@ -5,11 +5,13 @@
 
 // 定义一个接受泛型F的参数函数
 // 以 Fn 为界 并调用它
+#[allow(dead_code)]
 fn call_fun<F: Fn()>(f : F) {
     f();
 }
 
 // 定义满足Fn绑定的包装函数
+#[allow(dead_code)]
 fn function_test(){
     println!("test function")
 }

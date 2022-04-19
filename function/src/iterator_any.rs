@@ -1,5 +1,3 @@
-use std::iter::Iterator;
-
 ///
 /// 迭代器::any  Iterator::any 是一个函数， 当传递迭代器的时候，当为true则返回该函数 否则false
 ///
@@ -23,5 +21,5 @@ fn main(){
     let array2 = [4, 5, 6];
 
     println!("array1 : {}", array1.iter().any(|&x| x == 3));
-    println!("arrary2 : {}", array2.into_iter().any(|&x| x == 7));
+    println!("arrary2 : {}", array2.iter().any(|&x| x == 7));
 }

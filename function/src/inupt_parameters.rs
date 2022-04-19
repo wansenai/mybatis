@@ -6,12 +6,13 @@
 /// FnMut   :   闭包通过可变变量引用(&mut T)捕获
 /// FnOnce  :   闭包按值(T)捕获
 ///
-
+#[allow(dead_code)]
 fn apply<F>(f : F)  where
     F : FnOnce() {
     f();
 }
 
+#[allow(dead_code)]
 fn apply_to_2<F>(f : F) -> i32 where
     F : Fn(i32) -> i32 {
     f(2)

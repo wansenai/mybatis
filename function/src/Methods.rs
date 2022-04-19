@@ -3,13 +3,15 @@
 /// 方法定义在 impl 块中
 ///
 
+#[allow(dead_code)]
 struct Point {
     x : f64,
     y : f64
 }
 
-impl Point{
 
+#[allow(dead_code)]
+impl Point{
     fn origin() -> Point{
         Point{x : 0.0, y : 0.0}
     }
@@ -19,11 +21,15 @@ impl Point{
     }
 }
 
+
+#[allow(dead_code)]
 struct Rectangle {
     p1 : Point,
     p2 : Point
 }
 
+
+#[allow(dead_code)]
 impl Rectangle{
     fn area(&self) -> f64{
         let Point{x: x1, y : y1} = self.p1;
@@ -48,8 +54,12 @@ impl Rectangle{
     }
 }
 
+
+#[allow(dead_code)]
 struct Pair(Box<i32>, Box<i32>);
 
+
+#[allow(dead_code)]
 impl Pair {
     fn destroy(self) {
         let Pair(first, second) = self;
@@ -59,6 +69,7 @@ impl Pair {
 
 #[test]
 fn main(){
+
     let test = Rectangle {
         p1 : Point::origin(),
         p2 : Point::new(1.0,2.6),

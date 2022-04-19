@@ -4,6 +4,7 @@
 ///
 
 // 必须是泛型
+#[allow(dead_code)]
 fn apply<F>(f : F) where
     F : FnOnce(){
     f();

@@ -1,7 +1,7 @@
 ///
 /// Rust提供了高阶函数(HOF), 这些功能具有一个或多个功能
 ///
-
+#[allow(dead_code)]
 fn is_odd(var : u32) -> bool {
     var % 2 == 1
 }
