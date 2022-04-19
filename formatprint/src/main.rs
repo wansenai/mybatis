@@ -1,5 +1,5 @@
-mod debug;
-mod display;
+mod derive_debug;
+mod derive_display;
 mod many_display;
 mod formatting;
 
