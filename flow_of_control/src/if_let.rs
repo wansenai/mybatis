@@ -2,13 +2,18 @@
 /// if let 对于某些match匹配，可以使用if let来匹配，这样代码看着简洁
 ///
 
+// if let 也可以用于 枚举值
+
+
+
+
 #[test]
 fn main_one(){
     let num = Some(7);
 
     match num {
         Some(i) => {
-            println!("匹配数字7")
+            println!("匹配数字{}",i)
         },
         _ => println!("没有匹配")
     }
@@ -42,48 +47,52 @@ fn main_two(){
     }
 }
 
-// if let 也可以用于 枚举值
-enum Status {
-    Login_Success,
-    Login_Error,
-    Login_Exception(u32),
-}
-
 #[test]
 fn main_three(){
+    enum Status {
+        LOGINSUCCESS,
+        LOGINERROR,
+        LOGINEXCEPTION(u32),
+    }
 
-    let var_one = Status :: Login_Success;
-    let var_two = Status :: Login_Error;
-    let var_three = Status :: Login_Exception(500);
+    let var_one = Status::LOGINSUCCESS;
+    let var_two = Status::LOGINERROR;
+    let var_three = Status::LOGINEXCEPTION(500);
 
-    if let Status :: Login_Success = var_one {
+    if let Status :: LOGINSUCCESS = var_one {
         println!("var_one变量已经绑定到Login_Success");
     }
 
-    if let Status :: Login_Error = var_two {
+    if let Status :: LOGINERROR = var_two {
         println!("var_two变量已经绑定到Login_Error");
     }
 
-    if let Status :: Login_Exception(value) = var_three{
+    if let Status :: LOGINEXCEPTION(value) = var_three{
         println!("var_three 的值 {}", value);
     }
 
     // 可以通过@绑定值
-    if let Status :: Login_Exception(i @500) = var_three {
+    if let Status :: LOGINEXCEPTION(i @500) = var_three {
         println!("var_three 的值 {}", i);
     }
 }
 
-enum Number {
-    One
-}
-
 #[test]
 fn main_four(){
-    // if let 可以允许匹配非参数化的枚举变量，传统的枚举变量绑定将无法编译
-    let var = Number :: One;
 
-    if let Number :: One = var {
+    #[derive(Debug)]
+    enum Number {
+        ONE,
+        TWO,
+    }
+
+    // if let 可以允许匹配非参数化的枚举变量，传统的枚举变量绑定将无法编译
+    let var = Number::ONE;
+
+    if let Number::TWO = var {
         println!("匹配非参数化的枚举变量");
     }
+
+    let var_two = Number::TWO;
+    println!("{:?}", var_two);
 }

@@ -10,8 +10,8 @@ fn test_main(){
     }
 
     match age() {
-        i @ 1 ..=15 => println!("年龄段在1~15之间"),
-        i @ 16 ..=23 => println!("年龄段在16~23之间"),
+        _i @ 1 ..=15 => println!("年龄段在1~15之间"),
+        _i @ 16 ..=23 => println!("年龄段在16~23之间"),
         _ => println!("没有匹配到年龄")
     }
 }
@@ -24,8 +24,8 @@ fn test_main2(){
     }
 
     match nums() {
-        Some(n @ 40) => println!("数字为40已匹配到"),
-        Some(n) => println!("没有任何匹配"),
+        Some(_n @ 40) => println!("数字为40已匹配到"),
+        Some(_n) => println!("没有任何匹配"),
         _ => (),
     }
 }

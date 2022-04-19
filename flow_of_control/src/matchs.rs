@@ -30,7 +30,7 @@ fn main(){
 fn tuples_match_test(){
     let age = (15,22,33);
     match age {
-        (7 , y ,z) => println!("{:?}:包含为7岁的年龄", age),
+        (7 , _y ,_z) => println!("{:?}:包含为7岁的年龄", age),
         (15, ..) => println!("{:?}:从15岁以上的年龄匹配", age),
         _ => println!("{:?}:其他年龄", age)
     }
@@ -40,16 +40,19 @@ fn tuples_match_test(){
 /// enum类型的match测试
 ///
 
+#[allow(dead_code)]
 enum Color{
-    Red,
-    Blue,
-    Green,
+    RED,
+    BLUE,
+    GREEN,
 
     RGB(u32, u32, u32),
     HSV(u32, u32, u32),
     CMY(u32, u32, u32),
 }
 
+
+#[allow(dead_code)]
 enum HSV{
     HSV(u32, u32, u32),
 }
@@ -57,12 +60,11 @@ enum HSV{
 fn enums_match_test(){
     let color = Color::RGB(178, 50, 32);
     let hsv = HSV::HSV(5, 32, 66);
-    let cmy = Color::CMY(17, 25, 60);
 
     match color {
-        Color::Red => println!("红色"),
-        Color::Blue => println!("蓝色"),
-        Color::Green => println!("绿色"),
+        Color::RED => println!("红色"),
+        Color::BLUE => println!("蓝色"),
+        Color::GREEN => println!("绿色"),
 
         Color::RGB(r, g,b)  =>
             println!("RGB的颜色 R:{}, G:{}, B:{}", r, g, b ),
@@ -91,12 +93,12 @@ fn porinter_ref_match_test(){
 
     match reference {
         // 如果比较reference和&val匹配相当于 &i32 比较 &val，如果把&删除，i32类型应该分配给val
-        &val => println!("通过解构得到值：{}",reference)
+        &_val => println!("通过解构得到值：{}",reference)
     }
 
     match *reference {
         // 为了避免& 需要在匹配之前取消引用
-        val => println!("通过取消引用得到的值:{}", reference)
+        _val => println!("通过取消引用得到的值:{}", reference)
     }
 
     let _not_use_reference = 3;
@@ -107,7 +109,7 @@ fn porinter_ref_match_test(){
     let mut _mut_value = 36;
 
     match value {
-        ref r => println!("value的值：{}", value)
+        ref _r => println!("value的值:{}", value)
     }
 
     match _mut_value {
@@ -122,14 +124,13 @@ fn porinter_ref_match_test(){
 ///
 /// structs 结构 match 测试
 ///
-
-struct Foo{
-    x: (u32, u32),
-    y: u32,
-}
-
 #[test]
 fn structs_match_test(){
+    struct Foo{
+        x: (u32, u32),
+        y: u32,
+    }
+
     let foo = Foo{
         x : (6, 8), y : 20
     };

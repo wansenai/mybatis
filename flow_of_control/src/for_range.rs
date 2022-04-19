@@ -63,12 +63,12 @@ fn two_main(){
 
     // 使用 iter_mut
 
-    let mut ageList = vec![15, 25, 55];
-    for age in ageList.iter_mut(){
+    let mut age_list = vec![15, 25, 55];
+    for age in age_list.iter_mut(){
         match age {
             &mut 15 => println!("年龄15"),
             _ => println!("剩下年龄的数据为: {}", age),
         }
     }
-    print!("ageList : {:?}", ageList);
+    print!("ageList : {:?}", age_list);
 }

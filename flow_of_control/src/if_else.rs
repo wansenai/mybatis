@@ -8,9 +8,9 @@ fn main(){
     let n = 6i32;
 
     if n < 0 {
-        println!("n的值小于0，为: {}", n);
+        println!("n的值小于0,为: {}", n);
     }else if n > 0 {
-        println!("n的值大于0，为: {}", n)
+        println!("n的值大于0,为: {}", n)
     }else{
         println!("没有值")
     }

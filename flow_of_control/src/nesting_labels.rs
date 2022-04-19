@@ -13,12 +13,11 @@ fn main(){
 
         if var == 10 {
 
-            'two : loop{
+            loop{
                 var += 2;
                 break 'one;
             }
         }
-
     }
     println!("var的值: {}", var);
 }
