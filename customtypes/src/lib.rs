@@ -4,7 +4,7 @@ mod structures;
 mod enums;
 mod use_enums;
 mod c_like_enums;
-mod linkedList;
+mod linked_list;
 mod constants;
 
 #[cfg(test)]
