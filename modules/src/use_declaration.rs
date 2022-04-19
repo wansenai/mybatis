@@ -3,8 +3,7 @@
 /// use可以把完整的路径绑定到新的变量上，以便方便访问
 ///
 
-use deeply::nested::function as two_funtion;
-
+#[allow(dead_code)]
 mod deeply{
     pub mod nested {
         pub fn function() {
@@ -12,7 +11,7 @@ mod deeply{
         }
     }
 }
-
+#[allow(dead_code)]
 fn function(){
     println!("调用 function()函数")
 }
@@ -20,6 +19,8 @@ fn function(){
 
 #[test]
 fn main(){
+    use deeply::nested::function as two_funtion;
+
     two_funtion();
 
     println!("~~~~~~~~~~~~~~");

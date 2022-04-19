@@ -1,7 +1,7 @@
 ///
 /// Struct 结构可见性
 ///
-
+#[allow(dead_code)]
 mod one {
 
     // 泛型类型的T公共字段的公共的结构
@@ -30,8 +30,8 @@ fn main(){
         contents : "public method"
     };
 
-    println!("调用one模块里的OpenBox方法：{}", open_box.contents);
-    let close_box = one::CloseBox::new_method("public new method");
+    println!("调用one模块里的OpenBox方法:{}", open_box.contents);
+    let _close_box = one::CloseBox::new_method("public new method");
 
     // closed_box 的 contents报错，因为他是private的
     // let closed_box = one::CloseBox { contents: "classified information" };

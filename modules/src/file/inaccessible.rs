@@ -1,4 +1,5 @@
-pub fn getJVMParam(){
+#[allow(dead_code)]
+pub fn get_jvmparam(){
     println!("2v 4cpu 3 thread pool");
 }
 

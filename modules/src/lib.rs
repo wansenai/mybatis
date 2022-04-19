@@ -1,9 +1,9 @@
-mod Visibility;
-mod StructVisibility;
-mod UseDeclaration;
-mod SuperAndSelf;
+mod visibility;
+mod struct_visibility;
+mod use_declaration;
+mod super_self;
 mod file;
-mod TestFileMethod;
+mod test_file_method;
 
 ///
 /// Rust 提供了功能强大的模块系统，可以用于按业务逻辑进行 模块拆分，有点类似java微服务 若干服务
