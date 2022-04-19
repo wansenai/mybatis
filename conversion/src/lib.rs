@@ -1,6 +1,6 @@
-mod FromAndInto;
-mod TryFromAndTryInto;
-mod ToFromStrings;
+mod from_into;
+mod tryfrom_tryinto;
+mod to_from_string;
 
 ///
 /// conversion 转换，原始类型可以通过强制转换改变类型

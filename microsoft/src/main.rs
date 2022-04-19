@@ -1,22 +1,20 @@
-mod FunctionTest;
-mod User;
-mod Array;
-mod Condition;
-mod HashMap;
-mod LoopWhileFor;
-mod Error;
-mod Exception;
-mod OptionTest;
-mod Result;
+mod function_test;
+mod user;
+mod array;
+mod condition;
+mod hash_map;
+mod loop_while_for;
+mod error;
+mod exception;
+mod option_test;
+mod result;
 mod all;
-mod Paradigm;
+mod paradigm;
 mod json;
-mod modLoad;
-mod UtilTest;
-mod DocTest;
-mod Pizza;
-
-use std::borrow::Borrow;
+mod mod_load;
+mod util_test;
+mod doc_test;
+mod pizza;
 
 fn main() {
     println!("Hello, world!");
@@ -45,29 +43,30 @@ fn main() {
     println!("{}:{}:{}", tuple.0, tuple.1, tuple.2);
 
     struct Object{name: String, level: i64, remote: bool}
-    struct ObjectT(String, char, i16);
-    struct Unit;
-
-
     let user = Object{name: String::from("zhaowei"), level:100, remote:true};
     let user_two = Object{name: "zhangsan".to_string(), level:100, remote:true};
-    println!("{}: {}", user.name, user_two.name);
+    println!("{}: {}, {}, {}", user.name, user.level, user_two.name, user_two.remote);
 
+    #[allow(dead_code)]
     enum EnuVet{
         VarOne,
         VarTwo(String, char),
         VarThree{x: i32, y: i64}
     }
 
+    #[allow(dead_code)]
     struct KeyPress(String, char);
+    #[allow(dead_code)]
     struct MouseClick{x: i64, y: i64}
+
+    #[allow(dead_code)]
     enum Test{
         VarOne(bool),
         VarTwo(KeyPress),
         VarThree(MouseClick)
     }
 
-    let v_test = Test::VarThree{ 0: MouseClick {x : 12, y : 15}};
+    let _v_test = Test::VarThree{ 0: MouseClick {x : 12, y : 15}};
     let v_test_two = KeyPress("zhaowei".to_string(), 'y');
     println!("{}: {}", v_test_two.0, v_test_two.1);
 

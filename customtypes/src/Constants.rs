@@ -7,15 +7,16 @@
 ///
 
 const CODE: i32 = 200;
-static STATUS: &str = "enabled";
 
-fn is_bug(n: i32) -> bool{
+#[allow(dead_code)]
+pub fn is_bug(n: i32) -> bool{
     n > CODE
 }
 
 
 #[test]
 fn test(){
+    static STATUS: &str = "enabled";
     let n = 201;
 
     println!("打印const常量 {}", CODE);

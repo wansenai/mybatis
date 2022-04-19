@@ -1,17 +1,16 @@
 // 元组
-use std::fmt;
-
-fn reverse(pair : (i32, bool)) -> (bool, i32){
-    let (integer, boolean) = pair;
-
-    (boolean, integer)
-}
-
 #[derive(Debug)]
 struct Matrix(f32, f32, f32, f32);
 
 #[test]
 fn main (){
+
+    fn reverse(pair : (i32, bool)) -> (bool, i32){
+        let (integer, boolean) = pair;
+    
+        (boolean, integer)
+    }
+
     // 定义一个多类型的元组
     let long_tuples = (1u8, 2u16 , 3u32, 4u64,
                                         -1i8, -2i16, -3i32, -4i64,
@@ -52,8 +51,10 @@ struct Structure(f32, f32, f32, f32);
 
 #[test]
 fn learn(){
+    use std::fmt;
 
     let matrx = Structure(1.1, 1.2, 2.1, 2.2);
+    println!("{}", matrx);
 
     impl fmt::Display for Structure{
         fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result{

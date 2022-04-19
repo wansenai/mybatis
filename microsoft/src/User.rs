@@ -1,10 +1,11 @@
+#[allow(dead_code)]
 struct User{
     name : String,
     sex : char,
     age : i32,
-
 }
 
+#[allow(dead_code)]
 fn create_user(var_name: String, var_age: i32, var_sex: char) -> User{
     User{
         name: var_name,

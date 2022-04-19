@@ -9,6 +9,7 @@ fn get_windows_system_info(){
 }
 
 #[cfg(not(target_os = "windows"))]
+#[allow(dead_code)]
 fn get_windows_system_info(){
     println!("监测非windows系统, 请更换操作系统")
 }

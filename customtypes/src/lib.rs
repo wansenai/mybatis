@@ -1,11 +1,11 @@
 // 自定义结构类型
 
-mod Structures;
-mod Enums;
-mod UseEnums;
-mod CLikeEnums;
-mod LinkedList;
-mod Constants;
+mod structures;
+mod enums;
+mod use_enums;
+mod c_like_enums;
+mod linked_list;
+mod constants;
 
 #[cfg(test)]
 mod tests {

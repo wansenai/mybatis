@@ -1,4 +1,5 @@
-pub fn getUrl(){
+#[allow(dead_code)]
+pub fn get_url(){
     println!("url的地址是0.0.0.1");
 }
 

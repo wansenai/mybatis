@@ -6,6 +6,7 @@
 // #![crate_type = "lib"]
 // #![crate_name = "rary"]
 
+#[allow(dead_code)]
 fn pri_function(){
     println!("私有方法");
 }

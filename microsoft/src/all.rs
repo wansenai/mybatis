@@ -1,4 +1,4 @@
-
+#[allow(dead_code)]
 fn copy_return<'life>(vector: &'life mut Vec<String>, value: &'life str) -> &'life String {
     vector.push(String::from(value));
     // cancel ; return

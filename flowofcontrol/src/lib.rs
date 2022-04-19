@@ -1,14 +1,14 @@
-mod IfandElse;
-mod Loop;
-mod NestingAndLabels;
-mod ReturningFromLoops;
-mod While;
-mod ForAndRange;
-mod Match;
-mod MatchGuards;
-mod MatchBinding;
-mod Iflet;
-mod WhileLet;
+mod if_else;
+mod loops;
+mod nesting_labels;
+mod returning_from_loops;
+mod whiles;
+mod for_range;
+mod matchs;
+mod match_guards;
+mod match_binding;
+mod if_let;
+mod while_let;
 
 #[cfg(test)]
 mod tests {

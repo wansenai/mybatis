@@ -2,11 +2,9 @@ trait AsJson {
     fn as_json(&self) -> String;
 }
 
+#[allow(dead_code)]
 fn send_to_json(value: &impl AsJson){
     println!("-> {}", value.as_json())
-}
-
-fn send_data_as_json<T: AsJson>(value : &T){
 }
 
 struct Cat{
@@ -25,7 +23,7 @@ impl AsJson for Cat{
     fn as_json(&self) -> String {
         format!(
             r#"{{ "type": "Cat", "name": "{}", "color": "{}", "age": "{}" }}"#,
-            self.name, self.color, self.color
+            self.name, self.color, self.age
         )
     }
 }
@@ -42,15 +40,16 @@ impl AsJson for Dog{
 
 #[test]
 fn main(){
-    let Cindy = Cat { name: "Cindy".to_string(), color: "white".to_string(), age: 1};
-    send_to_json(&Cindy);
+    let cindy = Cat { name: "Cindy".to_string(), color: "white".to_string(), age: 1};
+    send_to_json(&cindy);
 }
 
-
+#[allow(dead_code)]
 struct Container<T> {
     value: T,
 }
 
+#[allow(dead_code)]
 impl <T> Container<T> {
     pub fn new(value: T) -> Self {
         Container { value }

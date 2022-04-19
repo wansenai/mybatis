@@ -1,6 +1,6 @@
-mod TwoSum;
+mod two_sum;
 
-use std::collections::{hash_map, HashMap};
+use std::collections::{HashMap};
 use std::option::Option::Some;
 
 fn main() {

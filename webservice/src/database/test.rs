@@ -8,6 +8,7 @@ struct Test{
     var2 : Option<String>,
 }
 
+#[allow(dead_code)]
 fn config(){
     let url = "mysql://root:123456@localhost:3306/rust_test";
     let pool = Pool::new(url).expect("exc");

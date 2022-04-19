@@ -1,11 +1,10 @@
-use crate::Enums::CodeEnum::COORDINATE;
-
 ///
 /// 自定义创建Enums 枚举类型
 /// enums 允许创建几个不同类型的的构造体
 /// 任何作为结构structures有效的变量也可以作为枚举有效
 ///
 
+#[allow(dead_code)]
 enum CodeEnum {
     SUCCESS,
     ERROR,
@@ -20,7 +19,7 @@ enum CodeEnum {
     },
 }
 
-
+#[allow(dead_code)]
 fn inspect(event: CodeEnum){
     match event {
         CodeEnum:: SUCCESS  => println!("200"),
@@ -32,14 +31,13 @@ fn inspect(event: CodeEnum){
         CodeEnum::COORDINATE { x, y} => {
             println!("x坐标={}, y坐标={}", x, y);
         },
-        _ => {
-            println!("~~~")
-        }
     }
 }
 
 #[test]
 fn main(){
+    use CodeEnum::COORDINATE;
+
     let code_one    =   CodeEnum::SUCCESS;
     let code_two    =   CodeEnum::ERROR;
     let core_three  =   CodeEnum:: WARN;
@@ -60,29 +58,41 @@ fn main(){
     })
 }
 
+#[allow(dead_code)]
+#[derive(Debug)]
 enum VeryverboseEnumOfThingsToDoWithNumbers {
     Add,
     Subtract,
 }
 
 // 创建类型别名
+#[allow(dead_code)]
 type Operations = VeryverboseEnumOfThingsToDoWithNumbers;
 
-#[test]
-fn main2(){
-    let x = Operations::Add;
-}
-
+#[allow(dead_code)]
 enum VeryVerboseEnumOfThingsToDoWithNumbers {
     Add,
     Subtract,
 }
 
-impl VeryVerboseEnumOfThingsToDoWithNumbers{
-    fn run(&self, x: i32, y: i32) -> i32{
-        match self{
-            Self::Add => x + y,
-            Self::Subtract => x - y,
-        }
-    }
+// impl VeryVerboseEnumOfThingsToDoWithNumbers{
+//     fn run(&self, x: i32, y: i32) -> i32{
+//         match self{
+//             Self::Add => x + y,
+//             Self::Subtract => x - y,
+//         }
+//     }
+// }
+
+#[test]
+fn test_enum_two(){
+    let x = Operations::Add;
+    println!("{:?}", x);
+}
+
+#[test]
+fn test_enum_three(){
+    let x = Operations::Subtract;
+    
+    println!("{:?}", x);
 }

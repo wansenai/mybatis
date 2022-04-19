@@ -6,6 +6,7 @@
 ///
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct User {
     name : String,
     age  : u8,
@@ -13,18 +14,22 @@ struct User {
 }
 
 // 单独的结构
+#[allow(dead_code)]
 struct Unit;
 
 // 元组结构
+#[allow(dead_code)]
 struct Pair(f32, f32);
 
 // 2个字段的结构
+#[allow(dead_code)]
 struct Point {
     x : f32,
     y : f32,
 }
 
 // 结构可以作为另外一个字段的重用结构
+#[allow(dead_code)]
 struct Rectstruct {
     top_left     : Point,
     bootom_right : Point,
@@ -64,6 +69,7 @@ fn main() {
     println!("pair的值 {:?} 和 {:?}", integer, decimal);
 }
 
+#[allow(dead_code)]
 struct Calculates{
     above : f32,
     below : f32,

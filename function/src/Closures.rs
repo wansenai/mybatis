@@ -41,10 +41,12 @@ fn capturing_test(){
 
     // 对color不可变的引用
     let var_one = &color;
-    print();
+    println!("{}", var_one);
 
     // 把color绑定刀新的变量上
     let var_two = color;
+    println!("{:?}", var_two);
+    
     let mut count = 0;
 
     let mut inc = ||{

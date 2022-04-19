@@ -1,4 +1,4 @@
-use std::{ops::Deref, rc::{Rc, Weak}, cell::RefCell};
+use std::ops::Deref;
 
 pub trait Messenger {
     fn send(&self, msg: &str);
@@ -37,6 +37,7 @@ impl<'a, T> LimitTracker<'a, T>
 
 struct MyBox<T> (T);
 
+#[allow(dead_code)]
 impl<T> MyBox<T> {
     fn new(x: T) -> MyBox<T> {
         MyBox(x)
@@ -51,13 +52,7 @@ impl<T> Deref for MyBox<T> {
     }
 }
 
-#[derive(Debug)]
-struct Node {
-    value: i32,
-    children: RefCell<Vec<Rc<Node>>>,
-    parent: RefCell<Weak<Node>>,
-}
-
+#[allow(dead_code)]
 fn hello(s: &str) {
     println!("{}", s);
 }
@@ -77,6 +72,7 @@ impl Drop for CustomDropPointer {
 mod tests {
     use super::*;
     use std::rc::Rc;
+    use std::rc::Weak;
     use std::cell::RefCell;
 
     enum List {
@@ -115,17 +111,25 @@ mod tests {
         }
     }
 
+    #[derive(Debug)]
+    #[allow(dead_code)]
+    struct Node {
+        value: i32,
+        children: RefCell<Vec<Rc<Node>>>,
+        parent: RefCell<Weak<Node>>,
+    }
+
     #[test]
     fn it_works() {
         assert_eq!(2 + 2, 4);
     }
 
     #[test]
-    fn test_Box_pointer() {
+    fn test_box_pointer() {
         let b = Box::new("string");
         println!("{}", b);
     
-        let data = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
+        let _data = Cons(1, Box::new(Cons(2, Box::new(Cons(3, Box::new(Nil))))));
 
         // 解引用其实就是跟踪引用跳转到它指向的值
         let x = 6;
@@ -171,11 +175,11 @@ mod tests {
         let s1 = Rc::new(Cons2(5, Rc::new(Cons2(6, Rc::new(Cons2(7, Rc::new(Nil2)))))));
         println!("s1 rc 引用计数: {}", Rc::strong_count(&s1));
 
-        let s2 = Cons2(99, Rc::clone(&s1));
+        let _s2 = Cons2(99, Rc::clone(&s1));
         println!("s1 rc 引用计数: {}", Rc::strong_count(&s1));
 
         {
-            let s3 = Cons2(666, Rc::clone(&s1));
+            let _s3 = Cons2(666, Rc::clone(&s1));
             println!("s1 rc 引用计数: {}", Rc::strong_count(&s1));
         }
 

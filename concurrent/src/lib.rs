@@ -1,9 +1,11 @@
-mod tests {
-    use std::thread;
-    use std::time::Duration;
-    use std::sync::mpsc;
-    use std::sync::Mutex;
-    use std::sync::Arc;
+pub mod tests {
+    pub use std::thread;
+    pub use std::time::Duration;
+    pub use std::sync::{
+        mpsc,
+        Mutex,
+        Arc,
+    };
 
     #[test]
     fn it_works() {

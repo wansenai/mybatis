@@ -3,21 +3,21 @@
 /// 唯一的例外的规则就是基本类型usize，f32，等
 ///
 
-type Custom = u64;
-type Price = f32;
-
-// 该属性可以取消用type不命名规范警告
-#[allow(non_camel_case_types)]
-type var_u64 = u64;
-type var_f32 = f32;
-
 #[test]
 fn main(){
+
+    type Custom = u64;
+    type Price = f32;
+
+    
+    type VarF64 = u64;
+    type VarF32 = f32;
+
     // var_one = Custom = var_u64 = u64类型
-    let var_one : Custom = 5 as var_u64;
+    let var_one : Custom = 5 as VarF64;
 
     // var_two = Price = var_f32 = f32类型
-    let var_two : Price = 3.5 as var_f32;
+    let var_two : Price = 3.5 as VarF32;
 
     let var_three : Price = 6.6;
 

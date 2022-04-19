@@ -1,15 +1,15 @@
 ///
 /// module 的 public private修饰
 ///
-
+#[allow(dead_code)]
 mod test_mod {
-
+    
     fn private_function(){
         println!("私有函数")
     }
 
     pub fn get_number(num: u32) -> u32 {
-        let mut num_two = 2 + num;
+        let num_two = 2 + num;
         return num_two;
     }
 
@@ -20,7 +20,6 @@ mod test_mod {
     }
 
     // 模块嵌套
-
     pub mod nested {
 
         pub fn function_child_module(){
@@ -65,12 +64,13 @@ mod test_mod {
     }
 }
 
-fn function(){
-    println!("没有模块的函数")
-}
 
 #[test]
 fn main(){
+    fn function(){
+        println!("没有模块的函数")
+    }
+
     function();
 
     test_mod::get_number(5);
