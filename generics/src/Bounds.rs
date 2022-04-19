@@ -7,10 +7,12 @@ use std::fmt::Debug;
 
 
 // 定义函数实现trait Display
+#[allow(dead_code)]
 fn printer<T: Display>(t: T){
     println!("{}", t);
 }
 
+#[allow(dead_code)]
 struct S<T: Display>(T);
 
 
@@ -18,6 +20,7 @@ struct S<T: Display>(T);
 struct Rectangle { length : f64, height : f64 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Triangle { length : f64, height : f64 }
 
 trait HasArea {
@@ -30,10 +33,12 @@ impl HasArea for Rectangle {
     }
 }
 
+#[allow(dead_code)]
 fn print_debug<T: Debug>(t: &T){
     println!("{:?}", t);
 }
 
+#[allow(dead_code)]
 fn area<T: HasArea>(t: &T) -> f64{
     t.area()
 }

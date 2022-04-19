@@ -1,9 +1,9 @@
-mod Functions;
-mod Implementation;
-mod Traits;
-mod Bounds;
-mod EmptyBounds;
-mod MultipleBounds;
+mod functions;
+mod implementation;
+mod traits;
+mod bounds;
+mod empty_bounds;
+mod multiple_bounds;
 
 ///
 /// 泛型是将类型或者功能泛化为更广的案例，可以减少重复代码
@@ -11,19 +11,20 @@ mod MultipleBounds;
 ///
 
 // 例如定义名为泛型函数foo
-fn foo<T>(args : T){
+#[allow(dead_code)]
+fn foo<T>(_args : T){}
 
-}
-
+#[allow(dead_code)]
 struct A;
 
+#[allow(dead_code)]
 struct Single(A);
 
+#[allow(dead_code)]
 struct SingleGen<T>(T);
 
 #[cfg(test)]
 mod tests {
-    use crate::Single;
 
     #[test]
     fn it_works() {

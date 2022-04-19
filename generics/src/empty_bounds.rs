@@ -4,6 +4,7 @@
 
 struct Cardinal;
 struct BlueJay;
+#[allow(dead_code)]
 struct Turkey;
 
 trait Red{}
@@ -12,7 +13,9 @@ trait Blue{}
 impl Red for Cardinal{}
 impl Blue for BlueJay{}
 
+#[allow(dead_code)]
 fn red<T: Red>(_: &T) -> &'static str {"red"}
+#[allow(dead_code)]
 fn blue<T: Blue>(_: &T) -> &'static str {"blue"}
 
 #[test]

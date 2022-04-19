@@ -5,11 +5,13 @@
 
 use std::fmt::{Debug, Display};
 
+#[allow(dead_code)]
 pub fn compare_prints<T: Debug + Display>(t: &T){
     println!("Debug : '{:?}'", t);
     println!("Display : '{}'", t);
 }
 
+#[allow(dead_code)]
 fn compare_types<T : Debug, U: Debug>(t: &T, u: &U) {
     println!("t: '{:?}'", t);
     println!("u: '{:?}'", u);
