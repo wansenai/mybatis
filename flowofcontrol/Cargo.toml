@@ -1,5 +1,5 @@
 [package]
-name = "flow_of_control"
+name = "flowofcontrol"
 version = "0.1.0"
 authors = ["JamesZow <Jameszow@163.com>"]
 edition = "2018"
