@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 fn test_if(){
     if 1 == 2 {
         println!("1 等于 2");
@@ -6,6 +7,7 @@ fn test_if(){
     }
 }
 
+#[allow(dead_code)]
 fn test_if_one(){
     let result = true;
 
@@ -17,6 +19,7 @@ fn test_if_one(){
     println!("{}", test);
 }
 
+#[allow(dead_code)]
 fn test_elseif(){
     let num = 50;
 

@@ -1,11 +1,12 @@
+#[allow(dead_code)]
 pub mod get_info {
-
+    
     pub fn get_user(var : &str) -> String {
         return var.to_uppercase();
     }
 
-    pub fn get_dept(mut var : i32) {
-        return var += 1;
+    pub fn get_dept(mut _var : i32) {
+        return _var += 1;
     }
 }
 

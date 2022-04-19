@@ -1,9 +1,11 @@
+#[allow(dead_code)]
 struct Person{
     first : String,
     middle : Option<String>,
     last : String,
 }
 
+#[allow(dead_code)]
 fn create_full_name(person : &Person) -> String {
     let mut full_name = String::new();
     full_name.push_str(&person.first);

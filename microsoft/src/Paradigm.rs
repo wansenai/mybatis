@@ -1,22 +1,25 @@
+#[allow(dead_code)]
 struct Point<T>{
     x : T,
     y : T
 }
 
+#[allow(dead_code)]
 struct Print<T, U>{
     j : T,
     k : U
 }
 
 #[test]
-fn get_Point(){
-    let var1 = Point{ x: "json", y: "text" };
-    let var2 = Point{ x: 32, y: 64 };
+#[allow(dead_code)]
+fn get_point(){
+    let _var1 = Point{ x: "json", y: "text" };
+    let _var2 = Point{ x: 32, y: 64 };
 }
 
 #[test]
 fn get_print(){
-    let var3 = Print{ j: true, k: "test" };
+    let _var3 = Print{ j: true, k: "test" };
 }
 
 trait Area {

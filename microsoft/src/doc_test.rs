@@ -22,7 +22,7 @@
 /// TODO: 写入这个文档测试
 /// ```
 ///
-///
+#[allow(dead_code)]
 pub fn div(x: i32, y: i32) -> i32{
     if y == 0{
         panic!("入参参数不能为0")
@@ -46,6 +46,7 @@ pub fn div(x: i32, y: i32) -> i32{
 /// TODO: 文档测试普通减法
 /// ```
 ///
+#[allow(dead_code)]
 pub fn sub(a: i32, b: i32) -> i32 {
     a - b
 }

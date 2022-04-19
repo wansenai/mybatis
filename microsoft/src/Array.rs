@@ -1,4 +1,5 @@
-fn createArray(){
+#[allow(dead_code)]
+fn create_array(){
     // 没有定义长度的数组
     let animals = ["Tiger", "Cat", "Dog", "Lion"];
 
@@ -8,7 +9,8 @@ fn createArray(){
     println!("{}", var_cat);
 }
 
-fn createVector(){
+#[allow(dead_code)]
+fn create_vector(){
     let three_nums = vec![20, 3, 17];
     println!("{:?}", three_nums);
 
@@ -17,7 +19,8 @@ fn createVector(){
     println!("{:?}", zeros);
 }
 
-fn customArray(){
+#[allow(dead_code)]
+fn custom_array(){
     let mut user = Vec::new();
 
     user.push("zhaowei");
@@ -44,7 +47,7 @@ fn customArray(){
 
 #[test]
 fn main(){
-    createArray();
-    createVector();
-    customArray();
+    create_array();
+    create_vector();
+    custom_array();
 }

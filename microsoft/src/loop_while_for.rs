@@ -1,3 +1,4 @@
+#[allow(dead_code)]
 fn test_loop(){
 
     let mut nums = 5;
@@ -10,6 +11,7 @@ fn test_loop(){
     }
 }
 
+#[allow(dead_code)]
 fn test_while(){
 
     let mut  result = 8;
@@ -20,6 +22,7 @@ fn test_while(){
     println!("{:}", result);
 }
 
+#[allow(dead_code)]
 fn test_for(){
 
     let user = vec!["zhaowei", "zhangsan", "wangwu"];

@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[allow(dead_code)]
 fn test(){
     let mut user_map : HashMap<String, String> = HashMap::new();
 

@@ -1,5 +1,8 @@
+/// expect 和 unwrap 方法相同，但他提供2个参数，第二个参数可以自定义panic
+/// let empty_user : Option<u32> = None;
+/// assert_eq!(empty_user.expect("内部数据为null"), 1);
 
-
+#[allow(dead_code)]
 fn get_car(){
 
     let mut more_car = Vec::new();
@@ -13,6 +16,7 @@ fn get_car(){
     // println!("{}", more_car[999]);
 }
 
+#[allow(dead_code)]
 fn match_test(){
     let name = vec!["zh","en","jp"];
     for &index in [0, 2, 9].iter(){
@@ -24,6 +28,7 @@ fn match_test(){
     }
 }
 
+#[allow(dead_code)]
 fn match_test_two(){
     let number : Option<u8> = Some(7);
 
@@ -37,6 +42,7 @@ fn match_test_two(){
     }
 }
 
+#[allow(dead_code)]
 fn unwrap_test(){
     let gift = Some("candy");
     assert_eq!(gift.unwrap(), "candy");
@@ -45,12 +51,7 @@ fn unwrap_test(){
     // assert_eq!(empty_gift.unwrap(), "candy");
 }
 
-fn expect_test(){
-    // expect 和 unwrap 方法相同，但他提供2个参数，第二个参数可以自定义panic
-    // let empty_user : Option<u32> = None;
-   // assert_eq!(empty_user.expect("内部数据为null"), 1);
-}
-
+#[allow(dead_code)]
 fn unwrap_or_test(){
     // 一般不建议调用unwrap() 方法， 调用unwrap_or()方法可以避免程序崩溃
     assert_eq!(None.unwrap_or("cat"), "cat");
@@ -63,8 +64,6 @@ fn main(){
     match_test_two();
     // test unwrap
     unwrap_test();
-    // test expect
-    expect_test();
     // test unwrap_or
     unwrap_or_test();
 }
