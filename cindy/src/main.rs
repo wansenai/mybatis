@@ -16,15 +16,15 @@ fn main(){
     println!("Converted markdown has been saved in {}.", output)
 }
 
-fn apply(value: i32, f: fn(i32) -> i32) -> i32 {
+pub fn apply(value: i32, f: fn(i32) -> i32) -> i32 {
     f(value)
 }
 
-fn square(value: i32) -> i32 {
+pub fn square(value: i32) -> i32 {
     value * value
 }
 
-fn cube(value: i32) -> i32 {
+pub fn cube(value: i32) -> i32 {
     value * value * value
 }
 
@@ -36,11 +36,11 @@ fn test_other(){
 }
 
 
-fn pi() -> f64 {
+pub fn pi() -> f64 {
     3.1415926
 }
 
-fn not_pi() -> f64 {
+pub fn not_pi() -> f64 {
     3.1415926
 }
 
@@ -49,7 +49,7 @@ fn test_pi() {
     let is_pi = pi();
     let is_unit1 = not_pi();
 
-    /// 如果最后一个表达式后面添加了; 隐含其返回值unit
+    // 如果最后一个表达式后面添加了; 隐含其返回值unit
     let is_unit2 = {
         pi();
     };
