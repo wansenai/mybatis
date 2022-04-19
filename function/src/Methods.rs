@@ -21,13 +21,11 @@ impl Point{
     }
 }
 
-
 #[allow(dead_code)]
 struct Rectangle {
     p1 : Point,
     p2 : Point
 }
-
 
 #[allow(dead_code)]
 impl Rectangle{
