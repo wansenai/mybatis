@@ -38,6 +38,7 @@ pub fn add_fun(x: i32) -> i32 {
     x + 1
 }
 
+#[allow(dead_code)]
 mod back_house {
     pub struct Breakfast {
       pub food: String,
@@ -55,10 +56,14 @@ mod back_house {
   }
 
   pub fn eat_breakfast_today() {
+
     let food = String::from("bread");
     let mut meal = back_house::Breakfast::today(food);
     // 修改食物
     meal.food = String::from("dumplings");
     println!("今天吃: {}", meal.food);
+
+    // 设置fruit的时候报错 因为 他的字段属性是私有的
+    // meal.fruit = String::from("aa");
 }
   
