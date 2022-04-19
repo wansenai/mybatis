@@ -1,4 +1,4 @@
-use crate::Enums::CodeEnum::COORDINATE;
+use crate::enums::CodeEnum::COORDINATE;
 
 ///
 /// 自定义创建Enums 枚举类型

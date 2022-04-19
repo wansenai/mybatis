@@ -1,5 +1,5 @@
-use crate::UseEnums::Status::Abled;
-use crate::UseEnums::Work::Salary;
+use crate::use_enums::Status::Abled;
+use crate::use_enums::Work::Salary;
 
 ///
 /// 可以使用use声明，这样就不需要手动作用域

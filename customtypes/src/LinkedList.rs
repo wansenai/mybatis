@@ -3,7 +3,7 @@
 // 不提醒为引用代码的警告
 #![allow(dead_code)]
 
-use crate::LinkedList::List::*;
+use crate::linkedList::List::*;
 
 enum List {
     // 元组结构,包含了一个元素和指向下一个节点的指针
