@@ -4,7 +4,6 @@
 ///
 
 use std::convert::TryFrom;
-use std::convert::TryInto;
 
 #[derive(Debug, PartialEq)]
 struct Number(i32);
@@ -22,6 +21,8 @@ impl TryFrom<i32> for Number{
 
 #[test]
 fn main(){
+
+    use std::convert::TryInto;
 
     // TypeFrom
     assert_eq!(Number::try_from(8), Ok(Number(8)));

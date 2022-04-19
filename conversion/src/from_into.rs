@@ -14,6 +14,7 @@
 use std::convert::From;
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Number{
     value : i32,
 }
@@ -44,6 +45,7 @@ fn form_main(){
 ///
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Text{
     value : String,
 }
