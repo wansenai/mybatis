@@ -8,6 +8,7 @@ struct Structure(i32);
 struct Deep(Structure);
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct User<'a> {
     name : &'a str,
     age : u8
@@ -25,7 +26,7 @@ fn print(){
 }
 
 #[test]
-fn userPrint(){
+fn user_print(){
     let name = "James";
     let age = 22;
     let user = User {name, age};

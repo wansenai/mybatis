@@ -11,8 +11,6 @@ struct City{
     lon  : f32,
 }
 
-
-
 impl Display for City{
     fn fmt(&self, f: &mut Formatter) -> fmt::Result{
         let lat_c = if self.lat >= 0.0 { 'N' } else { 'S' };
@@ -23,6 +21,7 @@ impl Display for City{
 }
 
 #[derive(Debug)]
+#[allow(dead_code)]
 struct Color {
     red : u8,
     blue: u8,
@@ -31,6 +30,7 @@ struct Color {
 
 #[test]
 fn main () {
+
     for city in [
         City {name: "ShangHai", lat: 53.115166, lon: -151.51616},
         City {name: "SuZhou", lat: 50.58516, lon: 17.11231},

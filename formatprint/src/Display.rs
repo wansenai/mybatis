@@ -7,7 +7,7 @@ struct Structure(i32);
 struct MinMax(i64, i64);
 
 #[derive(Debug)]
-struct test{
+struct Test{
     a: f64,
     b: f64,
 }
@@ -24,7 +24,7 @@ impl fmt::Display for MinMax {
     }
 }
 
-impl fmt::Display for test{
+impl fmt::Display for Test{
     fn fmt(&self, f: &mut fmt:: Formatter) -> fmt::Result{
         write!(f, "a: {}, b: {}", self.a, self.b)
     }
@@ -37,12 +37,12 @@ fn main(){
     println!("Display: {}", minmax);
     println!("Debug: {:?}", minmax);
 
-    let testA = MinMax(555, -666);
-    let testB = MinMax(-8, 9);
+    let test_a = MinMax(555, -666);
+    let test_b = MinMax(-8, 9);
 
-    println!("测试数据A:{a}~~~~数据B:{b}", a = testA, b = testB);
+    println!("测试数据A:{a}~~~~数据B:{b}", a = test_a, b = test_b);
 
-    let point = test{a: 6.5, b:7.3};
+    let point = Test{a: 6.5, b:7.3};
     println!("Display: {}", point);
     println!("Debug: {:?}", point);
 }
