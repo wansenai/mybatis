@@ -1,9 +1,0 @@
-[workspace]
-members = [
-    "guessgame",
-    "httpie",
-    "journal",
-    "queryer",
-    "restaurant",
-    "thumbor",
-]
