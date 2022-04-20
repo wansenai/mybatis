@@ -1,0 +1,16 @@
+[workspace]
+members = [
+    "attributes",
+    "conversion",
+    "customtypes",
+    "expressions",
+    "flowofcontrol",
+    "formatprint",
+    "modules",
+    "types",
+    "varbindings",
+    "utiltest",
+    "primitives",
+    "function",
+    "crates",
+]
