@@ -1,0 +1,8 @@
+[workspace]
+members = [
+    "ownership",
+    "closure",
+    "concurrent",
+    "generics",
+    "smartpointer",
+]
