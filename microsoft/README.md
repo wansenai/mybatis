@@ -1,6 +1,6 @@
 # microsoft
 
-此模块是按照microsoft所推出的教程进行学习，详情参考网站：[microsoft-learn-rust](https://docs.microsoft.com/zh-cn/learn/paths/rust-first-steps/) 
+此模块是按照microsoft所推出的教程进行各个章节的源代码学习，详情参考网站：[microsoft-learn-rust](https://docs.microsoft.com/zh-cn/learn/paths/rust-first-steps/) 
 
 ### 章节如下：
 
@@ -15,9 +15,3 @@
 * 探索模块、包和第三方箱
 * 写入自动测试
 * 构建命令行待办事项列表程序
-
-
-*** 
- 此模块附带各个章节的源代码进行学习。
-***
-
