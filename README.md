@@ -2,7 +2,7 @@
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
-此项目用于对Rust语言进行由浅入深的学习再到多个项目进行强化学习，他用于帮助刚入门和已经有点经验的Rustaceans，它主要包含以下几个模块。
+此项目用于对Rust语言进行由浅入深的学习再到多个项目进行强化学习，他用于帮助刚入门和已经有点经验的开发者，它主要包含以下几个模块。
 
 ## 模块如下：
 
