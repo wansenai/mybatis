@@ -32,7 +32,6 @@ members = [
     "example/thumbor",
     "example/minigrep",
     # web workspace
-    "web/webapp",
-    "web/webservice",
+    "web/actixmysql",
     "web/cindy",
 ]
