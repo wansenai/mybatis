@@ -17,10 +17,14 @@
 ## 构建：
 
 ```bash
+$ cargo check 
+
 $ cargo build 
 ```
-切换到每个模块下，可以通过test进行测试
+切换到每个模块下，可以通过test进行测试，例如:
 ```bash
+$ cd complex
+
 $ cargo test 
 ```
 
