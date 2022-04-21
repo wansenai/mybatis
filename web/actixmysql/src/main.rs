@@ -1,5 +1,7 @@
+mod database;
+mod service;
+
 use actix_web :: {web, App, HttpServer,};
-use crate::database::db_info;
 use crate::service::route;
 ///
 /// 路由网关
@@ -15,9 +17,4 @@ async fn main() -> std::io::Result<()> {
     })
         .bind(("127.0.0.1", 8787))?
         .run().await
-}
-
-#[allow(dead_code)]
-fn get_coon(){
-    db_info::test_coon();
 }

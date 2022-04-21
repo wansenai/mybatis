@@ -8,11 +8,10 @@ struct Test{
     var2 : Option<String>,
 }
 
-#[allow(dead_code)]
-fn config(){
-    let url = "mysql://root:123456@localhost:3306/rust_test";
-    let pool = Pool::new(url).expect("exc");
-    let mut conn = pool.get_conn().expect("exc");
+fn config() -> Result<()> {
+    let url = "mysql://root:passw0rd@localhost:3306/COVID-19";
+    let pool = Pool::new(url)?;
+    let mut conn = pool.get_conn()?;
 
     conn.query_drop(
         r"CREATE TABLE test (
@@ -38,15 +37,32 @@ fn config(){
             "var1" => p.var1,
             "var2" => &p.var2,
         })
-    ).expect("exc");
+    )?;
 
     let query_test = conn.query_map(
         "SELECT id, var1, var2 FROM test",
         |(id, var1, var2)| {
             Test {id, var1, var2}
         },
-    ).expect("exc");
+    )?;
 
     assert_eq!(params, query_test);
     println!("start....");
+
+    Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn get_coon(){
+        crate::database::db_info::test_coon();
+    }
+
+    #[test]
+    fn test_config() {
+        let c = config();
+    }   
 }
