@@ -8,7 +8,9 @@ struct Test{
     var2 : Option<String>,
 }
 
-fn config() -> Result<()> {
+
+#[allow(dead_code)]
+pub fn config() -> Result<()> {
     let url = "mysql://root:passw0rd@localhost:3306/COVID-19";
     let pool = Pool::new(url)?;
     let mut conn = pool.get_conn()?;
@@ -50,19 +52,4 @@ fn config() -> Result<()> {
     println!("start....");
 
     Ok(())
-}
-
-#[cfg(test)]
-mod tests {
-    use super::*;
-
-    #[test]
-    fn get_coon(){
-        crate::database::db_info::test_coon();
-    }
-
-    #[test]
-    fn test_config() {
-        let c = config();
-    }   
 }
