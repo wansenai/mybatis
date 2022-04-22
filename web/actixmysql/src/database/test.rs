@@ -8,6 +8,7 @@ struct Test{
     var2 : Option<String>,
 }
 
+
 #[allow(dead_code)]
 pub fn config() -> Result<()> {
     let url = "mysql://root:passw0rd@localhost:3306/COVID-19";
