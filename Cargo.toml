@@ -33,5 +33,5 @@ members = [
     "example/minigrep",
     # web workspace
     "web/actixmysql",
-    "web/cindy",
+    "web/covid_19",
 ]
