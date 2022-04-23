@@ -15,6 +15,11 @@ pub trait UserService {
      * 新增用户
      */
     fn insert_user(&self) -> bool;
+
+    /** 
+     * 用户登陆
+     */
+    fn user_login(&self, username: &str, password: &str) -> bool;
 }
 
 // 核酸服务
