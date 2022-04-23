@@ -21,6 +21,7 @@ async fn main() -> Result<()> {
         App::new().service(
             web::scope("/api")
             .service(user_api::user_register)
+            .service(user_api::user_login)
             .service(nucleic_api::nucleic_register)
         )
     })
