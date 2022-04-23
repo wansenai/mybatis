@@ -1,7 +1,7 @@
-use std::borrow::Borrow;
-
-use crate::common::{response, dbconfig};
+use crate::common::response;
 use crate::domain::user;
+use crate::service::user_service;
+use std::ops::Deref;
 
 use actix_web :: {
     post,
@@ -9,20 +9,28 @@ use actix_web :: {
     Result,
     Responder,
 };
-use mysql::prelude::Queryable;
+
 
 #[post("/register")]
 pub async fn register_user(data: web::Json<user::User>) ->  Result<impl Responder> {
-    let mut conn = dbconfig::get_conn().unwrap();
-    println!("连接情况: {:?}", conn);
 
-    let result = conn.exec_drop("INSERT INTO user (id, username, password, name, sex, brithday, status) VALUES (?,?,?,?,?,?,?)", 
-    (&data.id, &data.username, &data.password, &data.name, data.sex, &data.brithday, data.status,))
-    .unwrap();
+    let user = data.deref();
+    let result_db = user_service::UserService::insert_user(user);
 
-    let obj = response::SimpleResponse {
-        code: 200,
-        msg: String::from("创建用户成功"),
-    };
-    Ok(web::Json(obj))
+    match result_db {
+        true => {
+            let success_obj = response::SimpleResponse {
+                code: 200,
+                msg: String::from("创建用户成功"),
+            };
+            Ok(web::Json(success_obj))
+        },
+        false =>  {
+            let error_obj = response::SimpleResponse {
+                code: 500,
+                msg: String::from("创建用户失败，服务器异常"),
+            };
+            Ok(web::Json(error_obj))
+        }
+    }
 }
