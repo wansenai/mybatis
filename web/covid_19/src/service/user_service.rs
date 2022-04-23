@@ -2,12 +2,12 @@ use crate::domain::user;
 use crate::common::dbconfig;
 use mysql::prelude::Queryable;
 
-pub trait UserService {
-    /// Create a new user in mysql
-    fn insert_user(&self) -> bool;
-}
+use super::UserService;
 
-impl UserService for user::User {
+type User = user::User;
+
+
+impl UserService for User {
     fn insert_user(&self) -> bool {
         let mut conn = dbconfig::get_conn().unwrap();
         let result = conn.exec_drop("INSERT INTO user (id, username, password, name, sex, brithday, status) VALUES (?,?,?,?,?,?,?)", 

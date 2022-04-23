@@ -1,6 +1,7 @@
 use crate::common::response;
-use crate::domain::user;
+use crate::domain::nucleic_registe;
 use crate::service;
+
 use std::ops::Deref;
 
 use actix_web :: {
@@ -10,25 +11,26 @@ use actix_web :: {
     Responder,
 };
 
+type NucleicRegiste = nucleic_registe::NucleicRegiste;
 
-#[post("/userRegister")]
-pub async fn user_register(data: web::Json<user::User>) ->  Result<impl Responder> {
+#[post("/nucleicRegister")]
+pub async fn nucleic_register(data: web::Json<NucleicRegiste>) ->  Result<impl Responder> {
 
-    let user = data.deref();
-    let result_db = service::UserService::insert_user(user);
+    let nucleic = data.deref();
+    let result_db = service::NucleicService::nucleic_registe(nucleic);
 
     match result_db {
         true => {
             let success_obj = response::SimpleResponse {
                 code: 200,
-                msg: String::from("创建用户成功"),
+                msg: String::from("个人核酸登记成功"),
             };
             Ok(web::Json(success_obj))
         },
         false =>  {
             let error_obj = response::SimpleResponse {
                 code: 500,
-                msg: String::from("创建用户失败，服务器异常"),
+                msg: String::from("个人核酸登记失败，服务器异常"),
             };
             Ok(web::Json(error_obj))
         }
