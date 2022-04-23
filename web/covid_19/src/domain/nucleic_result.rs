@@ -10,6 +10,7 @@ pub struct resultObject {
     pub user_phone: String,
 }
 
+#[allow(dead_code)]
 impl resultObject {
     pub fn new(nucleic_type: i32, user_name: String, user_address: String, user_phone: String) -> resultObject {
         resultObject {

@@ -10,17 +10,21 @@ use actix_web::{
     HttpServer,
 };
 
-use api::user_api;
+use api::{
+    user_api,
+    nucleic_api,
+};
 
 #[actix_web::main]
 async fn main() -> Result<()> {
     HttpServer::new(|| {
         App::new().service(
             web::scope("/api")
-            .service(user_api::register_user)
+            .service(user_api::user_register)
+            .service(nucleic_api::nucleic_register)
         )
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind(("127.0.0.1", 8081))?
     .run()
     .await
 }

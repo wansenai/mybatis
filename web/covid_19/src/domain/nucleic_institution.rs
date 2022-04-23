@@ -12,6 +12,7 @@ pub struct InstitutionObject {
     pub create_time: String,
 }
 
+#[allow(dead_code)]
 impl InstitutionObject {
     pub fn new(id: String, result_type: i32, institution_id: String, registe_id: String, create_time: String) -> InstitutionObject {
         InstitutionObject {
