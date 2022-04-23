@@ -1,12 +1,18 @@
-#[derive(Clone, Debug)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct resultObject {
-    /// 核酸类型（0-单人单管 1-一户一管 2-混采）
+    // 核酸类型（0-单人单管 1-一户一管 2-混采）
+    #[serde(default)]
     pub nucleic_type: i32,
-    /// 姓名
+    // 姓名
+    #[serde(default)]
     pub user_name: String,
     // 住址
+    #[serde(default)]
     pub user_address: String,
     // 电话
+    #[serde(default)]
     pub user_phone: String,
 }
 

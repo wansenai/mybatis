@@ -14,6 +14,11 @@ pub struct SimpleResponse {
 }
 
 #[allow(dead_code)]
+pub struct CodeResponse {
+    pub code: i32,
+}
+
+#[allow(dead_code)]
 impl <T> DataResponse<T> {
     pub fn new(code: i32, msg: String, data: T) -> DataResponse<T> {
         DataResponse {
