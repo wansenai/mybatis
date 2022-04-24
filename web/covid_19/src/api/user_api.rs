@@ -36,7 +36,7 @@ pub async fn user_register(data: web::Json<user::User>) ->  Result<impl Responde
     }
 }
 
-#[get("/userLogin")]
+#[post("/userLogin")]
 pub async fn user_login(data: web::Json<user::User>) ->  Result<impl Responder> {
 
     let user = data.deref();
