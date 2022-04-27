@@ -1,4 +1,4 @@
-use crate::common::response;
+use crate::common::result::{ResultDefault, Result as myResult};
 use crate::domain::nucleic_registe;
 use crate::service;
 
@@ -21,17 +21,14 @@ pub async fn nucleic_register(data: web::Json<NucleicRegiste>) ->  Result<impl R
 
     match result_db {
         true => {
-            let success_obj = response::SimpleResponse {
-                code: 200,
-                msg: String::from("个人核酸登记成功"),
-            };
+
+            let success_obj = <ResultDefault as myResult>::success();
+
             Ok(web::Json(success_obj))
         },
         false =>  {
-            let error_obj = response::SimpleResponse {
-                code: 500,
-                msg: String::from("个人核酸登记失败，服务器异常"),
-            };
+            let error_obj = <ResultDefault as myResult>::fail();
+
             Ok(web::Json(error_obj))
         }
     }
