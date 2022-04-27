@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct resultObject {
+pub struct ResultObject {
     // 核酸类型（0-单人单管 1-一户一管 2-混采）
     #[serde(default)]
     pub nucleic_type: i32,
@@ -17,9 +17,9 @@ pub struct resultObject {
 }
 
 #[allow(dead_code)]
-impl resultObject {
-    pub fn new(nucleic_type: i32, user_name: String, user_address: String, user_phone: String) -> resultObject {
-        resultObject {
+impl ResultObject {
+    pub fn new(nucleic_type: i32, user_name: String, user_address: String, user_phone: String) -> ResultObject {
+        ResultObject {
             nucleic_type,
             user_name,
             user_address,
