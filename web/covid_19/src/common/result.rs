@@ -2,29 +2,30 @@ use serde::{Deserialize, Serialize};
 use super::result_code::ResultCode;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
-pub struct ResultData<T> {
+pub struct Result<T> {
     pub code: u32, 
     pub msg: String,
-    pub data: T,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub data: Option<T>,
 }
 
 #[allow(dead_code)]
-impl <T> ResultData<T> {
-    pub fn new(code: u32, msg: String, data: T) -> ResultData<T> {
-        ResultData {
+impl <T> Result<T> {
+    pub fn new(code: u32, msg: String, data: T) -> Result<T> {
+        Result {
             code,
             msg,
-            data,
+            data : Some(data),
         }
     }
 
-    pub fn success_data(data: T) -> ResultData<T> {
+    pub fn success_data(data: T) -> Result<T> {
         
         let success = ResultCode::success();
         
-        let result = ResultData::new(
+        let result = Result::new(
             ResultCode::get_code(&success), 
-        ResultCode::get_message(&success).to_string(), 
+            String::from(ResultCode::get_message(&success)),
             data,
         );
 
@@ -32,43 +33,40 @@ impl <T> ResultData<T> {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize)]
-pub struct ResultDefault {
-    pub code: u32, 
-    pub msg: String,
+pub trait ResultDefault {
+    fn new(code: u32, msg: String) -> Result<ResultCode>;
+
+    fn success() -> Result<ResultCode>;
+
+    fn fail() -> Result<ResultCode>;
 }
 
-pub trait Result {
-    fn new(code: u32, msg: String) -> ResultDefault;
-
-    fn success() -> ResultDefault;
-
-    fn fail() -> ResultDefault;
-}
-
-impl Result for ResultDefault {
-    fn new(code: u32, msg: String) -> ResultDefault {
-        ResultDefault {
+impl ResultDefault for Result<ResultCode> {
+    fn new(code: u32, msg: String) -> Result<ResultCode> {
+        Result {
             code: code, 
             msg: msg,
+            data: None,
         }
     }
 
-    fn success() -> ResultDefault {
+    fn success() -> Result<ResultCode> {
         let success = ResultCode::success();
 
-        ResultDefault {
+        Result {
             code: ResultCode::get_code(&success),
-            msg:  ResultCode::get_message(&success).to_string(),
+            msg:  String::from(ResultCode::get_message(&success)),
+            data: None,
         }
     }
 
-    fn fail() -> ResultDefault {
+    fn fail() -> Result<ResultCode> {
         let fail = ResultCode::fail();
         
-        ResultDefault {
+        Result {
             code: ResultCode::get_code(&fail),
-            msg:  ResultCode::get_message(&fail).to_string(),
+            msg:  String::from(ResultCode::get_message(&fail)),
+            data: None,
         }
     }
 }
