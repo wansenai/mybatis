@@ -1,11 +1,11 @@
-use crate::common::response;
+use crate::common::result::{ResultDefault, Result as myResult};
 use crate::domain::user;
 use crate::service;
+
 use std::ops::Deref;
 
 use actix_web :: {
     post,
-    get,
     web,
     Result,
     Responder,
@@ -20,17 +20,14 @@ pub async fn user_register(data: web::Json<user::User>) ->  Result<impl Responde
 
     match result_db {
         true => {
-            let success_obj = response::SimpleResponse {
-                code: 200,
-                msg: String::from("创建用户成功"),
-            };
+
+            let success_obj = <ResultDefault as myResult>::success();
+
             Ok(web::Json(success_obj))
         },
         false =>  {
-            let error_obj = response::SimpleResponse {
-                code: 500,
-                msg: String::from("创建用户失败，服务器异常"),
-            };
+            let error_obj = <ResultDefault as myResult>::fail();
+
             Ok(web::Json(error_obj))
         }
     }
@@ -45,17 +42,14 @@ pub async fn user_login(data: web::Json<user::User>) ->  Result<impl Responder> 
 
     match flag {
         true => {
-            let success_obj = response::SimpleResponse {
-                code: 200,
-                msg: String::from("登陆成功"),
-            };
+
+            let success_obj = <ResultDefault as myResult>::success();
+
             Ok(web::Json(success_obj))
         },
         false =>  {
-            let error_obj = response::SimpleResponse {
-                code: 500,
-                msg: String::from("登陆失败，用户名或密码不正确"),
-            };
+            let error_obj = <ResultDefault as myResult>::fail();
+
             Ok(web::Json(error_obj))
         }
     }
