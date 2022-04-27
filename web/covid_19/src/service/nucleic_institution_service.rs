@@ -1,15 +1,27 @@
 use crate::domain::nucleic_institution;
-use super::Nucleic;
+use super::NucleicInstitutionService;
 
 type NucleicInstitution = nucleic_institution::InstitutionObject;
 
-impl Nucleic for NucleicInstitution {
-    fn query_map(&self) ->i32 {
-        6
+impl NucleicInstitutionService for NucleicInstitution {
+    fn insert_nucleic_institution(&self) -> bool {
+
+        false
     }
 
-    fn test(&self) -> i32 {
-        9999
+    fn update_nucleic_institution(&self) -> bool {
+
+        false
+    }
+
+    fn query_nucleic_institution_byregion(region: &str) -> bool {
+
+        false
+    }
+
+    fn query_nucleic_institution_byname(name: &str) -> bool{
+        
+        false
     }
 }
  

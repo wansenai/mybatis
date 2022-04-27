@@ -49,20 +49,20 @@ impl ResultCode {
             ResultCode::Custom(code, _)                     => *code,
             ResultCode::Success(code, _)                    => *code,
             ResultCode::Fail(code, _)                       => *code,
-            ResultCode::ParamNotValid(code, _)            => *code,
-            ResultCode::SystemExecutionError(code, _)     => *code,
-            ResultCode::NoDataFound(code, _)              => *code,
+            ResultCode::ParamNotValid(code, _)              => *code,
+            ResultCode::SystemExecutionError(code, _)       => *code,
+            ResultCode::NoDataFound(code, _)                => *code,
         }
     }
 
     pub fn get_message(data: &ResultCode) -> &str {
         match data {
-            ResultCode::Custom(_, message)                     => message,
-            ResultCode::Success(_, message)                    => message,
-            ResultCode::Fail(_, message)                       => message,
-            ResultCode::ParamNotValid(_, message)            => message,
-            ResultCode::SystemExecutionError(_, message)     => message,
-            ResultCode::NoDataFound(_, message)              => message,
+            ResultCode::Custom(_, message)                      => message,
+            ResultCode::Success(_, message)                     => message,
+            ResultCode::Fail(_, message)                        => message,
+            ResultCode::ParamNotValid(_, message)               => message,
+            ResultCode::SystemExecutionError(_, message)        => message,
+            ResultCode::NoDataFound(_, message)                 => message,
         }
     }
 }
