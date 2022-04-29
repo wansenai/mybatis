@@ -1,5 +1,6 @@
 pub mod nucleic_institution_service;
 pub mod nucleic_registe_service;
+pub mod nucleic_result_service;
 pub mod user_service;
 
 // 核酸check
@@ -54,4 +55,13 @@ pub trait NucleicInstitutionService {
      * 根据机构名称查询核酸机构
      */
     fn query_nucleic_institution_byname(name: &str) -> bool;
+}
+
+// 核酸结果服务
+pub trait NucleicResultService {
+
+    /**
+     * 录入核酸结果
+     */
+    fn insert_nucleic_result(&self) -> bool;
 }

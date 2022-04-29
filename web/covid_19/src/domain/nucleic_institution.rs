@@ -1,68 +1,42 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]pub struct InstitutionObject {
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize)]
+pub struct InstitutionObject {
     // 雪花id
     #[serde(default)]
     pub id: String,
-    // 核酸结果（0-阴性 1-阳性 2-无效）
+    // 核酸机构名称
     #[serde(default)]
-    pub result_type: i32,
-    // 检测机构id
+    pub institution_name: String,
+    // 核酸机构地址
     #[serde(default)]
-    pub institution_id: String,
-    // 核酸登记id
-    #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub registe_id: Option<String>,
+    pub institution_address: String,
+    // 核酸机构电话
+    #[serde(default)]
+    pub institution_phone: String,
+    // 核酸机构所属区域
+    #[serde(default)]
+    pub institution_region: String,
     // 创建时间
+    #[serde(default)]
+    pub create_time: String,
+    // 更新时间
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub create_time: Option<String>,
+    pub update_time: Option<String>,
 }
 
 #[allow(dead_code)]
 impl InstitutionObject {
-    pub fn new(id: String, result_type: i32, institution_id: String, registe_id: String, create_time: String) -> InstitutionObject {
+    pub fn new(id: String, institution_name: String, institution_address: String, institution_phone: String, 
+        institution_region: String, create_time: String, update_time: String) -> InstitutionObject {
         InstitutionObject {
             id,
-            result_type,
-            institution_id,
-            registe_id: Some(registe_id),
-            create_time:  Some(create_time),
+            institution_name,
+            institution_address,
+            institution_phone,
+            institution_region,
+            create_time,
+            update_time: Some(update_time),
         }
-    }
-
-    pub fn tets(id: String, result_type: i32, institution_id: String) -> InstitutionObject {
-        InstitutionObject {
-            id: id, 
-            result_type: result_type,
-            institution_id: institution_id,
-            registe_id: None,
-            create_time: None,
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use std::{cell::RefCell, rc::Rc};
-
-    use super::*;
-
-    #[test]
-    fn test_ingore_param() {
-        let a = RefCell::new(Rc::new(InstitutionObject::tets(String::from("4"), 6, String::from("7"))));
-
-        println!("{:?}", a);
-    }
-
-
-    #[test]
-    fn a() {
-      
-            let x: i32;
-            let printer = move |whatever: i32| { println!("whatever is: {}", whatever); };
-            printer(2);
-            x = 7;
-            println!("x is: {}",x); // ERROR: use of possibly-uninitialized `x`
-        
     }
 }
