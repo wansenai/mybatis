@@ -55,3 +55,12 @@ pub trait NucleicInstitutionService {
      */
     fn query_nucleic_institution_byname(name: &str) -> bool;
 }
+
+// 核酸结果服务
+pub trait NucleicResultService {
+
+    /**
+     * 录入核酸结果
+     */
+    fn insert_nucleic_result(&self) -> bool;
+}
