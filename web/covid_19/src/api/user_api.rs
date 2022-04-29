@@ -18,6 +18,7 @@ pub async fn user_register(data: web::Json<user::User>) ->  Result<impl Responde
     let user = data.deref();
     let result_db = service::UserService::insert_user(user);
 
+
     match result_db {
         true => {
 

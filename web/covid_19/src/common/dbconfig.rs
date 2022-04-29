@@ -11,13 +11,22 @@ pub fn get_conn() -> Result<PooledConn> {
     Ok(conn1)
 }
 
+///
+/// test mysql connection
+/// 
+/// # notes
+/// 
+/// Since local MySQL needs to be linked here, and cargo test will cause errors when publishing GitHub CI action, 
+/// comment the code first. 
+/// This test method is used for local debugging
+/// 
 #[cfg(test)]
 mod tests {
 
-    use super::*;
+    // use super::*;
 
-    #[test]
-    fn test_conn() {
-        get_conn();
-    }
+    // #[test]
+    // fn test_conn() {
+    //     get_conn();
+    // }
 }
