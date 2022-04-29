@@ -31,12 +31,12 @@ impl NucleicResultObject {
         }
     }
 
-    pub fn tets(id: String, result_type: i32, institution_id: String) -> NucleicResultObject {
+    pub fn other(id: &str, result_type: i32, institution_id: &str, registe_id: &str) -> NucleicResultObject {
         NucleicResultObject {
-            id: id, 
+            id: id.to_string(), 
             result_type: result_type,
-            institution_id: institution_id,
-            registe_id: None,
+            institution_id: institution_id.to_string(),
+            registe_id: Some(registe_id.to_string()),
             create_time: None,
         }
     }
@@ -50,7 +50,12 @@ mod tests {
 
     #[test]
     fn test_ingore_param() {
-        let a = RefCell::new(Rc::new(NucleicResultObject::tets(String::from("4"), 6, String::from("7"))));
+        let a = 
+        RefCell::new(
+            Rc::new(
+                NucleicResultObject::other(&String::from("4"), 6, &String::from("7"), &String::from("8")
+            )
+        ));
 
         println!("{:?}", a);
     }

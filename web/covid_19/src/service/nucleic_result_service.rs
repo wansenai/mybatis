@@ -12,8 +12,8 @@ impl NucleicResultService for NucleicResult {
 
         let mut conn = dbconfig::get_conn().unwrap();
 
-        let result = conn.exec_drop("INSERT INTO nucleic_test_result (id, result_type, institution_id, registe_id, create_time) VALUES (?,?,?,?,?)", 
-                        &self.id, &self.result_type, &self.institution_id, &self.registry_id, &self.create_time);
+        let result = conn.exec_drop("INSERT INTO nucleic_test_result (id, result_type, institution_id, registe_id) VALUES (?,?,?,?)", 
+                        (&self.id, &self.result_type, &self.institution_id, &self.registe_id,));
 
         if result.is_ok() {
             return true;

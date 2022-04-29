@@ -60,3 +60,35 @@ pub async fn institution_register(data: web::Json<NucleicInstitution>) -> Result
         }
     }
 }
+
+#[post("/insertNucleicResult")]
+pub async fn insert_nucleic_result(data: web::Json<NucleicResult>) ->  Result<impl Responder> {
+    let nucleic_result_data = data.deref();
+
+    let id = &nucleic_result_data.id;
+    let result_type = nucleic_result_data.result_type;
+    let institution_id = &nucleic_result_data.institution_id;
+    
+    let mut registe_param_id = String::new();
+
+    match &nucleic_result_data.registe_id {
+        Some(registe_id) => registe_param_id.push_str(&registe_id),
+        None => (),
+    };
+
+    let params = NucleicResult::other(id, result_type, institution_id, &registe_param_id);
+    let result = service::NucleicResultService::insert_nucleic_result(&params);
+
+    match result {
+        true => {
+            let success_obj = <IResult<_> as ResultDefault>::success();
+
+            Ok(web::Json(success_obj))
+        },
+        false => {
+            let error_obj = <IResult<_> as ResultDefault>::fail();
+
+            Ok(web::Json(error_obj))
+        }
+    }
+}

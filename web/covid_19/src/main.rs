@@ -37,6 +37,7 @@ async fn main() -> Result<()> {
             .service(user_api::user_login)
             .service(nucleic_api::nucleic_register)
             .service(nucleic_api::institution_register)
+            .service(nucleic_api::insert_nucleic_result)
         )
     })
     .bind(("127.0.0.1", 8081))?
