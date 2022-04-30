@@ -61,6 +61,28 @@ pub async fn institution_register(data: web::Json<NucleicInstitution>) -> Result
     }
 }
 
+#[post("/updateInstitutionById")]
+pub async fn update_institution_by_id(data: web::Json<NucleicInstitution>) ->  Result<impl Responder> {
+    let institution_data = data.deref();
+    let result = service::NucleicInstitutionService::update_nucleic_institution(institution_data);
+
+    match result {
+        true => {
+            let success = ResultCode::success();
+            let code = ResultCode::get_code(&success);
+            let success_obj = <IResult<_> as ResultDefault>::new(code, String::from("机构数据修改成功"));
+
+            Ok(web::Json(success_obj))
+        },
+        false => {
+            let error_obj = <IResult<_> as ResultDefault>::fail();
+
+            Ok(web::Json(error_obj))
+        }
+    }
+}
+
+
 #[post("/insertNucleicResult")]
 pub async fn insert_nucleic_result(data: web::Json<NucleicResult>) ->  Result<impl Responder> {
     let nucleic_result_data = data.deref();

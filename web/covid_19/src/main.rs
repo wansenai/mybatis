@@ -37,6 +37,7 @@ async fn main() -> Result<()> {
             .service(user_api::user_login)
             .service(nucleic_api::nucleic_register)
             .service(nucleic_api::institution_register)
+            .service(nucleic_api::update_institution_by_id)
             .service(nucleic_api::insert_nucleic_result)
         )
     })
