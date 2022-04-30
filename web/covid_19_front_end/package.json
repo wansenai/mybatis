@@ -1,0 +1,41 @@
+{
+  "name": "covid_19_front_end",
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 5050",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore",
+    "prepare": "husky install",
+    "commit": "cz"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.2.2",
+    "axios": "^0.27.2",
+    "normalize.css": "^8.0.1",
+    "vue": "^3.2.33"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^16.2.4",
+    "@commitlint/config-conventional": "^16.2.4",
+    "@rushstack/eslint-patch": "^1.1.0",
+    "@vitejs/plugin-vue": "^2.3.1",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "commitizen": "^4.2.4",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^8.5.0",
+    "eslint-plugin-vue": "^8.2.0",
+    "husky": "^7.0.4",
+    "prettier": "^2.5.1",
+    "unplugin-vue-components": "^0.19.3",
+    "vite": "^2.9.5"
+  },
+  "volta": {
+    "node": "16.14.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  }
+}
