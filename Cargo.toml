@@ -1,37 +1,4 @@
 [workspace]
 members = [
-    # other module
-    "leetcode",
-    "microsoft",
-    # basics workspace
-    "basics/attributes",
-    "basics/conversion",
-    "basics/crates",
-    "basics/customtypes",
-    "basics/expressions",
-    "basics/flowofcontrol",
-    "basics/formatprint",
-    "basics/function",
-    "basics/modules",
-    "basics/primitives",
-    "basics/types",
-    "basics/utiltest",
-    "basics/varbindings",
-    # complex workspace
-    "complex/closure",
-    "complex/concurrent",
-    "complex/generics",
-    "complex/ownership",
-    "complex/smartpointer",
-    # example workspace
-    "example/guessgame",
-    "example/httpie",
-    "example/journal",
-    "example/queryer",
-    "example/restaurant",
-    "example/thumbor",
-    "example/minigrep",
-    # web workspace
-    "web/actixmysql",
-    "web/covid_19",
+    "covid_19",
 ]
