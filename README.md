@@ -2,6 +2,8 @@
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
+If you are not familiar with the basics of rust, you can check out another project of mine, which contains a lot of basic code of rust
+
 This project is mainly used to develop some web applications in rust language, including back-end API and front-end page rendering
 
 ## Modules:
