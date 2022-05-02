@@ -14,4 +14,4 @@ This project is mainly used to develop some web applications in rust language, i
 
 So far, I have only developed the nucleic acid service API project for the new coronavirus. Later, I will develop more web projects related to the rust language. If you have any interest and ideas, please submit PR or contact me.
 
-We have been working hard and are looking for various contributions. Look forward to your help!
+I have been working hard and are looking for various contributions. Look forward to your help!
