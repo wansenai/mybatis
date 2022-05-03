@@ -31,6 +31,18 @@ impl <T> Result<T> {
 
         result
     }
+
+    pub fn no_data() -> Result<T> {
+        let success = ResultCode::success();
+        
+        let result = Result{
+            code: ResultCode::get_code(&success), 
+            msg: String::from("没有查询到任何数据"),
+            data: Option::None,
+        };
+
+        result
+    }
 }
 
 pub trait ResultDefault {
