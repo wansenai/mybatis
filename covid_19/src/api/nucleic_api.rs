@@ -9,6 +9,7 @@ use crate::common::result_code;
 use std::ops::Deref;
 
 use actix_web :: {
+    get,
     post,
     web,
     Result,
@@ -113,4 +114,38 @@ pub async fn insert_nucleic_result(data: web::Json<NucleicResult>) ->  Result<im
             Ok(web::Json(error_obj))
         }
     }
+}
+
+#[get("/getNucleicInstitutionByRegion/{region}")]
+pub async fn get_nucleic_institution_by_region(path: web::Path<String>) -> Result<impl Responder> {
+    let region = path.into_inner();
+
+    let result = <NucleicInstitution as service::NucleicInstitutionService>::query_nucleic_institution_byregion(&region);
+    
+    if result.len() <= 0 {
+
+        let nodata_obj = IResult::no_data();
+        return Ok(web::Json(nodata_obj))
+    }
+
+    let success_obj = IResult::success_data(result);
+
+    Ok(web::Json(success_obj))
+}
+
+#[get("/getNucleicInstitutionByName/{name}")]
+pub async fn get_nucleic_institution_by_name(path: web::Path<String>) -> Result<impl Responder> {
+    let name = path.into_inner();
+
+    let result = <NucleicInstitution as service::NucleicInstitutionService>::query_nucleic_institution_byname(&name);
+    
+    if result.len() <= 0 {
+
+        let nodata_obj = IResult::no_data();
+        return Ok(web::Json(nodata_obj))
+    }
+
+    let success_obj = IResult::success_data(result);
+
+    Ok(web::Json(success_obj))
 }
