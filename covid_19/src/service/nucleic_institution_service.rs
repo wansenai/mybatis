@@ -1,15 +1,9 @@
-use std::borrow::Borrow;
-use std::fmt::{Display, Write};
-
-use mysql::prelude::{Queryable, WithParams};
-
+use mysql::prelude::Queryable;
 use crate::common::dbconfig;
-use crate::domain::nucleic_institution;
+use crate::domain::nucleic_institution::InstitutionObject;
 use super::NucleicInstitutionService;
 
-type NucleicInstitution = nucleic_institution::InstitutionObject;
-
-impl NucleicInstitutionService for NucleicInstitution {
+impl NucleicInstitutionService for InstitutionObject {
     fn insert_nucleic_institution(&self) -> bool {
         let mut coon = dbconfig::get_conn().unwrap();
         
@@ -106,14 +100,50 @@ impl NucleicInstitutionService for NucleicInstitution {
         false
     }
 
-    fn query_nucleic_institution_byregion(region: &str) -> bool {
+    fn query_nucleic_institution_byregion(region: &str) -> Vec<InstitutionObject> {
 
-        false
+        let mut conn = dbconfig::get_conn().unwrap();
+        let symbols = String::from("'");
+
+        let mut sql = String::from("SELECT * FROM nucleic_test_institution WHERE institution_region = ");
+        sql.push_str(&symbols);
+        sql.push_str(region);
+        sql.push_str(&symbols);
+
+        
+        println!("sql: {}", sql);
+
+        let query = conn.query_map(
+            sql,
+        |(id, name, address, phone, region, c_time, u_time)| {
+            InstitutionObject {id: id, institution_name: name, institution_address: address, institution_phone: phone, institution_region: region,
+                                create_time: c_time, update_time: u_time}
+        },).expect("sql query error");
+
+        query
+        
     }
 
-    fn query_nucleic_institution_byname(name: &str) -> bool{
+    fn query_nucleic_institution_byname(name: &str) -> Vec<InstitutionObject>{
         
-        false
+        let mut conn = dbconfig::get_conn().unwrap();
+        let symbols = String::from("'");
+
+        let mut sql = String::from("SELECT * FROM nucleic_test_institution WHERE institution_name = ");
+        sql.push_str(&symbols);
+        sql.push_str(name);
+        sql.push_str(&symbols);
+
+        
+        println!("sql: {}", sql);
+
+        let query = conn.query_map(
+            sql,
+        |(id, name, address, phone, region, c_time, u_time)| {
+            InstitutionObject {id: id, institution_name: name, institution_address: address, institution_phone: phone, institution_region: region,
+                                create_time: c_time, update_time: u_time}
+        },).expect("sql query error");
+
+        query
     }
 }
- 

@@ -28,7 +28,7 @@ impl UserService for User {
         let result: Option<String> = conn.exec_first(&stmt, params! { "username" => username, "password" => password}).unwrap();
             
         match result {
-            Some(result) => true,
+            Some(_result) => true,
             None => false,
         }
     }
