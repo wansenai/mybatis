@@ -1,5 +1,5 @@
 use crate::domain::user;
-use crate::common::dbconfig;
+use crate::common::{dbconfig, snowflake};
 use mysql::params;
 use mysql::prelude::Queryable;
 
@@ -9,14 +9,16 @@ type User = user::User;
 
 impl UserService for User {
     fn insert_user(&self) -> bool {
+        let id = snowflake::new_snowflake_id();
         let mut conn = dbconfig::get_conn().unwrap();
 
         let result = conn.exec_drop("INSERT INTO user (id, username, password, name, sex, brithday, status) VALUES (?,?,?,?,?,?,?)", 
-    (&self.id, &self.username, &self.password, &self.name, self.sex, &self.brithday, self.status,));
+    (id, &self.username, &self.password, &self.name, self.sex, &self.brithday, self.status,));
         
         if result.is_ok() {
-            true;
+            return true;
         }
+
         false
     }
 
