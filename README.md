@@ -1,4 +1,4 @@
-# Rust Web
+# Summer MyBatis
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
