@@ -2,7 +2,9 @@
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
+
 Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. In addition, its speed is very fast.
+
 
 ## Features:
 
@@ -18,4 +20,4 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 
 So far, we have only implemented some flexible conditional wrappers for summer-mybatis. We are developing the mapping of XML files and supporting Oracle database driver. If you have any interests and ideas, please submit to PR or contact me.
 
-We have been working hard and are looking for various contributions. Look forward to your help!
+I have been working hard and are looking for various contributions. Look forward to your help!
