@@ -1,0 +1,19 @@
+[package]
+name = "mybatis-tests"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.59.0"
+authors = ["James Zow <Jameszow@163.com>"]
+license = "Apache-2.0 license"
+description = "mybatis sql"
+
+[dependencies]
+mybatis-core = {version = "1.0.0",path = "../mybatis-core"}
+mybatis-plus = {version = "1.0.0",path = "../mybatis-plus"}
+mybatis-util = {version = "1.0.0",path = "../mybatis-util"}
+
+# logging lib(required)
+log = "0.4"
+fast_log="1.4"
+
+tokio = { version = "1.18.1", features = ["full"] }

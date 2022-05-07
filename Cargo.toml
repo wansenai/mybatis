@@ -1,4 +1,10 @@
 [workspace]
 members = [
-    "covid_19",
+    "example",
+    "macros",
+    "mybatis-core",
+    "mybatis-plus",
+    "mybatis-sql",
+    "mybatis-tests",
+    "mybatis-util",
 ]
