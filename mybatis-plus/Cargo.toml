@@ -1,0 +1,41 @@
+[package]
+name = "mybatis-plus"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.59.0"
+authors = ["James Zow <Jameszow@163.com>"]
+license = "Apache-2.0 license"
+description = "mybatis plus"
+
+
+[dependencies]
+mybatis-core = { path = "../mybatis-core"}
+macros = { path = "../macros"}
+mybatis-util = { path = "../mybatis-util"}
+mybatis-sql = { path = "../mybatis-sql"}
+
+################################################################
+rbson = { version = "2.0.3", features = ["uuid-0_8", "chrono-0_4"] }
+chrono = { version = "0.4", features = ["serde"] }
+#serde
+serde = { version = "1", features = ["derive"] }
+#uuid
+uuid = { version = "0.8", features = ["serde", "v4"] }
+#log
+log = "0.4"
+#async trait
+async-trait = "0.1"
+futures-core = { version = "0.3" }
+futures = { version = "0.3" }
+once_cell = "1.10"
+#object_id
+hex = "0.4"
+rand = "0.8"
+
+[dev-dependencies]
+serde_json = "1"
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1

@@ -1,0 +1,52 @@
+[package]
+name = "macros"
+version = "1.0.0"
+description = "rbatis macro driver 高性能Rust orM框架 宏系统支持"
+readme = "Readme.md"
+authors = ["James Zow <jameszow@qq.com>"]
+edition = "2021"
+license = "Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = []
+debug_mode = []
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "1.0", features = ["full"] }
+html_parser = "0.6.2"
+
+################################################################
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+uuid = "0.8"
+once_cell = "1.9.0"
+bigdecimal = { version = "0.2.0", features = ["serde"] }
+#log lib
+log = "0.4"
+fast_log = "1.5"
+#async runtime lib
+tokio = { version = "1.12", features = ["full"] }
+async-std = { version = "1.9", features = ["attributes", "tokio1"] }
+#summer mybatis lib(debug_mode will print json data)
+rbson = { version = "2.0.3", features = ["uuid-0_8", "chrono-0_4"] }
+
+#serde
+#uuid
+#log
+#async trait
+async-trait = "0.1"
+futures-core = { version = "0.3" }
+futures = { version = "0.3" }
+#object_id
+hex = "0.4"
+rand = "0.8"
+
+base64 = "0.13"
+url = "2.2.2"
