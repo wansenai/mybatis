@@ -15,6 +15,3 @@ macros = { path = "../macros" }
 #serde
 serde = { version = "1", features = ["derive"] }
 rbson = "2.0.3"
-dashmap = { version = "4" }
-base64 = "0.13"
-async-trait = "0.1"

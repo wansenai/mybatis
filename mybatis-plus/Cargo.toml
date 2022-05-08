@@ -7,12 +7,36 @@ authors = ["James Zow <Jameszow@163.com>"]
 license = "Apache-2.0 license"
 description = "mybatis plus"
 
+[features]
+default = ["default_mode", "all-database"]
+#debug_mode feature will show decode json data
+debug_mode = ["mybatis-core/debug_mode", "macros/debug_mode"]
+default_mode = ["mybatis-core", "macros"]
+#support upper case sql keyword
+upper_case_sql_keyword = []
+#runtime  database
+all-database = ["default_mode", "mybatis-core/all-database"]
+mysql = ["default_mode", "mybatis-core/mysql"]
+postgres = ["default_mode", "mybatis-core/postgres"]
+sqlite = ["default_mode", "mybatis-core/sqlite"]
+mssql = ["default_mode", "mybatis-core/mssql"]
+
+#choose runtime
+runtime-tokio-rustls = ["mybatis-core/runtime-tokio-rustls"]
+runtime-actix-rustls = ["mybatis-core/runtime-actix-rustls"]
+runtime-async-std-rustls = ["mybatis-core/runtime-async-std-rustls"]
+runtime-tokio-native-tls = ["mybatis-core/runtime-tokio-native-tls"]
+runtime-actix-native-tls = ["mybatis-core/runtime-actix-native-tls"]
+runtime-async-std-native-tls = ["mybatis-core/runtime-async-std-native-tls"]
+
+#enable_format bson
+format_bson = ["mybatis-core/format_bson"]
 
 [dependencies]
-mybatis-core = { path = "../mybatis-core"}
-macros = { path = "../macros"}
-mybatis-util = { path = "../mybatis-util"}
-mybatis-sql = { path = "../mybatis-sql"}
+macros = { version = "1.0.0", path = "../macros", default-features = false, optional = true }
+mybatis-core = { version = "1.0.0", path = "../mybatis-core", default-features = false, optional = true }
+mybatis-util = { version = "1.0.0", path = "../mybatis-util", default-features = false}
+mybatis-sql = { version = "1.0.0", path = "../mybatis-sql", default-features = false}
 
 ################################################################
 rbson = { version = "2.0.3", features = ["uuid-0_8", "chrono-0_4"] }
@@ -22,7 +46,7 @@ serde = { version = "1", features = ["derive"] }
 #uuid
 uuid = { version = "0.8", features = ["serde", "v4"] }
 #log
-log = "0.4"
+log = { version = "0.4", default-features = false }
 #async trait
 async-trait = "0.1"
 futures-core = { version = "0.3" }

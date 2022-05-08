@@ -5,6 +5,4 @@ authors = ["James Zow <jameszow@163.com>"]
 edition = "2021"
 publish = false
 
-
 [dependencies]
-mybatis-plus = { path = "../mybatis-plus"}
