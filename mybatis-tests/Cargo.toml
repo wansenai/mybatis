@@ -9,5 +9,5 @@ description = "mybatis tests"
 
 [dependencies]
 # mybatis-core = {version = "1.0.0", path = "../mybatis-core"}
-mybatis-plus = {version = "1.0.0", path = "../mybatis-plus"}
-mybatis-util = {version = "1.0.0", path = "../mybatis-util"}
+#mybatis-plus = {version = "1.0.0", path = "../mybatis-plus"}
+#mybatis-util = {version = "1.0.0", path = "../mybatis-util"}
