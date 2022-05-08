@@ -1,0 +1,24 @@
+[package]
+name = "mybatis-macros"
+version = "1.0.0"
+description = "mybatis macro driver"
+readme = "Readme.md"
+authors = ["James Zow <jameszow@163.com>"]
+edition = "2021"
+license = "Apache-2.0"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+default = []
+debug_mode = []
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "1.0", features = ["full"] }
+html_parser = "0.6.2"
+base64 = { version = "0.13"}
+url = "2.2.2"

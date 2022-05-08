@@ -8,5 +8,5 @@ license = "Apache-2.0 license"
 description = "mybatis util"
 
 [dependencies]
+mybatis-drive = {version = "1.0.0", path = "../mybatis-drive"}
 rbson = { version = "2.0.3", features = ["uuid-0_8", "chrono-0_4"] }
-mybatis-core = {version = "1.0.0", path = "../mybatis-core" }

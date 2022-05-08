@@ -1,5 +1,5 @@
 use crate::template::TEMPLATE;
-use mybatis_core::db::DriverType;
+use mybatis_drive::db::DriverType;
 
 pub trait SqlRule {
     fn make_where(&self, where_sql: &str) -> String {

@@ -1,9 +1,9 @@
-use mybatis_core::convert::StmtConvert;
+use mybatis_drive::convert::StmtConvert;
 
 use crate::crud::CRUDTable;
 use crate::mybatis::Mybatis;
-use mybatis_core::db::DriverType;
-use mybatis_core::Error;
+use mybatis_drive::db::DriverType;
+use mybatis_drive::Error;
 use rbson::Bson;
 use std::fmt::{Debug, Display};
 use mybatis_sql::TEMPLATE;

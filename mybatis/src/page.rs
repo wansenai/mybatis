@@ -1,9 +1,9 @@
-use mybatis_core::db::DriverType;
+use mybatis_drive::db::DriverType;
 use std::fmt::{Debug, Display};
 use std::future::Future;
 
 use futures_core::future::BoxFuture;
-use mybatis_core::Error;
+use mybatis_drive::Error;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use rbson::Bson;

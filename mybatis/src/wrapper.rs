@@ -8,9 +8,9 @@ use rbson::Bson;
 
 use serde::{Deserialize, Serialize};
 
-use mybatis_core::convert::StmtConvert;
-use mybatis_core::db::DriverType;
-use mybatis_core::Error;
+use mybatis_drive::convert::StmtConvert;
+use mybatis_drive::db::DriverType;
+use mybatis_drive::Error;
 
 /// The packing/Wrapper of the SQL
 /// SQL passed into the Wrapper keep the keyword uppercase
