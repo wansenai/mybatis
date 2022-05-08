@@ -1,9 +1,9 @@
 [workspace]
 members = [
     "example",
-    "macros",
-    "mybatis-core",
-    "mybatis-plus",
+    "mybatis",
+    "mybatis-drive",
+    "mybatis-macros",
     "mybatis-sql",
     "mybatis-tests",
     "mybatis-util",

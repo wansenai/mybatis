@@ -31,6 +31,6 @@ pub mod from_sql;
 pub mod sql_replace;
 
 #[macro_use]
-use macros::*;
+use mybatis_macros::*;
 
-pub use macros::{expr, rb_html, rb_py};
+pub use mybatis_macros::{expr, rb_html, rb_py};

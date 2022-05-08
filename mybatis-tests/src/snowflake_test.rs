@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod test {
-    use mybatis_plus::{snowflake::new_snowflake_id, mybatis};
+    use mybatis::{snowflake::new_snowflake_id};
 
     #[test]
     fn test_new_block_id() {

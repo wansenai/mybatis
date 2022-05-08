@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod test {
-    use mybatis_core::db::DriverType;
-    use mybatis_plus::page::{PagePlugin, PageRequest, MyBatisReplacePagePlugin};
+    use mybatis_drive::db::DriverType;
+    use mybatis::page::{PagePlugin, PageRequest, MyBatisReplacePagePlugin};
 
     #[test]
     fn test_page() {

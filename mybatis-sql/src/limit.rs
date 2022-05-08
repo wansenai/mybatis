@@ -1,7 +1,7 @@
-use mybatis_core::db::DriverType;
+use mybatis_drive::db::DriverType;
 use crate::template::TEMPLATE;
-use mybatis_core::Error;
-use mybatis_core::Result;
+use mybatis_drive::Error;
+use mybatis_drive::Result;
 
 pub trait PageLimit {
     /// return  sql

@@ -2,8 +2,8 @@ use std::fmt::{Debug, Display, Formatter};
 
 use rbson::Bson;
 
-use mybatis_core::db::DriverType;
-use mybatis_core::Error;
+use mybatis_drive::db::DriverType;
+use mybatis_drive::Error;
 use mybatis_sql::TEMPLATE;
 use mybatis_sql::rule::SqlRule;
 use crate::crud::{CRUDTable, Skip};

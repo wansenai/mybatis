@@ -4,13 +4,13 @@ version = "1.0.0"
 edition = "2021"
 rust-version = "1.59.0"
 authors = ["James Zow <Jameszow@163.com>"]
-license = "Apache-2.0 license"
+license = "Apache-2.0"
 description = "mybatis sql"
 
 [dependencies]
 once_cell = "1.9.0"
-mybatis-core = { path = "../mybatis-core" }
-macros = { path = "../macros" }
+mybatis-drive = { path = "../mybatis-drive" }
+mybatis-macros = { path = "../mybatis-macros" }
 
 #serde
 serde = { version = "1", features = ["derive"] }

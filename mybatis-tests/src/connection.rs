@@ -1,6 +1,5 @@
-use mybatis_plus::crud::CRUD;
-use mybatis_plus::mybatis::Mybatis;
-use log::{error, info, warn};
+use mybatis::crud::CRUD;
+use mybatis::mybatis::Mybatis;
 
 
 #[cfg(test)]

@@ -7,11 +7,11 @@ use mybatis_util::as_bson;
 use serde::de::DeserializeOwned;
 use serde::{Serialize, Serializer, Deserialize, Deserializer};
 
-use mybatis_core::convert::{ResultCodec, StmtConvert};
-use mybatis_core::db::DBExecResult;
-use mybatis_core::db::DriverType;
-use mybatis_core::Error;
-use mybatis_core::Result;
+use mybatis_drive::convert::{ResultCodec, StmtConvert};
+use mybatis_drive::db::DBExecResult;
+use mybatis_drive::db::DriverType;
+use mybatis_drive::Error;
+use mybatis_drive::Result;
 
 use crate::executor::{ExecutorMut, MyBatisConnExecutor, MyBatisTxExecutor};
 use crate::page::{IPageRequest, Page, IPage};

@@ -1,7 +1,7 @@
 [package]
-name = "mybatis-core"
+name = "mybatis-drive"
 version = "1.0.0"
-description = "Core of rbatis, the rust SQL toolkit. Not intended to be used directly."
+description = "drive dependencies sqlx"
 license = "Apache-2.0"
 edition = "2021"
 authors = [
