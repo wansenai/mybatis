@@ -100,7 +100,7 @@ pub(crate) fn impl_crud_driver(
 
 
     let gen = quote! {
-        impl rbatis::crud::CRUDTable for #name {
+        impl mybatis::crud::CRUDTable for #name {
 
             fn get(&self, column: &str) -> rbson::Bson {
                 #get_matchs
@@ -114,26 +114,26 @@ pub(crate) fn impl_crud_driver(
                  #fields
             }
 
-            fn formats(driver_type: &rbatis::core::db::DriverType) -> std::collections::HashMap<String, String> {
+            fn formats(driver_type: &mybatis::core::db::DriverType) -> std::collections::HashMap<String, String> {
                   let mut m: std::collections::HashMap<String, String> = std::collections::HashMap::new();
                   match driver_type{
-                    rbatis::core::db::DriverType::Mysql=>{
+                    mybatis::core::db::DriverType::Mysql=>{
                          #formats_mysql
                          return m;
                     },
-                    rbatis::core::db::DriverType::Postgres=>{
+                    mybatis::core::db::DriverType::Postgres=>{
                          #formats_pg
                          return m;
                     },
-                    rbatis::core::db::DriverType::Sqlite=>{
+                    mybatis::core::db::DriverType::Sqlite=>{
                          #formats_sqlite
                          return m;
                     },
-                    rbatis::core::db::DriverType::Mssql=>{
+                    mybatis::core::db::DriverType::Mssql=>{
                          #formats_mssql
                          return m;
                     },
-                    rbatis::core::db::DriverType::None=>{
+                    mybatis::core::db::DriverType::None=>{
                          return m;
                     },
                  }
@@ -162,10 +162,10 @@ fn gen_format(v: &str) -> proc_macro2::TokenStream {
     }
     for item in new_items {
         if !item.contains(":") {
-            panic!("[rbatis] #[crud_table] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
+            panic!("[mybatis] #[crud_table] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
         }
         if !item.contains("{}") {
-            panic!("[rbatis] #[crud_table] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
+            panic!("[mybatis] #[crud_table] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
         }
         let index = item.find(":").unwrap();
         let column = item[0..index].trim_start().to_string();
@@ -240,7 +240,7 @@ fn gen_fields(data: &syn::Data) -> Vec<Ident> {
             }
         }
         _ => {
-            panic!("[rbatis] #[crud_table] only support struct for crud_table's macro!")
+            panic!("[mybatis] #[crud_table] only support struct for crud_table's macro!")
         }
     }
     fields
@@ -353,7 +353,7 @@ fn read_config(arg: &str) -> CrudEnableConfig {
                 || k.ends_with("formats_sqlite")
                 || k.ends_with("formats_mssql"))
             {
-                panic!("[rbatis] #[crud_table] formats must be formats_pg, formats_mysql,formats_sqlite,formats_mssql!");
+                panic!("[mybatis] #[crud_table] formats must be formats_pg, formats_mysql,formats_sqlite,formats_mssql!");
             }
             formats.insert(k.to_owned(), v.to_owned());
         }

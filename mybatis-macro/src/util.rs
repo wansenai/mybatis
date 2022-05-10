@@ -17,7 +17,7 @@ pub(crate) fn find_return_type(target_fn: &ItemFn) -> proc_macro2::TokenStream {
     let s = format!("{}", return_ty);
     if !s.contains(":: Result") && !s.starts_with("Result") {
         return_ty = quote! {
-             rbatis::core :: Result <#return_ty>
+             mybatis::core :: Result <#return_ty>
         };
     }
     return_ty
@@ -66,13 +66,13 @@ pub(crate) fn get_page_req_ident(target_fn: &ItemFn, func_name: &str) -> Ident {
     let page_reqs = filter_fn_args(target_fn, "", "& PageRequest");
     if page_reqs.len() > 1 {
         panic!(
-            "[rbatis] {} only support on arg of '**:&PageRequest'!",
+            "[mybatis] {} only support on arg of '**:&PageRequest'!",
             func_name
         );
     }
     if page_reqs.len() == 0 {
         panic!(
-            "[rbatis] {} method arg must have arg Type '**:&PageRequest'!",
+            "[mybatis] {} method arg must have arg Type '**:&PageRequest'!",
             func_name
         );
     }
@@ -82,7 +82,7 @@ pub(crate) fn get_page_req_ident(target_fn: &ItemFn, func_name: &str) -> Ident {
         .to_owned();
     if req.eq("") {
         panic!(
-            "[rbatis] {} method arg must have arg Type '**:&PageRequest'!",
+            "[mybatis] {} method arg must have arg Type '**:&PageRequest'!",
             func_name
         );
     }
@@ -113,7 +113,7 @@ pub(crate) fn is_fetch(return_source: &str) -> bool {
 }
 
 
-pub(crate) fn is_rbatis_ref(ty_stream: &str) -> bool {
+pub(crate) fn is_mybatis_ref(ty_stream: &str) -> bool {
     if ty_stream.contains("RbatisExecutor")
         || ty_stream.contains("Rbatis")
         || ty_stream.contains("RBatisConnExecutor")
