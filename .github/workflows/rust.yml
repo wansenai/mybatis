@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
       with:
-        repository: summer-rust/summer-mybatis
+        repository: summer-rust/summer-mybatis/mybatis
         path: mybatis
     - name: Build
       run: cargo build --verbose
