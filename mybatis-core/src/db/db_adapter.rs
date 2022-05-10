@@ -109,7 +109,7 @@ impl DBPool {
                     .min_connections(opt.min_connections)
                     .idle_timeout(opt.idle_timeout)
                     .test_before_acquire(opt.test_before_acquire);
-                let p = build.connect_with(driver.mysql.clone().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?).await?;
+                let p = build.connect_with(driver.mysql.clone().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?).await?;
                 pool = DBPool::Mysql(p, Arc::new(opt.decoder));
                 return Ok(pool);
             }
@@ -122,7 +122,7 @@ impl DBPool {
                     .min_connections(opt.min_connections)
                     .idle_timeout(opt.idle_timeout)
                     .test_before_acquire(opt.test_before_acquire);
-                let p = build.connect_with(driver.postgres.clone().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?).await?;
+                let p = build.connect_with(driver.postgres.clone().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?).await?;
                 pool = DBPool::Postgres(p, Arc::new(opt.decoder));
                 return Ok(pool);
             }
@@ -135,7 +135,7 @@ impl DBPool {
                     .min_connections(opt.min_connections)
                     .idle_timeout(opt.idle_timeout)
                     .test_before_acquire(opt.test_before_acquire);
-                let p = build.connect_with(driver.sqlite.clone().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?).await?;
+                let p = build.connect_with(driver.sqlite.clone().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?).await?;
                 pool = DBPool::Sqlite(p, Arc::new(opt.decoder));
                 return Ok(pool);
             }
@@ -148,7 +148,7 @@ impl DBPool {
                     .min_connections(opt.min_connections)
                     .idle_timeout(opt.idle_timeout)
                     .test_before_acquire(opt.test_before_acquire);
-                let p = build.connect_with(driver.mssql.clone().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?).await?;
+                let p = build.connect_with(driver.mssql.clone().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?).await?;
                 pool = DBPool::Mssql(p, Arc::new(opt.decoder));
                 return Ok(pool);
             }
@@ -189,7 +189,7 @@ impl DBPool {
                 return Ok(DBPoolConn::Mssql(mssql.acquire().await?, decoder));
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -235,7 +235,7 @@ impl DBPool {
                 return Ok(Some(DBPoolConn::Mssql(conn.unwrap(), decoder)));
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -440,7 +440,7 @@ impl DBConnectOption {
                 }
             #[cfg(not(feature = "mysql"))]
                 {
-                    return Err(Error::from("[rbatis] not enable feature!"));
+                    return Err(Error::from("[mybatis] not enable feature!"));
                 }
         } else if driver.starts_with("postgres") {
             #[cfg(feature = "postgres")]
@@ -453,7 +453,7 @@ impl DBConnectOption {
                 }
             #[cfg(not(feature = "postgres"))]
                 {
-                    return Err(Error::from("[rbatis] not enable feature!"));
+                    return Err(Error::from("[mybatis] not enable feature!"));
                 }
         } else if driver.starts_with("sqlite") {
             #[cfg(feature = "sqlite")]
@@ -463,7 +463,7 @@ impl DBConnectOption {
                 }
             #[cfg(not(feature = "sqlite"))]
                 {
-                    return Err(Error::from("[rbatis] not enable feature!"));
+                    return Err(Error::from("[mybatis] not enable feature!"));
                 }
         } else if driver.starts_with("mssql") || driver.starts_with("sqlserver") {
             #[cfg(feature = "mssql")]
@@ -473,7 +473,7 @@ impl DBConnectOption {
                 }
             #[cfg(not(feature = "mssql"))]
                 {
-                    return Err(Error::from("[rbatis] not enable feature!"));
+                    return Err(Error::from("[mybatis] not enable feature!"));
                 }
         } else {
             return Err(Error::from("unsupport driver type!"));
@@ -503,30 +503,30 @@ impl<'q> DBQuery<'q> {
             }
             #[cfg(feature = "mysql")]
             &DriverType::Mysql => {
-                let mut q = self.mysql.take().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?;
+                let mut q = self.mysql.take().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?;
                 q = crate::db::bind_mysql::bind(t, q)?;
                 self.mysql = Some(q);
             }
             #[cfg(feature = "postgres")]
             &DriverType::Postgres => {
-                let mut q = self.postgres.take().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?;
+                let mut q = self.postgres.take().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?;
                 q = crate::db::bind_pg::bind(t, q)?;
                 self.postgres = Some(q);
             }
             #[cfg(feature = "sqlite")]
             &DriverType::Sqlite => {
-                let mut q = self.sqlite.take().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?;
+                let mut q = self.sqlite.take().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?;
                 q = crate::db::bind_sqlite::bind(t, q)?;
                 self.sqlite = Some(q);
             }
             #[cfg(feature = "mssql")]
             &DriverType::Mssql => {
-                let mut q = self.mssql.take().ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?;
+                let mut q = self.mssql.take().ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?;
                 q = crate::db::bind_mssql::bind(t, q)?;
                 self.mssql = Some(q);
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
         return Ok(());
@@ -576,7 +576,7 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "mysql")]
             DBPoolConn::Mysql(conn, decoder) => {
                 let async_stream: Vec<MySqlRow> = conn.fetch_all(sql).await?;
-                let data = async_stream.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = async_stream.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
@@ -584,7 +584,7 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "postgres")]
             DBPoolConn::Postgres(conn, decoder) => {
                 let async_stream: Vec<PgRow> = conn.fetch_all(sql).await?;
-                let data = async_stream.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = async_stream.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
@@ -592,7 +592,7 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "sqlite")]
             DBPoolConn::Sqlite(conn, decoder) => {
                 let data: Vec<SqliteRow> = conn.fetch_all(sql).await?;
-                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
@@ -600,13 +600,13 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "mssql")]
             DBPoolConn::Mssql(conn, decoder) => {
                 let async_stream: Vec<MssqlRow> = conn.fetch_all(sql).await?;
-                let data = async_stream.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = async_stream.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -635,7 +635,7 @@ impl<'a> DBPoolConn<'a> {
                 return Ok(DBExecResult::from(data));
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -649,9 +649,9 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "mysql")]
             DBPoolConn::Mysql(conn, decoder) => {
                 let data: Vec<MySqlRow> = conn
-                    .fetch_all(sql.mysql.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .fetch_all(sql.mysql.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
-                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
@@ -659,9 +659,9 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "postgres")]
             DBPoolConn::Postgres(conn, decoder) => {
                 let data: Vec<PgRow> = conn
-                    .fetch_all(sql.postgres.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .fetch_all(sql.postgres.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
-                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
@@ -669,9 +669,9 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "sqlite")]
             DBPoolConn::Sqlite(conn, decoder) => {
                 let data: Vec<SqliteRow> = conn
-                    .fetch_all(sql.sqlite.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .fetch_all(sql.sqlite.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
-                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
@@ -679,15 +679,15 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "mssql")]
             DBPoolConn::Mssql(conn, decoder) => {
                 let data: Vec<MssqlRow> = conn
-                    .fetch_all(sql.mssql.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .fetch_all(sql.mssql.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
-                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[rbatis-core] try_to_json is not array!"))?.to_owned();
+                let data = data.try_to_bson(decoder.as_ref())?.as_array().ok_or_else(|| Error::from("[mybatis-core] try_to_json is not array!"))?.to_owned();
                 let return_len = data.len();
                 let result = decode::<T>(data)?;
                 Ok((result, return_len))
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -698,33 +698,33 @@ impl<'a> DBPoolConn<'a> {
             #[cfg(feature = "mysql")]
             DBPoolConn::Mysql(conn, _) => {
                 let result: MySqlQueryResult = conn
-                    .execute(sql.mysql.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .execute(sql.mysql.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
                 return Ok(DBExecResult::from(result));
             }
             #[cfg(feature = "postgres")]
             DBPoolConn::Postgres(conn, _) => {
                 let data: PgQueryResult = conn
-                    .execute(sql.postgres.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .execute(sql.postgres.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
                 return Ok(DBExecResult::from(data));
             }
             #[cfg(feature = "sqlite")]
             DBPoolConn::Sqlite(conn, _) => {
                 let data: SqliteQueryResult = conn
-                    .execute(sql.sqlite.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .execute(sql.sqlite.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
                 return Ok(DBExecResult::from(data));
             }
             #[cfg(feature = "mssql")]
             DBPoolConn::Mssql(conn, _) => {
                 let data: MssqlQueryResult = conn
-                    .execute(sql.mssql.ok_or_else(|| Error::from("[rbatis-core] conn is none!"))?)
+                    .execute(sql.mssql.ok_or_else(|| Error::from("[mybatis-core] conn is none!"))?)
                     .await?;
                 return Ok(DBExecResult::from(data));
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -761,7 +761,7 @@ impl<'a> DBPoolConn<'a> {
                 return Ok(conn.ping().await?);
             }
             _ => {
-                return Err(Error::from("[rbatis] feature not enable!"));
+                return Err(Error::from("[mybatis] feature not enable!"));
             }
         }
     }
@@ -793,7 +793,7 @@ impl<'a> DBTx<'a> {
     }
 
     pub fn get_conn_mut(&mut self) -> crate::Result<&mut DBPoolConn<'a>> {
-        self.conn.as_mut().ok_or_else(|| Error::from("[rbatis-core] DBTx conn is none!"))
+        self.conn.as_mut().ok_or_else(|| Error::from("[mybatis-core] DBTx conn is none!"))
     }
 
     pub async fn begin(&mut self) -> crate::Result<()> {

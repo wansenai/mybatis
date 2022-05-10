@@ -5,23 +5,23 @@ use syn;
 use syn::{AttributeArgs, FnArg, ItemFn};
 
 use crate::proc_macro::TokenStream;
-use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_rbatis_ref};
+use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref};
 
 //impl sql macro
 pub(crate) fn impl_macro_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
     let return_ty = find_return_type(target_fn);
     let func_name_ident = target_fn.sig.ident.to_token_stream();
 
-    let mut rbatis_ident = "".to_token_stream();
-    let mut rbatis_name = String::new();
+    let mut mybatis_ident = "".to_token_stream();
+    let mut mybatis_name = String::new();
     for x in &target_fn.sig.inputs {
         match x {
             FnArg::Receiver(_) => {}
             FnArg::Typed(t) => {
                 let ty_stream = t.ty.to_token_stream().to_string();
-                if is_rbatis_ref(&ty_stream) {
-                    rbatis_ident = t.pat.to_token_stream();
-                    rbatis_name = rbatis_ident.to_string();
+                if is_mybatis_ref(&ty_stream) {
+                    mybatis_ident = t.pat.to_token_stream();
+                    mybatis_name = mybatis_ident.to_string();
                     break;
                 }
             }
@@ -30,16 +30,16 @@ pub(crate) fn impl_macro_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenS
 
     let sql_ident;
     if args.len() == 1 {
-        if rbatis_name.is_empty() {
-            panic!("[rbatis] you should add rbatis ref param  rb:&Rbatis  or rb: &mut RbatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
+        if mybatis_name.is_empty() {
+            panic!("[mybatis] you should add mybatis ref param  rb:&Rbatis  or rb: &mut RbatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
         }
-        sql_ident = args.get(0).expect("[rbatis] miss sql macaro param!").to_token_stream();
+        sql_ident = args.get(0).expect("[mybatis] miss sql macaro param!").to_token_stream();
     } else if args.len() == 2 {
-        rbatis_ident = args.get(0).expect("[rbatis] miss rbatis ident param!").to_token_stream();
-        rbatis_name = format!("{}", rbatis_ident);
-        sql_ident = args.get(1).expect("[rbatis] miss sql macro sql param!").to_token_stream();
+        mybatis_ident = args.get(0).expect("[mybatis] miss mybatis ident param!").to_token_stream();
+        mybatis_name = format!("{}", mybatis_ident);
+        sql_ident = args.get(1).expect("[mybatis] miss sql macro sql param!").to_token_stream();
     } else {
-        panic!("[rbatis] Incorrect macro parameter length!");
+        panic!("[mybatis] Incorrect macro parameter length!");
     }
 
     let func_args_stream = target_fn.sig.inputs.to_token_stream();
@@ -70,22 +70,22 @@ pub(crate) fn impl_macro_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenS
         call_method = quote! {fetch_page};
     }
     //append all args
-    let sql_args_gen = filter_args_context_id(&rbatis_name, &get_fn_args(target_fn), &[page_req_str]);
+    let sql_args_gen = filter_args_context_id(&mybatis_name, &get_fn_args(target_fn), &[page_req_str]);
     //gen rust code templete
     let gen_token_temple = quote! {
        pub async fn #func_name_ident(#func_args_stream) -> #return_ty{
            let mut rb_args =vec![];
            #sql_args_gen
            #fn_body
-           use rbatis::executor::{Executor,ExecutorMut};
-           return #rbatis_ident.#call_method(&#sql_ident,rb_args #page_req).await;
+           use mybatis::executor::{Executor,ExecutorMut};
+           return #mybatis_ident.#call_method(&#sql_ident,rb_args #page_req).await;
        }
     };
     return gen_token_temple.into();
 }
 
 fn filter_args_context_id(
-    rbatis_name: &str,
+    mybatis_name: &str,
     fn_arg_name_vec: &Vec<String>,
     skip_names: &[String],
 ) -> proc_macro2::TokenStream {
@@ -93,7 +93,7 @@ fn filter_args_context_id(
     for item in fn_arg_name_vec {
         let item_ident = Ident::new(&item, Span::call_site());
         let item_ident_name = item_ident.to_string();
-        if item.eq(&rbatis_name) {
+        if item.eq(&mybatis_name) {
             continue;
         }
         let mut do_continue = false;

@@ -135,13 +135,13 @@ impl NodeType {
             let for_tag="for";
             if !trim_express.starts_with(for_tag) {
                 return Err(Error::from(
-                    "[rbatis] parser express fail:".to_string() + source_str,
+                    "[mybatis] parser express fail:".to_string() + source_str,
                 ));
             }
             let in_tag=" in ";
             if !trim_express.contains(in_tag) {
                 return Err(Error::from(
-                    "[rbatis] parser express fail:".to_string() + source_str,
+                    "[mybatis] parser express fail:".to_string() + source_str,
                 ));
             }
             let in_index = trim_express.find(in_tag).unwrap();
@@ -151,7 +151,7 @@ impl NodeType {
             if item.contains(","){
                 let splits:Vec<&str> = item.split(",").collect();
                 if splits.len()!=2{
-                    panic!("[rbatis_sql] for node must be 'for key,item in col:'");
+                    panic!("[mybatis_sql] for node must be 'for key,item in col:'");
                 }
                 index = splits[0];
                 item = splits[1];
@@ -171,7 +171,7 @@ impl NodeType {
                     trim: express.to_string(),
                 }));
             } else {
-                return Err(Error::from(format!("[rbatis] express trim value must be string value, for example:  trim 'value',error express: {}", trim_express)));
+                return Err(Error::from(format!("[mybatis] express trim value must be string value, for example:  trim 'value',error express: {}", trim_express)));
             }
         } else if trim_express.starts_with(ChooseNode::name()) {
             let mut node = ChooseNode {
@@ -187,7 +187,7 @@ impl NodeType {
                         node.otherwise_node = Some(Box::new(x));
                     }
                     _ => {
-                        return Err(Error::from("[rbatis] parser node fail,choose node' child must be when and otherwise nodes!".to_string()));
+                        return Err(Error::from("[mybatis] parser node fail,choose node' child must be when and otherwise nodes!".to_string()));
                     }
                 }
             }
@@ -216,7 +216,7 @@ impl NodeType {
             let name_value: Vec<&str> = express.split("=").collect();
             if name_value.len() != 2 {
                 return Err(Error::from(
-                    "[rbatis] parser bind express fail:".to_string() + trim_express,
+                    "[mybatis] parser bind express fail:".to_string() + trim_express,
                 ));
             }
             return Ok(NodeType::NBind(BindNode {
@@ -239,7 +239,7 @@ impl NodeType {
         } else {
             // unkonw tag
             return Err(Error::from(
-                "[rbatis] unknow tag: ".to_string() + source_str,
+                "[mybatis] unknow tag: ".to_string() + source_str,
             ));
         }
     }

@@ -61,7 +61,7 @@ impl StmtConvert for DriverType {
                 push_index!(index,item);
             }
             DriverType::None => {
-                panic!("[rbatis] un support none for driver type!")
+                panic!("[mybatis] un support none for driver type!")
             }
         }
     }

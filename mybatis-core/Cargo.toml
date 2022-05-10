@@ -1,7 +1,7 @@
 [package]
-name = "mybatis-drive"
+name = "mybatis-core"
 version = "1.0.0"
-description = "drive dependencies sqlx"
+description = "mybatis core by sqlx"
 license = "Apache-2.0"
 edition = "2021"
 authors = [
@@ -9,7 +9,7 @@ authors = [
 ]
 
 [features]
-default = ["all-database","runtime-async-std-rustls"]
+default = ["all-database"]
 debug_mode = []
 all-database = ["sqlx-core/all-databases", "mysql", "postgres", "sqlite", "mssql", "bit-vec"]
 mysql = ["sqlx-core/mysql"]

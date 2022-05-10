@@ -1,10 +1,10 @@
 [workspace]
 members = [
     "example",
-    "mybatis",
-    "mybatis-drive",
-    "mybatis-macros",
+    "mybatis-core",
+    "mybatis-macro",
     "mybatis-sql",
-    "mybatis-tests",
     "mybatis-util",
+    "mybatis",
+    "mybatis-tests",
 ]

@@ -67,24 +67,24 @@ fn include_replace(htmls: Vec<Element>, sql_map: &mut HashMap<String, Vec<Elemen
     for mut x in htmls {
         match x.tag.as_str() {
             "sql" => {
-                sql_map.insert(x.attrs.get("id").expect("[rbatis] <sql> element must have id!").clone(), x.childs.clone());
+                sql_map.insert(x.attrs.get("id").expect("[mybatis] <sql> element must have id!").clone(), x.childs.clone());
             }
             "include" => {
-                let refid = x.attrs.get("refid").expect("[rbatis] <include> element must have refid!").clone();
-                let data_url = Url::parse(format!("url://{}", refid).as_str()).expect("[rbatis] parse include url fail!");
+                let refid = x.attrs.get("refid").expect("[mybatis] <include> element must have refid!").clone();
+                let data_url = Url::parse(format!("url://{}", refid).as_str()).expect("[mybatis] parse include url fail!");
                 let mut find_file = false;
                 for (k, v) in data_url.query_pairs() {
                     let v = v.to_string();
                     match k.to_string().as_str() {
                         "file" => {
                             if v.is_empty() {
-                                panic!("[rbatis] <include> element file must be have an value!");
+                                panic!("[mybatis] <include> element file must be have an value!");
                             }
                             let mut html_string = String::new();
                             let mut f = File::open(v.as_str()).expect(&format!("File:\"{}\" does not exist", v));
                             f.read_to_string(&mut html_string);
                             let datas = load_html(html_string.as_str()).expect("load_html() fail!");
-                            let find = find_element(refid.as_str(), &datas).expect(&format!("[rbatis] not find html:{} , element id={}", v, refid));
+                            let find = find_element(refid.as_str(), &datas).expect(&format!("[mybatis] not find html:{} , element id={}", v, refid));
                             x.childs.push(find);
                             find_file = true;
                             break;
@@ -94,7 +94,7 @@ fn include_replace(htmls: Vec<Element>, sql_map: &mut HashMap<String, Vec<Elemen
                 }
                 if !find_file {
                     let refid_path = data_url.host().unwrap().to_string();
-                    let element = sql_map.get(refid_path.as_str()).expect(&format!("[rbatis] can not find element {} <include refid='{}'> !", refid, refid_path)).clone();
+                    let element = sql_map.get(refid_path.as_str()).expect(&format!("[mybatis] can not find element {} <include refid='{}'> !", refid, refid_path)).clone();
                     for el in element {
                         x.childs.push(el.clone());
                     }
@@ -137,7 +137,7 @@ fn parse_html_node(htmls: Vec<Element>, ignore: &mut Vec<String>) -> proc_macro2
     let mut methods = quote!();
     let fn_impl = parse(&htmls, &mut methods, "", ignore);
     let token = quote! {
-        use rbatis_sql::ops::*;
+        use mybatis_sql::ops::*;
         #methods
         #fn_impl
     };
@@ -159,7 +159,7 @@ fn to_mod(m: &ItemMod, t: &proc_macro2::TokenStream) -> TokenStream {
 fn parse(arg: &Vec<Element>, methods: &mut proc_macro2::TokenStream, block_name: &str, ignore: &mut Vec<String>) -> proc_macro2::TokenStream {
     let mut body = quote! {};
     let fix_sql = quote! {
-        rbatis_sql::sql_index!(sql,_tag);
+        mybatis_sql::sql_index!(sql,_tag);
     };
     for x in arg {
         match x.tag.as_str() {
@@ -401,7 +401,7 @@ fn parse(arg: &Vec<Element>, methods: &mut proc_macro2::TokenStream, block_name:
                 let child_body = parse(&x.childs, methods, "select", ignore);
                 let select = quote! {
                             pub fn #method_name (arg:&rbson::Bson, _tag: char) -> (String,Vec<rbson::Bson>) {
-                               use rbatis_sql::ops::AsProxy;
+                               use mybatis_sql::ops::AsProxy;
                                let mut sql = String::with_capacity(1000);
                                let mut args = Vec::with_capacity(20);
                                #child_body
@@ -420,7 +420,7 @@ fn parse(arg: &Vec<Element>, methods: &mut proc_macro2::TokenStream, block_name:
                 let child_body = parse(&x.childs, methods, "select", ignore);
                 let select = quote! {
                             pub fn #method_name (arg:&rbson::Bson, _tag: char) -> (String,Vec<rbson::Bson>) {
-                               use rbatis_sql::ops::AsProxy;
+                               use mybatis_sql::ops::AsProxy;
 
                                let mut sql = String::with_capacity(1000);
                                let mut args = Vec::with_capacity(20);
@@ -440,7 +440,7 @@ fn parse(arg: &Vec<Element>, methods: &mut proc_macro2::TokenStream, block_name:
                 let child_body = parse(&x.childs, methods, "select", ignore);
                 let select = quote! {
                             pub fn #method_name (arg:&rbson::Bson, _tag: char) -> (String,Vec<rbson::Bson>) {
-                               use rbatis_sql::ops::AsProxy;
+                               use mybatis_sql::ops::AsProxy;
 
                                let mut sql = String::with_capacity(1000);
                                let mut args = Vec::with_capacity(20);
@@ -460,7 +460,7 @@ fn parse(arg: &Vec<Element>, methods: &mut proc_macro2::TokenStream, block_name:
                 let child_body = parse(&x.childs, methods, "select", ignore);
                 let select = quote! {
                             pub fn #method_name (arg:&rbson::Bson, _tag: char) -> (String,Vec<rbson::Bson>) {
-                               use rbatis_sql::ops::AsProxy;
+                               use mybatis_sql::ops::AsProxy;
 
                                let mut sql = String::with_capacity(1000);
                                let mut args = Vec::with_capacity(20);
@@ -647,7 +647,7 @@ pub fn impl_fn_py(m: &ItemFn, args: &AttributeArgs) -> TokenStream {
             }
         };
     }
-    let nodes = NodeType::parse(&data).expect("[rbatis] parse py_sql fail!");
+    let nodes = NodeType::parse(&data).expect("[mybatis] parse py_sql fail!");
     let htmls = crate::py_sql::to_html(&nodes, data.starts_with("select") || data.starts_with(" select"), &fn_name);
     #[cfg(feature = "debug_mode")]
     {

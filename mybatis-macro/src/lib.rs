@@ -107,7 +107,7 @@ pub fn sql(args: TokenStream, func: TokenStream) -> TokenStream {
 ///         otherwise:
 ///           AND age = 0
 ///     WHERE id  = '2'")]
-///   pub async fn py_select_rb(rbatis: &Rbatis, name: &str) -> Option<BizActivity> {}
+///   pub async fn py_select_rb(mybatis: &Rbatis, name: &str) -> Option<BizActivity> {}
 #[proc_macro_attribute]
 pub fn py_sql(args: TokenStream, func: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
@@ -131,7 +131,7 @@ pub fn py_sql(args: TokenStream, func: TokenStream) -> TokenStream {
 /// or:
 ///
 /// #[py_sql("example/example.html")]
-/// pub async fn py_select_rb(rbatis: &Rbatis, name: &str) -> Option<BizActivity> {}
+/// pub async fn py_select_rb(mybatis: &Rbatis, name: &str) -> Option<BizActivity> {}
 ///
 #[proc_macro_attribute]
 pub fn html_sql(args: TokenStream, func: TokenStream) -> TokenStream {

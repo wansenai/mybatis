@@ -7,10 +7,15 @@ authors = ["James Zow <Jameszow@163.com>"]
 license = "Apache-2.0"
 description = "mybatis sql"
 
+[features]
+#default is fast_mode
+default = []
+debug_mode = []
+
 [dependencies]
 once_cell = "1.9.0"
-mybatis-drive = { path = "../mybatis-drive" }
-mybatis-macros = { path = "../mybatis-macros" }
+mybatis-core = { version = "1.0.0", path = "../mybatis-core" }
+mybatis-macro = { version = "1.0.0", path = "../mybatis-macro" }
 
 #serde
 serde = { version = "1", features = ["derive"] }

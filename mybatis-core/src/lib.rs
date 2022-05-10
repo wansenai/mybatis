@@ -1,4 +1,4 @@
-//! Core of rbatis::core, the rust SQL toolkit. Not intended to be used directly.
+//! Core of mybatis::core, the rust SQL toolkit. Not intended to be used directly.
 
 // #![warn(missing_docs)]
 #![allow(unused_imports)]

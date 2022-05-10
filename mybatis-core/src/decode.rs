@@ -20,9 +20,9 @@ pub fn decode<T: ?Sized>(datas: rbson::Array) -> Result<T, crate::Error>
     let bs = Bson::Array(datas);
     #[cfg(feature = "debug_mode")]
         {
-            println!("[rbatis] [debug_mode] [bson]   {} => {}", type_name, bs);
+            println!("[mybatis] [debug_mode] [bson]   {} => {}", type_name, bs);
             #[cfg(feature = "format_bson")]
-            println!("[rbatis] [debug_mode] [format] {} => {}", type_name, bs.as_array().unwrap().do_format());
+            println!("[mybatis] [debug_mode] [format] {} => {}", type_name, bs.as_array().unwrap().do_format());
         }
     let mut datas = vec![];
     match bs {
@@ -71,7 +71,7 @@ pub fn try_decode_doc<T>(type_name: &str, datas: &mut Vec<Bson>) -> Result<T, cr
         T: DeserializeOwned, {
     //decode struct
     if datas.len() > 1 {
-        return Result::Err(Error::from(format!("[rbatis] rows.rows_affected > 1,but decode one type ({})!", type_name)));
+        return Result::Err(Error::from(format!("[mybatis] rows.rows_affected > 1,but decode one type ({})!", type_name)));
     }
     //single try decode
     if datas.is_empty() {

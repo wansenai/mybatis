@@ -11,10 +11,10 @@ use serde::de::Visitor;
 use serde::ser::{Serialize, Serializer};
 use sqlx_core::error::BoxDynError;
 
-/// A specialized `Result` type for rbatis::core.
+/// A specialized `Result` type for mybatis::core.
 pub type Result<T> = std::result::Result<T, Error>;
 
-/// A generic error that represents all the ways a method can fail inside of rbatis::core.
+/// A generic error that represents all the ways a method can fail inside of mybatis::core.
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum Error {

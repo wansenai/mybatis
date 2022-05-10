@@ -2,7 +2,7 @@ use sqlx_core::error::BoxDynError;
 
 use crate::convert::ResultCodec;
 
-/// convert sqlx-Result to rbatis-core Result
+/// convert sqlx-Result to mybatis-core Result
 impl<T> ResultCodec<T> for Result<T, BoxDynError> {
     fn into_result(self) -> crate::Result<T> {
         match self {
@@ -16,7 +16,7 @@ impl<T> ResultCodec<T> for Result<T, BoxDynError> {
     }
 }
 
-/// convert sqlx-Result to rbatis-core Result
+/// convert sqlx-Result to mybatis-core Result
 impl<T> ResultCodec<T> for Result<T, sqlx_core::error::Error> {
     fn into_result(self) -> crate::Result<T> {
         match self {
@@ -30,7 +30,7 @@ impl<T> ResultCodec<T> for Result<T, sqlx_core::error::Error> {
     }
 }
 
-/// convert sqlx-Result to rbatis-core Result
+/// convert sqlx-Result to mybatis-core Result
 impl<T> ResultCodec<T> for Result<T, serde_json::Error> {
     fn into_result(self) -> crate::Result<T> {
         match self {
