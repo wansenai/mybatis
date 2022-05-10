@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use mybatis_drive::Error;
+use mybatis_core::Error;
 
 pub trait ToResult<T> {
     fn to_result<F>(&self, fail_method: F) -> Result<&T, Error>
