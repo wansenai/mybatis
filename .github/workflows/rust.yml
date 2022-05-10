@@ -10,8 +10,9 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-  build:
 
+  build:
+    if: github.repository == 'summer-mybatis/mybatis'
     runs-on: ubuntu-latest
 
     steps:
