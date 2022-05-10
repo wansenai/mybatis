@@ -7,19 +7,18 @@ use mybatis_util::as_bson;
 use serde::de::DeserializeOwned;
 use serde::{Serialize, Serializer, Deserialize, Deserializer};
 
-use mybatis_drive::convert::{ResultCodec, StmtConvert};
-use mybatis_drive::db::DBExecResult;
-use mybatis_drive::db::DriverType;
-use mybatis_drive::Error;
-use mybatis_drive::Result;
+use mybatis_core::convert::{ResultCodec, StmtConvert};
+use mybatis_core::db::{DBExecResult, DriverType};
+use mybatis_core::Error;
+use mybatis_core::Result;
 
 use crate::executor::{ExecutorMut, MyBatisConnExecutor, MyBatisTxExecutor};
 use crate::page::{IPageRequest, Page, IPage};
 use crate::mybatis::Mybatis;
 use crate::wrapper::Wrapper;
 
-
-use mybatis_sql::{rule::SqlRule, TEMPLATE};
+use mybatis_sql::TEMPLATE;
+use mybatis_sql::rule::SqlRule;
 use mybatis_util::string_util::{to_snake_name, self};
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
@@ -541,7 +540,9 @@ pub trait CRUDMut: ExecutorMut {
             T: CRUDTable,
     {
         let table_name = choose_dyn_table_name::<T>(&w);
-        let where_sql = self.driver_type()?.make_where(&w.sql);
+        let driver_type = self.driver_type().unwrap();
+        
+        let where_sql = make_where(&w.sql);
 
         let mut sql = String::new();
 
@@ -881,10 +882,64 @@ pub trait CRUDMut: ExecutorMut {
     }
 }
 
-
 impl CRUDMut for MyBatisConnExecutor<'_> {}
 
 impl CRUDMut for MyBatisTxExecutor<'_> {}
+
+fn make_where(where_sql: &str) -> String {
+
+    let sql = where_sql.trim_start();
+    if sql.is_empty() {
+        return String::new();
+    }
+    if sql.starts_with(TEMPLATE.order_by.right_space)
+        || sql.starts_with(TEMPLATE.group_by.right_space)
+        || sql.starts_with(TEMPLATE.limit.right_space)
+    {
+        sql.to_string()
+    } else {
+        format!(
+            " {} {} ",
+            TEMPLATE.r#where.value,
+            sql.trim_start_matches(TEMPLATE.r#where.right_space)
+                .trim_start_matches(TEMPLATE.and.right_space)
+                .trim_start_matches(TEMPLATE.or.right_space)
+        )
+    }
+}
+
+fn make_left_insert_where(insert_sql: &str, where_sql: &str) -> String {
+    let sql = where_sql
+        .trim()
+        .trim_start_matches(TEMPLATE.r#where.right_space)
+        .trim_start_matches(TEMPLATE.and.right_space);
+    if sql.is_empty() {
+        return insert_sql.to_string();
+    }
+    if sql.starts_with(TEMPLATE.order_by.right_space)
+        || sql.starts_with(TEMPLATE.group_by.right_space)
+        || sql.starts_with(TEMPLATE.limit.right_space)
+    {
+        format!(
+            " {} {} {}",
+            TEMPLATE.r#where.value,
+            insert_sql
+                .trim()
+                .trim_end_matches(TEMPLATE.and.left_space),
+            sql
+        )
+    } else {
+        format!(
+            " {} {} {} {}",
+            TEMPLATE.r#where.value,
+            insert_sql
+                .trim()
+                .trim_end_matches(TEMPLATE.and.left_space),
+            TEMPLATE.and.value,
+            sql
+        )
+    }
+}
 
 /// choose table name
 fn choose_dyn_table_name<T>(w: &Wrapper) -> String
@@ -903,7 +958,9 @@ fn make_select_sql<T>(rb: &Mybatis, column: &str, w: &Wrapper) -> Result<String>
     where
         T: CRUDTable,
 {
-    let driver_type = rb.driver_type()?;
+    let driver_type = rb.driver_type().unwrap();
+
+    let where_sql = make_where(&w.sql);
     let table_name = choose_dyn_table_name::<T>(w);
     Ok(format!(
         "{} {} {} {} {}",
@@ -911,7 +968,7 @@ fn make_select_sql<T>(rb: &Mybatis, column: &str, w: &Wrapper) -> Result<String>
         column,
         TEMPLATE.from.value,
         table_name,
-        driver_type.make_where(&w.sql)
+        where_sql,
     ))
 }
 

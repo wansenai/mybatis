@@ -1,9 +1,9 @@
-use mybatis_drive::db::DriverType;
+use mybatis_core::db::DriverType;
 use std::fmt::{Debug, Display};
 use std::future::Future;
 
 use futures_core::future::BoxFuture;
-use mybatis_drive::Error;
+use mybatis_core::Error;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
 use rbson::Bson;
@@ -305,6 +305,46 @@ impl MyBatisReplacePagePlugin {
     }
 }
 
+fn page_limit_sql(driver: DriverType, offset: u64, size: u64) -> Result<String, Error> {
+    return match driver {
+        DriverType::Mysql => Ok(format!(
+            " {} {},{}",
+            TEMPLATE.limit.value,
+            offset,
+            size
+        )),
+        DriverType::Postgres => Ok(format!(
+            " {} {} {} {}",
+            TEMPLATE.limit.value,
+            size,
+            TEMPLATE.offset.value,
+            offset
+        )),
+        DriverType::Sqlite => Ok(format!(
+            " {} {} {} {}",
+            TEMPLATE.limit.value,
+            size,
+            TEMPLATE.offset.value,
+            offset
+        )),
+        DriverType::Mssql => {
+            //sqlserver
+            Ok(format!(
+                " {} {} {} {} {}",
+                TEMPLATE.offset.value,
+                offset,
+                TEMPLATE.rows_fetch_next.value,
+                size,
+                TEMPLATE.rows_only.value
+            ))
+        }
+        DriverType::None => Err(Error::from(format!(
+            "[mybatis] not support now for DriverType:{:?}",
+            DriverType::None
+        ))),
+    };
+}
+
 impl PagePlugin for MyBatisReplacePagePlugin {
     fn make_page_sql(
         &self,
@@ -329,7 +369,7 @@ impl PagePlugin for MyBatisReplacePagePlugin {
             count_sql = self.make_count_sql(&count_sql);
         }
         //limit sql
-        let limit_sql = driver_type.page_limit_sql(page.offset(), page.get_page_size())?;
+        let limit_sql = page_limit_sql(*driver_type ,page.offset(), page.get_page_size()).unwrap();
         match driver_type {
             DriverType::Mssql => {
                 sql = format!(
@@ -389,7 +429,7 @@ impl PagePlugin for MyBatisPackPagePlugin {
             count_sql = self.make_count_sql(&count_sql);
         }
         //limit sql
-        let limit_sql = driver_type.page_limit_sql(page.offset(), page.get_page_size())?;
+        let limit_sql = page_limit_sql(*driver_type ,page.offset(), page.get_page_size()).unwrap();
         match driver_type {
             DriverType::Mssql => {
                 sql = format!(

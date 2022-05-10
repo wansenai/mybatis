@@ -4,13 +4,13 @@ use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
 use once_cell::sync::OnceCell;
-use mybatis_drive::db::DBConnectOption;
+use mybatis_core::db::DBConnectOption;
 use serde::de::DeserializeOwned;
 use serde::ser::Serialize;
 use uuid::Uuid;
 
-use mybatis_drive::db::{DBExecResult, DBPool, DBPoolConn, DBPoolOptions, DBQuery, DBTx, DriverType};
-use mybatis_drive::Error;
+use mybatis_core::db::{DBExecResult, DBPool, DBPoolConn, DBPoolOptions, DBQuery, DBTx, DriverType};
+use mybatis_core::Error;
 use crate::crud::CRUDTable;
 use crate::executor::{MyBatisConnExecutor, MyBatisTxExecutor, MyBatisExecutor};
 use crate::intercept::SqlIntercept;

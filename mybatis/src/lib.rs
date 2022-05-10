@@ -6,17 +6,17 @@
 #![forbid(unsafe_code)]
 
 #[macro_use]
-extern crate mybatis_macros;
+pub extern crate mybatis_macro;
 #[macro_use]
 pub extern crate mybatis_sql;
 
 pub use mybatis_sql::{expr, push_index, rb_html, rb_py, sql_index};
 pub use mybatis_sql::ops::*;
-pub use mybatis_drive::*;
+pub use mybatis_core::*;
 
-pub use mybatis_macros::{crud_table, CRUDTable, html_sql, py_sql, sql};
+pub use mybatis_macro::{crud_table, CRUDTable, html_sql, py_sql, sql};
 
-pub use mybatis_drive::{convert::StmtConvert, db::DriverType, error::Error, error::Result};
+pub use mybatis_core::{convert::StmtConvert, db::DriverType, error::Error, error::Result};
 
 pub use crate::mybatis::AsSqlTag;
 
