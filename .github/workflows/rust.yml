@@ -10,21 +10,16 @@ env:
   CARGO_TERM_COLOR: always
 
 jobs:
-
   build:
-    if: github.repository == 'summer-mybatis/mybatis/'
+
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: summer-rust/summer-mybatis/
+        path: mybatis
     - name: Build
-      uses: actions/checkout@v3
-      with:
-        repository: summer-rust/summer-mybatis
-        path: mybatis
-        run: cargo build --verbose
+      run: cargo build --verbose
     - name: Run tests
-      uses: actions/checkout@v3
-      with:
-        repository: summer-rust/summer-mybatis
-        path: mybatis
-        run: cargo test --verbose
+      run: cargo test --verbose
