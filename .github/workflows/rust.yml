@@ -12,7 +12,7 @@ env:
 jobs:
 
   build:
-    if: github.repository == 'summer-mybatis/mybatis'
+    if: github.repository == 'summer-mybatis/mybatis/'
     runs-on: ubuntu-latest
 
     steps:
