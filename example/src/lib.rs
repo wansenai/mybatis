@@ -1,3 +1,5 @@
+mod pets;
+
 #[cfg(test)]
 mod test {
     #[test]
