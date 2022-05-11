@@ -1,11 +1,12 @@
 [package]
 name = "mybatis"
-version = "1.0.4"
+version = "1.0.5"
 edition = "2021"
 rust-version = "1.59.0"
 authors = ["James Zow <Jameszow@163.com>"]
 license = "Apache-2.0"
 description = "mybatis"
+readme = "README.md"
 keywords = ["mybatis", "orm", "postgres", "mysql", "sqlite"]
 documentation = "https://github.com/summer-rust/summer-mybatis#readme"
 repository = "https://github.com/summer-rust/summer-mybatis"
