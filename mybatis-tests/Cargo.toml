@@ -1,6 +1,6 @@
 [package]
 name = "mybatis-tests"
-version = "1.0.0"
+version = "1.0.3"
 edition = "2021"
 rust-version = "1.59.0"
 authors = ["James Zow <Jameszow@163.com>"]
@@ -9,6 +9,6 @@ description = "mybatis tests"
 publish = false
 
 [dependencies]
-mybatis-core = {version = "1.0.0", path = "../mybatis-core"}
-mybatis-util = {version = "1.0.0", path = "../mybatis-util"}
-mybatis = {version = "1.0.0", path = "../mybatis"}
+mybatis-core = {version = "1.0.3", path = "../mybatis-core"}
+mybatis-util = {version = "1.0.3", path = "../mybatis-util"}
+mybatis = {version = "1.0.4", path = "../mybatis"}
