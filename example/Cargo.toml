@@ -9,4 +9,4 @@ publish = false
 serde = { version = "1", features = ["derive"] }
 rbson = "2.0"
 tokio = { version = "1.18.2", features = ["full"] }
-mybatis = { version = "1.0.2"}
+mybatis = { version = "1.0.7"}
