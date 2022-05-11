@@ -24,7 +24,7 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
     serde = { version = "1", features =  ["derive"] }
     rbson = "2.0"
     tokio = { version = "1.18.2", features = ["full"] }
-    mybatis = { version = "1.0.2"}
+    mybatis = { version = "1.0.6"}
     ```
 * Step2. Create a structure corresponding to the database table and map the method
   
