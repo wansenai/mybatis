@@ -1,11 +1,16 @@
 [package]
 name = "mybatis"
-version = "1.0.2"
+version = "1.0.6"
 edition = "2021"
 rust-version = "1.59.0"
 authors = ["James Zow <Jameszow@163.com>"]
 license = "Apache-2.0"
 description = "mybatis"
+readme = "README.md"
+keywords = ["mybatis", "orm", "postgres", "mysql", "sqlite"]
+documentation = "https://github.com/summer-rust/summer-mybatis#readme"
+repository = "https://github.com/summer-rust/summer-mybatis"
+homepage = "https://github.com/summer-rust/summer-mybatis#readme"
 
 [features]
 default = ["default_mode", "all-database"]
@@ -33,10 +38,10 @@ runtime-async-std-native-tls = ["mybatis-core/runtime-async-std-native-tls"]
 format_bson = ["mybatis-core/format_bson"]
 
 [dependencies]
-mybatis-util = { version = "1.0.0", path = "../mybatis-util", default-features = false}
-mybatis-sql = { version = "1.0.0", path = "../mybatis-sql", default-features = false, optional = true}
-mybatis-core = { version = "1.0.0", path = "../mybatis-core", default-features = false, optional = true}
-mybatis-macro = { version = "1.0.0", path = "../mybatis-macro", default-features = false, optional = true}
+mybatis-util = { version = "1.0.3", path = "../mybatis-util", default-features = false}
+mybatis-sql = { version = "1.0.3", path = "../mybatis-sql", default-features = false, optional = true}
+mybatis-core = { version = "1.0.3", path = "../mybatis-core", default-features = false, optional = true}
+mybatis-macro = { version = "1.0.3", path = "../mybatis-macro", default-features = false, optional = true}
 
 ################################################################
 rbson = { version = "2.0.3", features = ["uuid-0_8", "chrono-0_4"] }

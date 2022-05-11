@@ -1,6 +1,6 @@
 [package]
 name = "mybatis-core"
-version = "1.0.0"
+version = "1.0.3"
 description = "mybatis core by sqlx"
 license = "Apache-2.0"
 edition = "2021"
@@ -9,7 +9,7 @@ authors = [
 ]
 
 [features]
-default = ["all-database"]
+default = ["all-database", "runtime-tokio-rustls"]
 debug_mode = []
 all-database = ["sqlx-core/all-databases", "mysql", "postgres", "sqlite", "mssql", "bit-vec"]
 mysql = ["sqlx-core/mysql"]
