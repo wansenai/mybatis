@@ -1,9 +1,12 @@
-use mybatis::crud::CRUD;
-use mybatis::mybatis_sql::string_util::to_snake_name;
-use mybatis::crud::CRUDTable;
+#[macro_use]
+use mybatis;
+
+use mybatis::{mybatis_sql::string_util::to_snake_name};
 use mybatis::mybatis::Mybatis;
+use mybatis::crud::CRUDTable;
 use mybatis::snowflake::SNOWFLAKE;
 use serde::{Serialize, Deserialize};
+
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pets {
@@ -31,7 +34,7 @@ impl CRUDTable for Pets {
 
 #[cfg(test)]
 mod tests {
-    use mybatis::crud::Skip;
+    use mybatis::crud::{Skip, CRUD};
 
     use super::*;
 

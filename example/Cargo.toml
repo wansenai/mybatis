@@ -9,4 +9,5 @@ publish = false
 serde = { version = "1", features = ["derive"] }
 rbson = "2.0"
 tokio = { version = "1.18.2", features = ["full"] }
-mybatis = { version = "1.0.7"}
+mybatis = { version = "1.0.7", path = "../mybatis", features = ["debug_mode"]}
+mybatis-macro = { version = "1.0.3", path = "../mybatis-macro"}

@@ -1,10 +1,3 @@
-#![allow(unused_imports)]
-#![allow(unreachable_patterns)]
-#![allow(unused_variables)]
-#![allow(unused_assignments)]
-#![allow(unused_must_use)]
-#![forbid(unsafe_code)]
-
 #[macro_use]
 pub extern crate mybatis_macro;
 #[macro_use]
@@ -14,14 +7,19 @@ pub use mybatis_sql::{expr, push_index, rb_html, rb_py, sql_index};
 pub use mybatis_sql::ops::*;
 pub use mybatis_core::*;
 
-pub use mybatis_macro::{crud_table, CRUDTable, html_sql, py_sql, sql};
+pub use mybatis_macro::CRUDTable;
+pub use mybatis_macro::crud_table;
+
+pub use mybatis_macro::{html_sql, py_sql, sql};
 
 pub use mybatis_core::{convert::StmtConvert, db::DriverType, error::Error, error::Result};
 
 pub use crate::mybatis::AsSqlTag;
 
-pub mod crud;
+#[macro_use]
 pub mod mybatis;
+
+pub mod crud;
 pub mod wrapper;
 pub mod executor;
 pub mod intercept;

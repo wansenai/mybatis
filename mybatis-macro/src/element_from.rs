@@ -11,7 +11,6 @@ pub fn as_elements(arg: Vec<NodeType>) -> Vec<Element> {
     res
 }
 
-
 impl From<NodeType> for Element {
     fn from(arg: NodeType) -> Self {
         match arg {
