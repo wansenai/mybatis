@@ -2,6 +2,7 @@
 extern crate mybatis_macro;
 
 use mybatis::mybatis::Mybatis;
+use serde::{Serialize, Deserialize};
 
 #[cfg(test)]
 mod test {
@@ -13,7 +14,7 @@ mod test {
 
 /// this is table model(see ../database.sql)
 
-#[derive(CRUDTable, Clone, Debug)]
+#[derive(CRUDTable, Clone, Debug, Serialize, Deserialize)]
 pub struct BizActivity {
     pub id: Option<String>,
     pub name: Option<String>,
@@ -26,9 +27,4 @@ pub struct BizActivity {
     pub remark: Option<String>,
     pub version: Option<i64>,
     pub delete_flag: Option<i32>,
-}
-
-#[py_sql("example/example.html")]
-pub async fn py_select_rb(mybatis: &Mybatis, name: &str) -> Option<BizActivity> {
-    
 }
