@@ -3,6 +3,9 @@ pub extern crate mybatis_macro;
 #[macro_use]
 pub extern crate mybatis_sql;
 
+// mapping macros
+pub use mybatis_core as core;
+
 pub use mybatis_sql::{expr, push_index, rb_html, rb_py, sql_index};
 pub use mybatis_sql::ops::*;
 pub use mybatis_core::*;

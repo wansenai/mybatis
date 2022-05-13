@@ -1,8 +1,7 @@
 #[macro_use]
-extern crate mybatis_macro;
+extern crate mybatis;
 
-use mybatis::mybatis::Mybatis;
-use serde::{Serialize, Deserialize};
+mod pets;
 
 #[cfg(test)]
 mod test {
@@ -10,21 +9,4 @@ mod test {
     fn test() {
         assert_eq!(4+4, 8);
     }
-}
-
-/// this is table model(see ../database.sql)
-
-#[derive(CRUDTable, Clone, Debug, Serialize, Deserialize)]
-pub struct BizActivity {
-    pub id: Option<String>,
-    pub name: Option<String>,
-    pub pc_link: Option<String>,
-    pub h5_link: Option<String>,
-    pub pc_banner_img: Option<String>,
-    pub h5_banner_img: Option<String>,
-    pub sort: Option<String>,
-    pub status: Option<i32>,
-    pub remark: Option<String>,
-    pub version: Option<i64>,
-    pub delete_flag: Option<i32>,
 }

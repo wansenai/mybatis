@@ -6,7 +6,6 @@ use quote::quote;
 use quote::ToTokens;
 use syn;
 
-
 ///impl CRUDTable
 pub(crate) fn impl_crud_driver(
     ast: &syn::DeriveInput,
@@ -114,7 +113,7 @@ pub(crate) fn impl_crud_driver(
                  #fields
             }
 
-            fn formats(driver_type: &mybatis::core::db::DriverType) -> std::collections::HashMap<String, String> {
+            fn formats(driver_type: mybatis::core::db::DriverType) -> std::collections::HashMap<String, String> {
                   let mut m: std::collections::HashMap<String, String> = std::collections::HashMap::new();
                   match driver_type{
                     mybatis::core::db::DriverType::Mysql=>{

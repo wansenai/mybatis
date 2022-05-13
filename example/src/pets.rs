@@ -1,6 +1,3 @@
-#[macro_use]
-use mybatis;
-
 use mybatis::{mybatis_sql::string_util::to_snake_name};
 use mybatis::mybatis::Mybatis;
 use mybatis::crud::CRUDTable;
@@ -8,28 +5,13 @@ use mybatis::snowflake::SNOWFLAKE;
 use serde::{Serialize, Deserialize};
 
 
+#[crud_table]
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pets {
     pub id: Option<String>,
     pub name: Option<String>,
     pub birthday: Option<mybatis::DateTimeNative>,
     pub delete_flag: Option<i32>,
-}
-
-impl CRUDTable for Pets {
-
-    fn table_name() -> String {
-        let type_name = std::any::type_name::<Self>();
-        let mut name = type_name.to_string();
-        let names: Vec<&str> = name.split("::").collect();
-        name = names.get(names.len() - 1).unwrap_or(&"").to_string();
-
-        to_snake_name(&name)
-    }
-
-    fn table_columns() -> String {
-        String::from("id,name,birthday,delete_flag")
-    }  
 }
 
 #[cfg(test)]

@@ -1,6 +1,6 @@
 [package]
 name = "mybatis-core"
-version = "1.0.3"
+version = "1.0.8"
 description = "mybatis core by sqlx"
 license = "Apache-2.0"
 edition = "2021"
