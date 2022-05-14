@@ -8,7 +8,7 @@ use rbson::spec::BinarySubtype;
 use serde::{Deserializer, Serialize, Serializer};
 use serde::de::{Error, Visitor};
 
-/// Rbatis Decimal
+/// Mybatis Decimal
 #[derive(Clone, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Decimal {
     pub inner: BigDecimal,

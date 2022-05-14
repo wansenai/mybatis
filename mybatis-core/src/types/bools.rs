@@ -3,7 +3,7 @@ use rbson::Bson;
 use serde::{Deserializer, Serializer};
 use serde::de::Error;
 
-/// Rbatis Bool
+/// Mybatis Bool
 /// for example:
 /// let b = Bool::from(true);
 /// let b = Bool::from("true");

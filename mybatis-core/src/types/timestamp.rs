@@ -5,7 +5,7 @@ use serde::{Deserializer, Serializer};
 use serde::de::Error;
 use sqlx_core::types::time;
 
-/// Rbatis Timestamp
+/// Mybatis Timestamp
 /// Rust type                Postgres type(s)
 /// time::PrimitiveDateTime   TIMESTAMP
 /// time::OffsetDateTime      TIMESTAMPTZ
