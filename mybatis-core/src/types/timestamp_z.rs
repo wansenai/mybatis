@@ -10,7 +10,7 @@ use serde::de::Error;
 use sqlx_core::types::time;
 use crate::value::DateTimeNow;
 
-/// Rbatis Timestamp
+/// Mybatis Timestamp
 /// Rust type                Postgres type(s)
 /// time::OffsetDateTime      TIMESTAMPTZ
 #[derive(Clone, Copy, Eq, Hash, Ord, PartialEq, PartialOrd)]

@@ -7,7 +7,7 @@ use serde::{Deserializer, Serializer};
 use chrono::{DateTime, Utc};
 use serde::de::Error;
 
-/// Rbatis DateTime Utc
+/// Mybatis DateTime Utc
 #[derive(Clone, Copy, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct DateTimeUtc {
     pub inner: chrono::DateTime<Utc>,

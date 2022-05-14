@@ -31,7 +31,7 @@ pub(crate) fn impl_macro_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenS
     let sql_ident;
     if args.len() == 1 {
         if mybatis_name.is_empty() {
-            panic!("[mybatis] you should add mybatis ref param  rb:&Rbatis  or rb: &mut RbatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
+            panic!("[mybatis] you should add mybatis ref param  rb:&Mybatis  or rb: &mut MybatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
         }
         sql_ident = args.get(0).expect("[mybatis] miss sql macaro param!").to_token_stream();
     } else if args.len() == 2 {

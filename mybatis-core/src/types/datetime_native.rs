@@ -10,7 +10,7 @@ use serde::{Deserializer, Serializer};
 use serde::de::Error;
 use crate::value::DateTimeNow;
 
-/// Rbatis DateTime
+/// Mybatis DateTime
 #[derive(Clone, Copy, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct DateTimeNative {
     pub inner: chrono::NaiveDateTime,
