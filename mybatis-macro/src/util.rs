@@ -114,11 +114,11 @@ pub(crate) fn is_fetch(return_source: &str) -> bool {
 
 
 pub(crate) fn is_mybatis_ref(ty_stream: &str) -> bool {
-    if ty_stream.contains("RbatisExecutor")
-        || ty_stream.contains("Rbatis")
-        || ty_stream.contains("RBatisConnExecutor")
-        || ty_stream.contains("RBatisTxExecutor")
-        || ty_stream.contains("RBatisTxExecutorGuard") {
+    if ty_stream.contains("MybatisExecutor")
+        || ty_stream.contains("Mybatis")
+        || ty_stream.contains("MyBatisConnExecutor")
+        || ty_stream.contains("MyBatisTxExecutor")
+        || ty_stream.contains("MyBatisTxExecutorGuard") {
         return true;
     }
     false
