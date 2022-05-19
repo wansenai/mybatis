@@ -6,5 +6,4 @@ members = [
     "mybatis-sql",
     "mybatis-util",
     "mybatis",
-    "mybatis-tests",
 ]
