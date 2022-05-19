@@ -21,15 +21,17 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 * Add mybatis dependency
     
     ```rust
+    mybatis = { version = "1.0.8"}
+    
+    /// other dependencys
     serde = { version = "1", features =  ["derive"] }
     rbson = "2.0"
     tokio = { version = "1.18.2", features = ["full"] }
-    mybatis = { version = "1.0.7"}
     ```
 
 * Example
     
-    <details>
+    <details open=“open”>
     <summary> Use #[mybatis_plus] macro data table mapping </summary>
     
     ```rust
