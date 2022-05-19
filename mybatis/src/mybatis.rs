@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use mybatis_core::db::{DBExecResult, DBPool, DBPoolConn, DBPoolOptions, DBQuery, DBTx, DriverType};
 use mybatis_core::Error;
-use crate::crud::CRUDTable;
+use crate::plus::MybatisPlus;
 use crate::executor::{MyBatisConnExecutor, MyBatisTxExecutor, MyBatisExecutor};
 use crate::intercept::SqlIntercept;
 use crate::log::{LogPlugin, MyBatisLogPlugin};
@@ -117,7 +117,7 @@ impl Mybatis {
     /// try return an new wrapper and set table formats,if not call the link() method,it will be panic!
     pub fn new_wrapper_table<T>(&self) -> Wrapper
         where
-            T: CRUDTable,
+            T: MybatisPlus,
     {
         let mut w = self.new_wrapper();
         let formats = T::formats(self.driver_type().unwrap());

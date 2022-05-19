@@ -71,7 +71,7 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
     {
         let page_ident = get_page_req_ident(target_fn, &func_name_ident.to_string());
         call_method = quote! {
-            use mybatis::crud::{CRUD,CRUDMut};
+            use mybatis::plus::{Mapping, MappingMut};
             #mybatis_ident.fetch_page(&sql,mybatis_args,#page_ident).await
         };
         println!("gen return");

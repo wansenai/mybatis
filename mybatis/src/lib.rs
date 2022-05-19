@@ -22,7 +22,7 @@ pub use crate::mybatis::AsSqlTag;
 #[macro_use]
 pub mod mybatis;
 
-pub mod crud;
+pub mod plus;
 pub mod wrapper;
 pub mod executor;
 pub mod intercept;
