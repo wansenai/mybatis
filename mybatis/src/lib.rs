@@ -6,14 +6,14 @@ pub extern crate mybatis_sql;
 // mapping macros
 pub use mybatis_core as core;
 
-pub use mybatis_sql::{expr, push_index, rb_html, rb_py, sql_index};
+pub use mybatis_sql::{expr, push_index, html, py, sql_index};
 pub use mybatis_sql::ops::*;
 pub use mybatis_core::*;
 
-pub use mybatis_macro::CRUDTable;
-pub use mybatis_macro::crud_table;
+pub use mybatis_macro::MybatisPlus;
+pub use mybatis_macro::mybatis_plus;
 
-pub use mybatis_macro::{html_sql, py_sql, sql};
+pub use mybatis_macro::{mybatis_html, py_sql, mybatis_sql};
 
 pub use mybatis_core::{convert::StmtConvert, db::DriverType, error::Error, error::Result};
 
