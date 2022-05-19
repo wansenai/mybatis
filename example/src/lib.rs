@@ -2,6 +2,7 @@
 extern crate mybatis;
 
 mod pets;
+mod books;
 mod connection;
 mod plugin_page_test;
 mod snowflake_test;

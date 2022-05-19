@@ -1,4 +1,4 @@
-use mybatis::crud::CRUD;
+use mybatis::plus::Mapping;
 use mybatis::mybatis::Mybatis;
 
 
