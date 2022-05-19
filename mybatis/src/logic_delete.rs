@@ -6,7 +6,7 @@ use mybatis_core::db::DriverType;
 use mybatis_core::Error;
 use mybatis_sql::TEMPLATE;
 use mybatis_sql::rule::SqlRule;
-use crate::crud::{CRUDTable, Skip};
+use crate::plus::{MybatisPlus, Skip};
 use std::ops::{Deref, DerefMut};
 use std::collections::HashMap;
 use serde::{Serialize, Deserialize, Serializer, Deserializer};

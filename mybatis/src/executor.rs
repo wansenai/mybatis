@@ -10,7 +10,7 @@ use serde::de::DeserializeOwned;
 use serde::{Serialize, Serializer};
 use mybatis_core::db::{DBPool, DBPoolConn, DBQuery, DBTx};
 use mybatis_core::Error;
-use crate::crud::{CRUD, CRUDMut};
+use crate::plus::{Mapping, MappingMut};
 use crate::DriverType;
 use crate::page::{IPageRequest, Page};
 use crate::mybatis::Mybatis;

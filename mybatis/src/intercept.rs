@@ -1,6 +1,6 @@
 use mybatis_core::convert::StmtConvert;
 
-use crate::crud::CRUDTable;
+use crate::plus::MybatisPlus;
 use crate::mybatis::Mybatis;
 use mybatis_core::db::DriverType;
 use mybatis_core::Error;
