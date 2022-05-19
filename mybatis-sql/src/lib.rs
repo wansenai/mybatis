@@ -33,4 +33,4 @@ pub mod sql_replace;
 #[macro_use]
 use mybatis_macro::*;
 
-pub use mybatis_macro::{expr, rb_html, rb_py};
+pub use mybatis_macro::{expr, html, py};
