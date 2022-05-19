@@ -2,6 +2,11 @@
 extern crate mybatis;
 
 mod pets;
+mod connection;
+mod plugin_page_test;
+mod snowflake_test;
+mod string_util_test;
+mod wrapper_test;
 
 #[cfg(test)]
 mod test {
