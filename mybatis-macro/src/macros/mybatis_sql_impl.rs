@@ -47,7 +47,7 @@ pub(crate) fn impl_macro_mybatis_sql(target_fn: &ItemFn, args: &AttributeArgs) -
     let is_async = target_fn.sig.asyncness.is_some();
     if !is_async {
         panic!(
-            "[rbaits] #[crud_table] 'fn {}({})' must be  async fn! ",
+            "[mybatis] #[mybatis_plus] 'fn {}({})' must be  async fn! ",
             func_name_ident, func_args_stream
         );
     }

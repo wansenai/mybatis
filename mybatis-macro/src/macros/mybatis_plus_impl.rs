@@ -99,7 +99,7 @@ pub(crate) fn impl_mybatis_plus_driver(
 
 
     let gen = quote! {
-        impl mybatis::crud::CRUDTable for #name {
+        impl mybatis::plus::MybatisPlus for #name {
 
             fn get(&self, column: &str) -> rbson::Bson {
                 #get_matchs
@@ -286,7 +286,7 @@ pub struct CrudEnableConfig {
     pub formats: HashMap<String, String>,
 }
 
-/// impl the crud macro
+/// impl the plus macro
 pub(crate) fn impl_mybatis_plus(args: TokenStream, input: TokenStream) -> TokenStream {
     let arg_str = args.to_string();
     let config = read_config(&arg_str);

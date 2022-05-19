@@ -43,7 +43,7 @@ pub(crate) fn impl_macro_mybatis_html(target_fn: &ItemFn, args: &AttributeArgs) 
     let is_async = target_fn.sig.asyncness.is_some();
     if !is_async {
         panic!(
-            "[rbaits] #[crud_table] 'fn {}({})' must be  async fn! ",
+            "[mybatis] #[mybatis_plus] 'fn {}({})' must be  async fn! ",
             func_name_ident, func_args_stream
         );
     }
@@ -67,7 +67,7 @@ pub(crate) fn impl_macro_mybatis_html(target_fn: &ItemFn, args: &AttributeArgs) 
     {
         let page_ident = get_page_req_ident(target_fn, &func_name_ident.to_string());
         call_method = quote! {
-            use mybatis::crud::{CRUD,CRUDMut};
+            use mybatis::plus::{Mapping,MappingMut};
             #mybatis_ident.fetch_page(&sql,rb_args,#page_ident).await
         };
         println!("gen return");
