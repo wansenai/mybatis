@@ -19,7 +19,7 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 ## Getting Started
 
 * Add mybatis dependency
-
+    
     ```rust
     serde = { version = "1", features =  ["derive"] }
     rbson = "2.0"
@@ -27,7 +27,10 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
     mybatis = { version = "1.0.7"}
     ```
 
-* Use #[mybatis_plus] macros data table mapping
+* Example
+    
+    <details>
+    <summary> Use #[mybatis_plus] macro data table mapping </summary>
     
     ```rust
     use serde::{Serialize, Deserialize};
@@ -65,9 +68,11 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
         }
     }
     ```
+    </details>
 
-* If you don't want to use macros, you can create a structure corresponding to the database table and map the method
-  
+    <details>
+    <summary>If you don't want to use macros, you can create a structure corresponding to the database table and map the method </summary>
+        
     ```rust
     use mybatis::mybatis_sql::string_util::to_snake_name;
     use mybatis::plus::MybatisPlus;
@@ -139,6 +144,7 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
         }
     }
     ```
+    </details>
  
 ## Contribution
 
