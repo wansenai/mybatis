@@ -1,7 +1,5 @@
-use mybatis::{mybatis_sql::string_util::to_snake_name};
-use mybatis::mybatis::Mybatis;
+use mybatis::mybatis_sql::string_util::to_snake_name;
 use mybatis::plus::MybatisPlus;
-use mybatis::snowflake::SNOWFLAKE;
 use serde::{Serialize, Deserialize};
 
 
@@ -32,6 +30,8 @@ impl MybatisPlus for Pets {
 
 #[cfg(test)]
 mod tests {
+    use mybatis::mybatis::Mybatis;
+    use mybatis::snowflake::SNOWFLAKE;
     use mybatis::plus::{Skip, Mapping};
 
     use super::*;

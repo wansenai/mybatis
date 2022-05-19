@@ -18,23 +18,66 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 
 ## Getting Started
 
-* Step1. Add mybatis dependency
-
+* Add mybatis dependency
+    
     ```rust
-    mybatis = { version = "1.0.8"}
-    // other dependency
+    mybatis = { version = "2.0.0"}
+    
+    /// other dependencys
     serde = { version = "1", features =  ["derive"] }
     rbson = "2.0"
     tokio = { version = "1.18.2", features = ["full"] }
     ```
-* Step2. Create a structure corresponding to the database table and map the method
-  
+
+* Example
+    
+    <details open=“open”>
+    <summary> Use #[mybatis_plus] macro data table mapping </summary>
+    
     ```rust
-    use mybatis::crud::CRUD;
+    use serde::{Serialize, Deserialize};
+
+    #[mybatis_plus]
+    #[derive(Debug, Serialize, Deserialize)]
+    pub struct Books {
+        pub id: Option<String>,
+        pub name: Option<String>,
+        pub types: Option<String>
+    }
+
+
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        use mybatis::mybatis::Mybatis;
+        use mybatis::snowflake::SNOWFLAKE;
+        use mybatis::plus::Mapping;
+
+        #[tokio::test]
+        async fn save_books() {
+            let mybatis = Mybatis::new();
+
+            mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
+
+            let id = SNOWFLAKE.generate();
+            let cat = Books {
+                id: Some(id.to_string()),
+                name: Some("《Daughter of the sea》".to_string()),
+                types: Some("Fairy Tales".to_string()),
+            };
+    
+            mybatis.save(&cat,&[]).await;
+        }
+    }
+    ```
+    </details>
+
+    <details>
+    <summary>If you don't want to use macros, you can create a structure corresponding to the database table and map the method </summary>
+        
+    ```rust
     use mybatis::mybatis_sql::string_util::to_snake_name;
-    use mybatis::crud::CRUDTable;
-    use mybatis::mybatis::Mybatis;
-    use mybatis::snowflake::SNOWFLAKE;
+    use mybatis::plus::MybatisPlus;
     use serde::{Serialize, Deserialize};
     
     #[derive(Debug, Serialize, Deserialize)]
@@ -45,7 +88,7 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
       pub delete_flag: Option<i32>,
     }
     
-    impl CRUDTable for Pets {
+    impl MybatisPlus for Pets {
 
       fn table_name() -> String {
           let type_name = std::any::type_name::<Self>();
@@ -61,133 +104,49 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
       }
       
     }
+    
+    #[cfg(test)]
+    mod tests {
+        use super::*;
+        use mybatis::mybatis::Mybatis;
+        use mybatis::snowflake::SNOWFLAKE;
+        use mybatis::plus::{Skip, Mapping};
+
+        ///
+        /// Save a single object 
+        ///
+        #[tokio::test]
+        async fn save_pets() {
+            let mybatis = Mybatis::new();
+
+            mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
+
+            let id = SNOWFLAKE.generate();
+            let cat = Pets {
+                id: Some(id.to_string()),
+                name: Some("Cindy".to_string()),
+                birthday: Some(mybatis::DateTimeNative::now()),
+                delete_flag: Some(0),
+            };
+    
+            mybatis.save(&cat,&[]).await;
+        }
+
+        ///
+        /// Query a single object according to the specified field and return Option<Object>
+        ///
+        #[tokio::test]
+        async fn query_pet_by_name() {
+            let mybatis = Mybatis::new();
+
+            mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
+
+            let result: Option<Pets> = mybatis.fetch_by_column("name", &"Cindy").await.unwrap();
+            println!("result: {:?}", result);
+        }
+    }
     ```
-* Next, you can do some database business operations
-
-  ```rust
-  ///
-  /// Save a single object 
-  ///
-  #[tokio::test]
-  async fn save_pets() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-
-      let id = SNOWFLAKE.generate();
-      let cat = Pets {
-          id: Some(id.to_string()),
-          name: Some("Cindy".to_string()),
-          birthday: Some(mybatis::DateTimeNative::now()),
-          delete_flag: Some(0),
-      };
-    
-      mybatis.save(&cat,&[]).await;
-  }
-  
-  ///
-  /// Batch insert multiple objects
-  ///
-  #[tokio::test]
-  async fn save_batch_pets() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-
-      let cat = Pets {
-          id: Some(SNOWFLAKE.generate().to_string()),
-          name: Some("Tom".to_string()),
-          birthday: Some(mybatis::DateTimeNative::now()),
-          delete_flag: Some(0),
-      };
-
-      let dog = Pets {
-          id: Some(SNOWFLAKE.generate().to_string()),
-          name: Some("Jerry".to_string()),
-          birthday: Some(mybatis::DateTimeNative::now()),
-          delete_flag: Some(0),
-      };
-    
-      mybatis.save_batch(&vec![cat, dog],&[]).await;
-  }
-  
-  ///
-  /// Query multiple results and return dynamic array
-  ///
-  #[tokio::test]
-  async fn query_all_pets() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-
-      let result: Vec<Pets> = mybatis.fetch_list().await.unwrap();
-      println!("result: {:?}", result);
-  }
-  
-  ///
-  /// Query a single object according to the specified field and return Option<Object>
-  ///
-  #[tokio::test]
-  async fn query_pet_by_name() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-
-      let result: Option<Pets> = mybatis.fetch_by_column("name", &"Cindy").await.unwrap();
-      println!("result: {:?}", result);
-  }
-  
-  ///
-  /// Object modification through wrapper constructor
-  ///
-  #[tokio::test]
-  async fn update_pet_by_name() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-
-      let update_wrapper = mybatis.new_wrapper().eq("name", "Tom");
-
-      let james = Pets {
-          id: None,
-          name: Some("James".to_string()),
-          birthday: None,
-          delete_flag: None,
-      };
-      
-      // Specifies which fields skip modifying the mapping
-      let mut skip_columns = Vec::new();
-      skip_columns.push(Skip::Column("id"));
-      skip_columns.push(Skip::Column("birthday"));
-      skip_columns.push(Skip::Column("delete_flag"));
-
-      mybatis.update_by_wrapper(&james, update_wrapper, &skip_columns).await;
-  }
-  
-  ///
-  /// Physically delete a single object
-  ///
-  #[tokio::test]
-  async fn delete_pet_by_name() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-      mybatis.remove_by_column::<Pets,_>("name", "James").await;
-  }
-  
-  
-  ///
-  /// Physical batch deletion of multiple objects
-  ///
-  #[tokio::test]
-  async fn delete_betch_pet_by_name() {
-      let mybatis = Mybatis::new();
-
-      mybatis.link("mysql://root:passw0rd@localhost:3306/test").await.unwrap();
-
-      mybatis.remove_batch_by_column::<Pets,_>("name", &["Cindy", "Jerry"]).await;
-  }
-  ```
+    </details>
  
 ## Contribution
 
