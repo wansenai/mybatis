@@ -3,7 +3,7 @@ use mybatis::mybatis::Mybatis;
 
 
 #[cfg(test)]
-mod test {
+mod tests {
     use super::*;
 
     // #[tokio::test]

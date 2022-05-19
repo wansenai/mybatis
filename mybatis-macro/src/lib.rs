@@ -4,9 +4,9 @@ extern crate proc_macro;
 use syn::{AttributeArgs, DataStruct, ItemFn, parse_macro_input};
 
 use crate::proc_macro::TokenStream;
-use crate::macros::crud_table_impl::{impl_crud_driver, impl_crud};
-use crate::macros::html_sql_impl::impl_macro_html_sql;
-use crate::macros::sql_impl::impl_macro_sql;
+use crate::macros::mybatis_plus_impl::{impl_mybatis_plus_driver, impl_mybatis_plus};
+use crate::macros::mybatis_html_impl::impl_macro_mybatis_html;
+use crate::macros::mybatis_sql_impl::impl_macro_mybatis_sql;
 use crate::macros::py_sql_impl::{impl_macro_py_sql};
 
 mod func;
@@ -20,14 +20,14 @@ use std::collections::HashMap;
 mod macros;
 mod util;
 
-#[proc_macro_derive(CRUDTable)]
-pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
+#[proc_macro_derive(MybatisPlus)]
+pub fn macro_derive(input: TokenStream) -> TokenStream {
     let ast = syn::parse(input).unwrap();
-    let stream = impl_crud_driver(&ast, "", "", &HashMap::new());
+    let stream = impl_mybatis_plus_driver(&ast, "", "", &HashMap::new());
     #[cfg(feature = "debug_mode")]
         {
-            println!("............gen impl CRUDTable:\n {}", stream);
-            println!("............gen impl CRUDTable end............");
+            println!("............gen impl MybatisPlus:\n {}", stream);
+            println!("............gen impl MybatisPlus end............");
         }
 
     stream
@@ -41,13 +41,13 @@ pub fn hello_macro_derive(input: TokenStream) -> TokenStream {
 ///
 /// or:
 ///     #[sql("select * from biz_activity where id = ?")]
-///     async fn select(rb:&Mybatis, name: &str) -> BizActivity {}
+///     async fn select(mybatis:&Mybatis, name: &str) -> BizActivity {}
 ///
 #[proc_macro_attribute]
-pub fn sql(args: TokenStream, func: TokenStream) -> TokenStream {
+pub fn mybatis_sql(args: TokenStream, func: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
     let target_fn: ItemFn = syn::parse(func).unwrap();
-    let stream = impl_macro_sql(&target_fn, &args);
+    let stream = impl_macro_mybatis_sql(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
         {
             println!("............gen macro sql:\n {}", stream);
@@ -64,7 +64,7 @@ pub fn sql(args: TokenStream, func: TokenStream) -> TokenStream {
 ///  async fn py_select_page(page_req: &PageRequest, name: &str) -> Page<BizActivity> { }
 ///  or:
 ///  #[py_sql("select * from biz_activity where delete_flag = 0")]
-///  async fn py_select_page(rb: &mut MybatisExecutor<'_,'_>, page_req: &PageRequest, name: &str) -> Page<BizActivity> { }
+///  async fn py_select_page(mybatis: &mut MybatisExecutor<'_,'_>, page_req: &PageRequest, name: &str) -> Page<BizActivity> { }
 ///
 ///  or more example:
 ///  #[py_sql("
@@ -93,7 +93,7 @@ pub fn sql(args: TokenStream, func: TokenStream) -> TokenStream {
 ///         otherwise:
 ///           AND age = 0
 ///     WHERE id  = '2'")]
-///   pub async fn py_select_rb(mybatis: &Mybatis, name: &str) -> Option<BizActivity> {}
+///   pub async fn py_select_mybatis(mybatis: &Mybatis, name: &str) -> Option<BizActivity> {}
 #[proc_macro_attribute]
 pub fn py_sql(args: TokenStream, func: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
@@ -112,18 +112,18 @@ pub fn py_sql(args: TokenStream, func: TokenStream) -> TokenStream {
 ///
 /// pub static RB:Lazy<Mybatis> = Lazy::new(||Mybatis::new());
 /// #[py_sql(RB,"example/example.html")]
-/// pub async fn py_select_rb(name: &str) -> Option<BizActivity> {}
+/// pub async fn py_select_mybatis(name: &str) -> Option<BizActivity> {}
 ///
 /// or:
 ///
 /// #[py_sql("example/example.html")]
-/// pub async fn py_select_rb(mybatis: &Mybatis, name: &str) -> Option<BizActivity> {}
+/// pub async fn py_select_mybatis(mybatis: &Mybatis, name: &str) -> Option<BizActivity> {}
 ///
 #[proc_macro_attribute]
-pub fn html_sql(args: TokenStream, func: TokenStream) -> TokenStream {
+pub fn mybatis_html(args: TokenStream, func: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
     let target_fn: ItemFn = syn::parse(func).unwrap();
-    let stream = impl_macro_html_sql(&target_fn, &args);
+    let stream = impl_macro_mybatis_html(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
         {
             println!("............gen macro html_sql :\n {}", stream);
@@ -133,10 +133,10 @@ pub fn html_sql(args: TokenStream, func: TokenStream) -> TokenStream {
 }
 
 
-/// CRUD table,You can define functionality using the following properties
-/// #[crud_table]
-/// #[crud_table(table_name:"biz_activity")]
-/// #[crud_table(table_name:"biz_activity" | table_columns:"id,name,version,delete_flag" | formats_pg:"id:{}::uuid,name:{}::string")]
+/// Mybatis Plus,You can define functionality using the following properties
+/// #[mybatis_plus]
+/// #[mybatis_plus(table_name:"biz_activity")]
+/// #[mybatis_plus(table_name:"biz_activity" | table_columns:"id,name,version,delete_flag" | formats_pg:"id:{}::uuid,name:{}::string")]
 /// pub struct BizActivity {
 ///   pub id: Option<String>,
 ///   pub name: Option<String>,
@@ -144,8 +144,8 @@ pub fn html_sql(args: TokenStream, func: TokenStream) -> TokenStream {
 ///   pub delete_flag: Option<i32>,
 /// }
 #[proc_macro_attribute]
-pub fn crud_table(args: TokenStream, input: TokenStream) -> TokenStream {
-    let stream = impl_crud(args, input);
+pub fn mybatis_plus(args: TokenStream, input: TokenStream) -> TokenStream {
+    let stream = impl_mybatis_plus(args, input);
     #[cfg(feature = "debug_mode")]
         {
             println!("............gen impl CRUDTable:\n {}", stream);
@@ -170,7 +170,7 @@ pub fn expr(args: TokenStream, func: TokenStream) -> TokenStream {
 
 
 #[proc_macro_attribute]
-pub fn rb_html(args: TokenStream, func: TokenStream) -> TokenStream {
+pub fn html(args: TokenStream, func: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
     let target_fn = syn::parse(func).unwrap();
     let stream = parser::impl_fn_html(&target_fn, &args);
@@ -184,14 +184,14 @@ pub fn rb_html(args: TokenStream, func: TokenStream) -> TokenStream {
 
 /// support py_sql fn convert
 #[proc_macro_attribute]
-pub fn rb_py(args: TokenStream, func: TokenStream) -> TokenStream {
+pub fn py(args: TokenStream, func: TokenStream) -> TokenStream {
     let args = parse_macro_input!(args as AttributeArgs);
     let target_fn = syn::parse(func).unwrap();
     let stream = parser::impl_fn_py(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
         {
-            println!("............gen rb_pysql_fn:\n {}", stream);
-            println!("............gen rb_pysql_fn end............");
+            println!("............gen pysql_fn:\n {}", stream);
+            println!("............gen pysql_fn end............");
         }
     stream
 }

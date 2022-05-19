@@ -5,7 +5,7 @@ use mybatis::snowflake::SNOWFLAKE;
 use serde::{Serialize, Deserialize};
 
 
-#[crud_table]
+#[mybatis_plus]
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Pets {
     pub id: Option<String>,

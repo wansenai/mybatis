@@ -10,3 +10,5 @@ serde = { version = "1", features = ["derive"] }
 rbson = "2.0"
 tokio = { version = "1.18.2", features = ["full"] }
 mybatis = { path = "../mybatis", features = ["debug_mode"]}
+mybatis-util = {version = "1.0.8", path = "../mybatis-util"}
+mybatis-core = {version = "1.0.8", path = "../mybatis-core"}

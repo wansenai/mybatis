@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod test {
+mod tests {
     use mybatis_util::string_util::{find_convert_string, un_packing_string};
 
     #[test]

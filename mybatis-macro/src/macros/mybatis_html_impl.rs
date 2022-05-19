@@ -6,7 +6,7 @@ use crate::proc_macro::TokenStream;
 use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref};
 use crate::macros::py_sql_impl;
 
-pub(crate) fn impl_macro_html_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
+pub(crate) fn impl_macro_mybatis_html(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
     let return_ty = find_return_type(target_fn);
     let func_name_ident = target_fn.sig.ident.to_token_stream();
 

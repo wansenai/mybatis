@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod test {
+mod tests {
     use mybatis_core::db::DriverType;
     use mybatis::page::{PagePlugin, PageRequest, MyBatisReplacePagePlugin};
 

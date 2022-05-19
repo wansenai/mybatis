@@ -7,8 +7,8 @@ use syn::{AttributeArgs, FnArg, ItemFn};
 use crate::proc_macro::TokenStream;
 use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref};
 
-//impl sql macro
-pub(crate) fn impl_macro_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
+//impl mybatis_sql macro
+pub(crate) fn impl_macro_mybatis_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
     let return_ty = find_return_type(target_fn);
     let func_name_ident = target_fn.sig.ident.to_token_stream();
 
@@ -33,11 +33,11 @@ pub(crate) fn impl_macro_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenS
         if mybatis_name.is_empty() {
             panic!("[mybatis] you should add mybatis ref param  rb:&Mybatis  or rb: &mut MybatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
         }
-        sql_ident = args.get(0).expect("[mybatis] miss sql macaro param!").to_token_stream();
+        sql_ident = args.get(0).expect("[mybatis] miss mybatis_sql macaro param!").to_token_stream();
     } else if args.len() == 2 {
         mybatis_ident = args.get(0).expect("[mybatis] miss mybatis ident param!").to_token_stream();
         mybatis_name = format!("{}", mybatis_ident);
-        sql_ident = args.get(1).expect("[mybatis] miss sql macro sql param!").to_token_stream();
+        sql_ident = args.get(1).expect("[mybatis] miss mybatis_sql macro sql param!").to_token_stream();
     } else {
         panic!("[mybatis] Incorrect macro parameter length!");
     }

@@ -7,7 +7,7 @@ use quote::ToTokens;
 use syn;
 
 ///impl CRUDTable
-pub(crate) fn impl_crud_driver(
+pub(crate) fn impl_mybatis_plus_driver(
     ast: &syn::DeriveInput,
     arg_table_name: &str,
     arg_table_columns: &str,
@@ -161,10 +161,10 @@ fn gen_format(v: &str) -> proc_macro2::TokenStream {
     }
     for item in new_items {
         if !item.contains(":") {
-            panic!("[mybatis] #[crud_table] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
+            panic!("[mybatis] #[mybatis_plus] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
         }
         if !item.contains("{}") {
-            panic!("[mybatis] #[crud_table] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
+            panic!("[mybatis] #[mybatis_plus] format_str:'{}' must be [column]:[format_string],for example ->  '{}'  ", item, "formats_pg:id:{}::uuid");
         }
         let index = item.find(":").unwrap();
         let column = item[0..index].trim_start().to_string();
@@ -239,7 +239,7 @@ fn gen_fields(data: &syn::Data) -> Vec<Ident> {
             }
         }
         _ => {
-            panic!("[mybatis] #[crud_table] only support struct for crud_table's macro!")
+            panic!("[mybatis] #[mybatis_plus] only support struct for mybatis_plus's macro!")
         }
     }
     fields
@@ -287,14 +287,14 @@ pub struct CrudEnableConfig {
 }
 
 /// impl the crud macro
-pub(crate) fn impl_crud(args: TokenStream, input: TokenStream) -> TokenStream {
+pub(crate) fn impl_mybatis_plus(args: TokenStream, input: TokenStream) -> TokenStream {
     let arg_str = args.to_string();
     let config = read_config(&arg_str);
     let token_string = input.to_string();
     let input_clone: proc_macro2::TokenStream = input.clone().into();
     let driver_token = gen_driver_token(&token_string);
     let ast = syn::parse(input).unwrap();
-    let stream = impl_crud_driver(
+    let stream = impl_mybatis_plus_driver(
         &ast,
         &config.table_name,
         &config.table_columns,
@@ -333,7 +333,7 @@ fn read_config(arg: &str) -> CrudEnableConfig {
             continue;
         }
         if !item.contains(":") {
-            panic!("[rbaits] #[crud_table] crud_table must be key:value");
+            panic!("[rbaits] #[mybatis_plus] mybatis_plus must be key:value");
         }
         let index = item.find(":").unwrap();
         let key = item[0..index].trim().to_string();
@@ -352,7 +352,7 @@ fn read_config(arg: &str) -> CrudEnableConfig {
                 || k.ends_with("formats_sqlite")
                 || k.ends_with("formats_mssql"))
             {
-                panic!("[mybatis] #[crud_table] formats must be formats_pg, formats_mysql,formats_sqlite,formats_mssql!");
+                panic!("[mybatis] #[mybatis_plus] formats must be formats_pg, formats_mysql,formats_sqlite,formats_mssql!");
             }
             formats.insert(k.to_owned(), v.to_owned());
         }

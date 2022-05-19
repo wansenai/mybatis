@@ -7,7 +7,7 @@ use crate::proc_macro::TokenStream;
 use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref};
 
 ///py_sql macro
-///support args for RB:&Mybatis,page:&PageRequest
+///support args for &Mybatis,page:&PageRequest
 ///support return for Page<*>
 pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
     let return_ty = find_return_type(target_fn);
@@ -30,7 +30,7 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
     let sql_ident;
     if args.len() == 1 {
         if mybatis_name.is_empty() {
-            panic!("[mybatis] you should add mybatis ref param  rb:&Mybatis  or rb: &mut MybatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
+            panic!("[mybatis] you should add mybatis ref param  mybatis:&Mybatis  or mybatis: &mut MybatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
         }
         sql_ident = args.get(0).expect("[mybatis] miss pysql sql param!").to_token_stream();
     } else if args.len() == 2 {
@@ -47,7 +47,7 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
     let func_name_ident = target_fn.sig.ident.to_token_stream();
     if !is_async {
         panic!(
-            "[rbaits] #[crud_table] 'fn {}({})' must be  async fn! ",
+            "[mybatis] #[mybatis_plus] 'fn {}({})' must be  async fn! ",
             func_name_ident, func_args_stream
         );
     }
@@ -58,12 +58,12 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
     if is_fetch {
         call_method = quote! {
              use mybatis::executor::{Executor,ExecutorMut};
-             #mybatis_ident.fetch(&sql,rb_args).await
+             #mybatis_ident.fetch(&sql,mybatis_args).await
         };
     } else {
         call_method = quote! {
              use mybatis::executor::{Executor,ExecutorMut};
-             #mybatis_ident.exec(&sql,rb_args).await
+             #mybatis_ident.exec(&sql,mybatis_args).await
         };
     }
     if return_ty.to_string().contains("Page <")
@@ -72,7 +72,7 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
         let page_ident = get_page_req_ident(target_fn, &func_name_ident.to_string());
         call_method = quote! {
             use mybatis::crud::{CRUD,CRUDMut};
-            #mybatis_ident.fetch_page(&sql,rb_args,#page_ident).await
+            #mybatis_ident.fetch_page(&sql,mybatis_args,#page_ident).await
         };
         println!("gen return");
     }
@@ -81,16 +81,16 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
     return quote! {
        pub async fn #func_name_ident(#func_args_stream) -> #return_ty {
          let mut sql = #sql_ident.to_string();
-         let mut rb_arg_map = rbson::Document::new();
+         let mut mybatis_arg_map = rbson::Document::new();
          #sql_args_gen
          #fn_body
          use mybatis::executor::{MybatisRef};
          let driver_type = #mybatis_ident.get_mybatis().driver_type()?;
          use mybatis::{mybatis_sql,AsSqlTag};
          let sql_tag = driver_type.sql_tag();
-         #[rb_py(#sql_ident)]
+         #[py(#sql_ident)]
          pub fn #func_name_ident(arg: &rbson::Bson, _tag: char) {}
-         let (mut sql,rb_args) = #func_name_ident(&rbson::Bson::Document(rb_arg_map), sql_tag);
+         let (mut sql,mybatis_args) = #func_name_ident(&rbson::Bson::Document(mybatis_arg_map), sql_tag);
          driver_type.do_replace_tag(&mut sql);
          #call_method
        }
@@ -112,7 +112,7 @@ pub(crate) fn filter_args_context_id(
         }
         sql_args_gen = quote! {
              #sql_args_gen
-             rb_arg_map.insert(#item_ident_name.to_string(),rbson::to_bson(#item_ident).unwrap_or_default());
+             mybatis_arg_map.insert(#item_ident_name.to_string(),rbson::to_bson(#item_ident).unwrap_or_default());
         };
     }
     sql_args_gen
