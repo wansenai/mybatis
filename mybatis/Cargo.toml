@@ -41,7 +41,7 @@ format_bson = ["mybatis-core/format_bson"]
 mybatis-util = { version = "2.0.0", path = "../mybatis-util", default-features = false}
 mybatis-sql = { version = "2.0.0", path = "../mybatis-sql", default-features = false, optional = true}
 mybatis-core = { version = "2.0.0", path = "../mybatis-core", default-features = false, optional = true}
-mybatis-macro = { version = "2.0.0", path = "../mybatis-macro", default-features = false, optional = true}
+mybatis-macro = { version = "2.0.1", path = "../mybatis-macro", default-features = false, optional = true}
 
 ################################################################
 rbson = { version = "2.0.3", features = ["uuid-0_8", "chrono-0_4"] }
