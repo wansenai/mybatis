@@ -1,6 +1,6 @@
 #[cfg(test)]
 mod tests {
-    use mybatis::{snowflake::new_snowflake_id};
+    use mybatis::snowflake::new_snowflake_id;
 
     #[test]
     fn test_new_block_id() {
@@ -10,7 +10,5 @@ mod tests {
 
     //cargo test --release --package mybatis --test snowflake_test test::test_bench_new_block_id --no-fail-fast -- --exact -Z unstable-options --show-output
     #[test]
-    fn test_bench_new_block_id() {
-        
-    }
+    fn test_bench_new_block_id() {}
 }

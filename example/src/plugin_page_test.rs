@@ -1,7 +1,7 @@
 #[cfg(test)]
 mod tests {
+    use mybatis::page::{MyBatisReplacePagePlugin, PagePlugin, PageRequest};
     use mybatis_core::db::DriverType;
-    use mybatis::page::{PagePlugin, PageRequest, MyBatisReplacePagePlugin};
 
     #[test]
     fn test_page() {
@@ -19,7 +19,14 @@ mod tests {
         b.name
     order by
         total desc";
-        let (count, select) = pack_page.make_page_sql(&DriverType::Postgres, &sql, &vec![], &PageRequest::new(1, 10)).unwrap();
+        let (count, select) = pack_page
+            .make_page_sql(
+                &DriverType::Postgres,
+                &sql,
+                &vec![],
+                &PageRequest::new(1, 10),
+            )
+            .unwrap();
         println!("{}", count);
         println!("/////////////////");
         println!("{}", select);

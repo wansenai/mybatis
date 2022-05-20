@@ -1,8 +1,8 @@
 #[cfg(test)]
 mod tests {
-    use std::collections::{BTreeMap, HashMap};
-    use mybatis_core::db::DriverType;
     use mybatis::wrapper::Wrapper;
+    use mybatis_core::db::DriverType;
+    use std::collections::{BTreeMap, HashMap};
 
     #[test]
     fn test_item() {
