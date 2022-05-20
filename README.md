@@ -21,7 +21,7 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 * Add mybatis dependency
     
     ```rust
-    mybatis = { version = "2.0.1"}
+    mybatis = { version = "2.0.3"}
     
     /// other dependencys
     serde = { version = "1", features =  ["derive"] }
