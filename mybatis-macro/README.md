@@ -3,6 +3,13 @@
 This module contains some macros and attributes built into mybatis, 
 The source code of all macros is in this module.
 
+## Getting Started
+
+```rust
+mybatis-macro = "2.0.1"
+```
+
+## Macro description
 
 ### 1. Macro drive MybatisPlus
 
