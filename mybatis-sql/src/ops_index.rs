@@ -1,6 +1,6 @@
-use std::ops;
-use rbson::Document;
 use crate::ops::{OpsIndex, OpsIndexMut, Value};
+use rbson::Document;
+use std::ops;
 
 pub trait Index: private::Sealed {
     /// Return None if the key is not already in the array or object.
@@ -122,14 +122,10 @@ impl<'a> std::fmt::Display for Type<'a> {
             Value::String(_) => formatter.write_str("String"),
             Value::Array(_) => formatter.write_str("Array"),
             Value::Document(_) => formatter.write_str("Document"),
-            _ => {
-                formatter.write_str("Other")
-            }
+            _ => formatter.write_str("Other"),
         }
     }
 }
-
-
 
 // The usual semantics of Index is to panic on invalid indexing.
 //
@@ -156,20 +152,16 @@ where
 {
     type Output = Value;
 
-
     fn index(&self, index: I) -> &Value {
         static NULL: Value = Value::Null;
         index.index_into(self).unwrap_or(&NULL)
     }
 }
 
-
-
 impl<I> OpsIndexMut<I> for Value
 where
     I: Index,
 {
-    
     fn index_mut(&mut self, index: I) -> &mut Value {
         index.index_or_insert(self)
     }

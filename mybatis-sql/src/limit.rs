@@ -1,5 +1,5 @@
-use mybatis_core::db::DriverType;
 use crate::template::TEMPLATE;
+use mybatis_core::db::DriverType;
 use mybatis_core::Error;
 use mybatis_core::Result;
 
@@ -11,25 +11,14 @@ pub trait PageLimit {
 impl PageLimit for DriverType {
     fn page_limit_sql(&self, offset: u64, size: u64) -> Result<String> {
         return match self {
-            DriverType::Mysql => Ok(format!(
-                " {} {},{}",
-                TEMPLATE.limit.value,
-                offset,
-                size
-            )),
+            DriverType::Mysql => Ok(format!(" {} {},{}", TEMPLATE.limit.value, offset, size)),
             DriverType::Postgres => Ok(format!(
                 " {} {} {} {}",
-                TEMPLATE.limit.value,
-                size,
-                TEMPLATE.offset.value,
-                offset
+                TEMPLATE.limit.value, size, TEMPLATE.offset.value, offset
             )),
             DriverType::Sqlite => Ok(format!(
                 " {} {} {} {}",
-                TEMPLATE.limit.value,
-                size,
-                TEMPLATE.offset.value,
-                offset
+                TEMPLATE.limit.value, size, TEMPLATE.offset.value, offset
             )),
             DriverType::Mssql => {
                 //sqlserver

@@ -3,7 +3,6 @@ use mybatis_core::db::DriverType;
 
 pub trait SqlRule {
     fn make_where(&self, where_sql: &str) -> String {
-
         let sql = where_sql.trim_start();
         if sql.is_empty() {
             return String::new();
@@ -39,18 +38,14 @@ pub trait SqlRule {
             format!(
                 " {} {} {}",
                 TEMPLATE.r#where.value,
-                insert_sql
-                    .trim()
-                    .trim_end_matches(TEMPLATE.and.left_space),
+                insert_sql.trim().trim_end_matches(TEMPLATE.and.left_space),
                 sql
             )
         } else {
             format!(
                 " {} {} {} {}",
                 TEMPLATE.r#where.value,
-                insert_sql
-                    .trim()
-                    .trim_end_matches(TEMPLATE.and.left_space),
+                insert_sql.trim().trim_end_matches(TEMPLATE.and.left_space),
                 TEMPLATE.and.value,
                 sql
             )
@@ -61,7 +56,6 @@ pub trait SqlRule {
 }
 
 impl SqlRule for DriverType {
-
     fn testcc(&self) -> String {
         String::from("555")
     }

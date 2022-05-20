@@ -1,10 +1,9 @@
-use crate::ops::{AsProxy, Value};
 use crate::ops::PartialEq;
+use crate::ops::{AsProxy, Value};
 use std::cmp::PartialEq as PE;
 
-
 impl PartialEq<Value> for &'_ Value {
-   fn op_eq(&self, other: &Value) -> bool {
+    fn op_eq(&self, other: &Value) -> bool {
         self.eq(&other)
     }
 }
@@ -27,18 +26,18 @@ impl PartialEq<Value> for &&'_ Value {
     }
 }
 
-impl PartialEq<&Value> for Value{
-   fn op_eq(&self, other: &&Value) -> bool {
+impl PartialEq<&Value> for Value {
+    fn op_eq(&self, other: &&Value) -> bool {
         self.eq(&**other)
     }
 }
-impl PartialEq<&&Value> for Value{
+impl PartialEq<&&Value> for Value {
     fn op_eq(&self, other: &&&Value) -> bool {
         self.eq(&***other)
     }
 }
 
-impl PartialEq<Value> for Value{
+impl PartialEq<Value> for Value {
     fn op_eq(&self, other: &Value) -> bool {
         self.eq(other)
     }
@@ -68,25 +67,25 @@ fn eq_str(value: &Value, other: &str) -> bool {
 }
 
 impl PartialEq<str> for Value {
-   fn op_eq(&self, other: &str) -> bool {
+    fn op_eq(&self, other: &str) -> bool {
         eq_str(self, other)
     }
 }
 
 impl<'a> PartialEq<&'a str> for Value {
-   fn op_eq(&self, other: &&str) -> bool {
+    fn op_eq(&self, other: &&str) -> bool {
         eq_str(self, *other)
     }
 }
 
 impl PartialEq<Value> for str {
-   fn op_eq(&self, other: &Value) -> bool {
+    fn op_eq(&self, other: &Value) -> bool {
         eq_str(other, self)
     }
 }
 
 impl<'a> PartialEq<Value> for &'a str {
-   fn op_eq(&self, other: &Value) -> bool {
+    fn op_eq(&self, other: &Value) -> bool {
         eq_str(other, *self)
     }
 }
@@ -97,16 +96,14 @@ impl PartialEq<&str> for str {
     }
 }
 
-
-
 impl PartialEq<String> for Value {
-   fn op_eq(&self, other: &String) -> bool {
+    fn op_eq(&self, other: &String) -> bool {
         eq_str(self, other.as_str())
     }
 }
 
 impl PartialEq<Value> for String {
-   fn op_eq(&self, other: &Value) -> bool {
+    fn op_eq(&self, other: &Value) -> bool {
         eq_str(other, self.as_str())
     }
 }
@@ -154,7 +151,6 @@ impl_numeric_eq! {
     eq_bool[bool]
 }
 
-
 macro_rules! eq_self {
     ([$($ty:ty)*]) => {
         $(
@@ -185,4 +181,4 @@ impl PartialEq<&$ty> for &$ty{
 eq_self!([u8 u16 u32 u64]);
 eq_self!([i8 i16 i32 i64 isize]);
 eq_self!([f32 f64]);
-eq_self!([String &str]);
+eq_self!([String & str]);

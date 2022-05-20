@@ -1,6 +1,6 @@
-use std::cmp::{Ordering, PartialOrd as P};
-use crate::ops::{Value, AsProxy};
 use crate::ops::PartialOrd;
+use crate::ops::{AsProxy, Value};
+use std::cmp::{Ordering, PartialOrd as P};
 
 #[inline]
 fn cmp_u64(value: u64, other: u64) -> Option<Ordering> {
@@ -66,21 +66,20 @@ fn eq_bool(value: &Value, other: bool) -> Option<Ordering> {
     }
 }
 
-
 impl PartialOrd<Value> for Value {
     fn op_partial_cmp(&self, other: &Value) -> Option<Ordering> {
         match self {
-            Value::Null => { Some(Ordering::Equal) }
-            Value::Boolean(b) => { cmp_bool(*b, other.bool()) }
-            Value::Int32(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::Int64(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::UInt32(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::UInt64(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::Double(n) => { cmp_f64(*n, other.f64()) }
-            Value::String(s) => { Some(s.cmp(&other.string())) }
-            Value::Array(_) => { None }
-            Value::Document(_) => { None }
-            _ => {None}
+            Value::Null => Some(Ordering::Equal),
+            Value::Boolean(b) => cmp_bool(*b, other.bool()),
+            Value::Int32(n) => cmp_f64(*n as f64, other.f64()),
+            Value::Int64(n) => cmp_f64(*n as f64, other.f64()),
+            Value::UInt32(n) => cmp_u64(*n as u64, other.u64()),
+            Value::UInt64(n) => cmp_u64(*n as u64, other.u64()),
+            Value::Double(n) => cmp_f64(*n, other.f64()),
+            Value::String(s) => Some(s.cmp(&other.string())),
+            Value::Array(_) => None,
+            Value::Document(_) => None,
+            _ => None,
         }
     }
 }
@@ -88,17 +87,17 @@ impl PartialOrd<Value> for Value {
 impl PartialOrd<Value> for &Value {
     fn op_partial_cmp(&self, other: &Value) -> Option<Ordering> {
         match self {
-            Value::Null => { Some(Ordering::Equal) }
-            Value::Boolean(b) => { cmp_bool(*b, other.bool()) }
-            Value::Int32(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::Int64(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::UInt32(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::UInt64(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::Double(n) => { cmp_f64(*n, other.f64()) }
-            Value::String(s) => { Some(s.cmp(&other.string())) }
-            Value::Array(_) => { None }
-            Value::Document(_) => { None }
-            _ => {None}
+            Value::Null => Some(Ordering::Equal),
+            Value::Boolean(b) => cmp_bool(*b, other.bool()),
+            Value::Int32(n) => cmp_f64(*n as f64, other.f64()),
+            Value::Int64(n) => cmp_f64(*n as f64, other.f64()),
+            Value::UInt32(n) => cmp_u64(*n as u64, other.u64()),
+            Value::UInt64(n) => cmp_u64(*n as u64, other.u64()),
+            Value::Double(n) => cmp_f64(*n, other.f64()),
+            Value::String(s) => Some(s.cmp(&other.string())),
+            Value::Array(_) => None,
+            Value::Document(_) => None,
+            _ => None,
         }
     }
 }
@@ -106,17 +105,17 @@ impl PartialOrd<Value> for &Value {
 impl PartialOrd<&Value> for &Value {
     fn op_partial_cmp(&self, other: &&Value) -> Option<Ordering> {
         match self {
-            Value::Null => { Some(Ordering::Equal) }
-            Value::Boolean(b) => { cmp_bool(*b, other.bool()) }
-             Value::Int32(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::Int64(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::UInt32(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::UInt64(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::Double(n) => { cmp_f64(*n, other.f64()) }
-            Value::String(s) => { Some(s.cmp(&other.string())) }
-            Value::Array(_) => { None }
-            Value::Document(_) => { None }
-            _ => {None}
+            Value::Null => Some(Ordering::Equal),
+            Value::Boolean(b) => cmp_bool(*b, other.bool()),
+            Value::Int32(n) => cmp_f64(*n as f64, other.f64()),
+            Value::Int64(n) => cmp_f64(*n as f64, other.f64()),
+            Value::UInt32(n) => cmp_u64(*n as u64, other.u64()),
+            Value::UInt64(n) => cmp_u64(*n as u64, other.u64()),
+            Value::Double(n) => cmp_f64(*n, other.f64()),
+            Value::String(s) => Some(s.cmp(&other.string())),
+            Value::Array(_) => None,
+            Value::Document(_) => None,
+            _ => None,
         }
     }
 }
@@ -124,17 +123,17 @@ impl PartialOrd<&Value> for &Value {
 impl PartialOrd<&&Value> for &Value {
     fn op_partial_cmp(&self, other: &&&Value) -> Option<Ordering> {
         match self {
-            Value::Null => { Some(Ordering::Equal) }
-            Value::Boolean(b) => { cmp_bool(*b, other.bool()) }
-             Value::Int32(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::Int64(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::UInt32(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::UInt64(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::Double(n) => { cmp_f64(*n, other.f64()) }
-            Value::String(s) => { Some(s.cmp(&other.string())) }
-            Value::Array(_) => { None }
-            Value::Document(_) => { None }
-            _ => {None}
+            Value::Null => Some(Ordering::Equal),
+            Value::Boolean(b) => cmp_bool(*b, other.bool()),
+            Value::Int32(n) => cmp_f64(*n as f64, other.f64()),
+            Value::Int64(n) => cmp_f64(*n as f64, other.f64()),
+            Value::UInt32(n) => cmp_u64(*n as u64, other.u64()),
+            Value::UInt64(n) => cmp_u64(*n as u64, other.u64()),
+            Value::Double(n) => cmp_f64(*n, other.f64()),
+            Value::String(s) => Some(s.cmp(&other.string())),
+            Value::Array(_) => None,
+            Value::Document(_) => None,
+            _ => None,
         }
     }
 }
@@ -142,17 +141,17 @@ impl PartialOrd<&&Value> for &Value {
 impl PartialOrd<&Value> for Value {
     fn op_partial_cmp(&self, other: &&Value) -> Option<Ordering> {
         match self {
-            Value::Null => { Some(Ordering::Equal) }
-            Value::Boolean(b) => { cmp_bool(*b, other.bool()) }
-             Value::Int32(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::Int64(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::UInt32(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::UInt64(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::Double(n) => { cmp_f64(*n, other.f64()) }
-            Value::String(s) => { Some(s.cmp(&other.string())) }
-            Value::Array(_) => { None }
-            Value::Document(_) => { None }
-            _ => {None}
+            Value::Null => Some(Ordering::Equal),
+            Value::Boolean(b) => cmp_bool(*b, other.bool()),
+            Value::Int32(n) => cmp_f64(*n as f64, other.f64()),
+            Value::Int64(n) => cmp_f64(*n as f64, other.f64()),
+            Value::UInt32(n) => cmp_u64(*n as u64, other.u64()),
+            Value::UInt64(n) => cmp_u64(*n as u64, other.u64()),
+            Value::Double(n) => cmp_f64(*n, other.f64()),
+            Value::String(s) => Some(s.cmp(&other.string())),
+            Value::Array(_) => None,
+            Value::Document(_) => None,
+            _ => None,
         }
     }
 }
@@ -160,21 +159,20 @@ impl PartialOrd<&Value> for Value {
 impl PartialOrd<&&Value> for Value {
     fn op_partial_cmp(&self, other: &&&Value) -> Option<Ordering> {
         match self {
-            Value::Null => { Some(Ordering::Equal) }
-            Value::Boolean(b) => { cmp_bool(*b, other.bool()) }
-             Value::Int32(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::Int64(n) => { cmp_f64(*n as f64, other.f64()) }
-            Value::UInt32(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::UInt64(n) => { cmp_u64(*n as u64, other.u64()) }
-            Value::Double(n) => { cmp_f64(*n, other.f64()) }
-            Value::String(s) => { Some(s.cmp(&other.string())) }
-            Value::Array(_) => { None }
-            Value::Document(_) => { None }
-            _ => {None}
+            Value::Null => Some(Ordering::Equal),
+            Value::Boolean(b) => cmp_bool(*b, other.bool()),
+            Value::Int32(n) => cmp_f64(*n as f64, other.f64()),
+            Value::Int64(n) => cmp_f64(*n as f64, other.f64()),
+            Value::UInt32(n) => cmp_u64(*n as u64, other.u64()),
+            Value::UInt64(n) => cmp_u64(*n as u64, other.u64()),
+            Value::Double(n) => cmp_f64(*n, other.f64()),
+            Value::String(s) => Some(s.cmp(&other.string())),
+            Value::Array(_) => None,
+            Value::Document(_) => None,
+            _ => None,
         }
     }
 }
-
 
 macro_rules! impl_numeric_cmp {
     ($($eq:ident [$($ty:ty)*])*) => {
@@ -219,7 +217,6 @@ impl_numeric_cmp! {
     eq_bool[bool]
 }
 
-
 macro_rules! cmp_self {
     ($eq:ident[$($ty:ty)*]) => {
         $(
@@ -253,7 +250,7 @@ cmp_self!(cmp_f64[f32 f64]);
 
 impl PartialOrd<&str> for &str {
     fn op_partial_cmp(&self, other: &&str) -> Option<Ordering> {
-         self.partial_cmp(other)
+        self.partial_cmp(other)
     }
 }
 
