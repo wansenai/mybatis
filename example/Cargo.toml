@@ -9,6 +9,6 @@ publish = false
 serde = { version = "1", features = ["derive"] }
 rbson = "2.0"
 tokio = { version = "1.18.2", features = ["full"] }
-mybatis = { version = "2.0.0", path = "../mybatis", features = ["debug_mode"]}
+mybatis = { version = "2.0.1", path = "../mybatis", features = ["debug_mode"]}
 mybatis-util = {version = "2.0.0", path = "../mybatis-util"}
-mybatis-core = {version = "2.0.1", path = "../mybatis-core"}
+mybatis-core = {version = "2.0.0", path = "../mybatis-core"}
