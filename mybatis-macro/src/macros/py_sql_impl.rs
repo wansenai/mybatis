@@ -4,7 +4,9 @@ use quote::ToTokens;
 use syn::{AttributeArgs, FnArg, ItemFn};
 
 use crate::proc_macro::TokenStream;
-use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref};
+use crate::util::{
+    find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref,
+};
 
 ///py_sql macro
 ///support args for &Mybatis,page:&PageRequest
@@ -32,11 +34,20 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
         if mybatis_name.is_empty() {
             panic!("[mybatis] you should add mybatis ref param  mybatis:&Mybatis  or mybatis: &mut MybatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
         }
-        sql_ident = args.get(0).expect("[mybatis] miss pysql sql param!").to_token_stream();
+        sql_ident = args
+            .get(0)
+            .expect("[mybatis] miss pysql sql param!")
+            .to_token_stream();
     } else if args.len() == 2 {
-        mybatis_ident = args.get(0).expect("[mybatis] miss mybatis ident param!").to_token_stream();
+        mybatis_ident = args
+            .get(0)
+            .expect("[mybatis] miss mybatis ident param!")
+            .to_token_stream();
         mybatis_name = format!("{}", mybatis_ident);
-        sql_ident = args.get(1).expect("[mybatis] miss pysql sql param!").to_token_stream();
+        sql_ident = args
+            .get(1)
+            .expect("[mybatis] miss pysql sql param!")
+            .to_token_stream();
     } else {
         panic!("[mybatis] Incorrect macro parameter length!");
     }
@@ -97,7 +108,6 @@ pub(crate) fn impl_macro_py_sql(target_fn: &ItemFn, args: &AttributeArgs) -> Tok
     }
         .into();
 }
-
 
 pub(crate) fn filter_args_context_id(
     mybatis_name: &str,

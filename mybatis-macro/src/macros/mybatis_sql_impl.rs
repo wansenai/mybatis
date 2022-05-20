@@ -5,7 +5,9 @@ use syn;
 use syn::{AttributeArgs, FnArg, ItemFn};
 
 use crate::proc_macro::TokenStream;
-use crate::util::{find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref};
+use crate::util::{
+    find_fn_body, find_return_type, get_fn_args, get_page_req_ident, is_fetch, is_mybatis_ref,
+};
 
 //impl mybatis_sql macro
 pub(crate) fn impl_macro_mybatis_sql(target_fn: &ItemFn, args: &AttributeArgs) -> TokenStream {
@@ -33,11 +35,20 @@ pub(crate) fn impl_macro_mybatis_sql(target_fn: &ItemFn, args: &AttributeArgs) -
         if mybatis_name.is_empty() {
             panic!("[mybatis] you should add mybatis ref param  rb:&Mybatis  or rb: &mut MybatisExecutor<'_,'_>  on '{}()'!", target_fn.sig.ident);
         }
-        sql_ident = args.get(0).expect("[mybatis] miss mybatis_sql macaro param!").to_token_stream();
+        sql_ident = args
+            .get(0)
+            .expect("[mybatis] miss mybatis_sql macaro param!")
+            .to_token_stream();
     } else if args.len() == 2 {
-        mybatis_ident = args.get(0).expect("[mybatis] miss mybatis ident param!").to_token_stream();
+        mybatis_ident = args
+            .get(0)
+            .expect("[mybatis] miss mybatis ident param!")
+            .to_token_stream();
         mybatis_name = format!("{}", mybatis_ident);
-        sql_ident = args.get(1).expect("[mybatis] miss mybatis_sql macro sql param!").to_token_stream();
+        sql_ident = args
+            .get(1)
+            .expect("[mybatis] miss mybatis_sql macro sql param!")
+            .to_token_stream();
     } else {
         panic!("[mybatis] Incorrect macro parameter length!");
     }
@@ -70,7 +81,8 @@ pub(crate) fn impl_macro_mybatis_sql(target_fn: &ItemFn, args: &AttributeArgs) -
         call_method = quote! {fetch_page};
     }
     //append all args
-    let sql_args_gen = filter_args_context_id(&mybatis_name, &get_fn_args(target_fn), &[page_req_str]);
+    let sql_args_gen =
+        filter_args_context_id(&mybatis_name, &get_fn_args(target_fn), &[page_req_str]);
     //gen rust code templete
     let gen_token_temple = quote! {
        pub async fn #func_name_ident(#func_args_stream) -> #return_ty{

@@ -1,5 +1,5 @@
-use std::collections::HashMap;
 use html_parser::{Dom, Node, Result};
+use std::collections::HashMap;
 use std::fmt::{Debug, Formatter};
 
 #[derive(Clone, Eq, PartialEq)]
@@ -31,7 +31,6 @@ impl Debug for Element {
     }
 }
 
-
 pub fn as_element(args: &Vec<Node>) -> Vec<Element> {
     let mut els = vec![];
     for x in args {
@@ -43,7 +42,7 @@ pub fn as_element(args: &Vec<Node>) -> Vec<Element> {
         };
         match x {
             Node::Text(txt) => {
-                if txt.is_empty(){
+                if txt.is_empty() {
                     continue;
                 }
                 el.data = txt.to_string();
@@ -51,10 +50,14 @@ pub fn as_element(args: &Vec<Node>) -> Vec<Element> {
             Node::Element(element) => {
                 el.tag = element.name.to_string();
                 if element.id.is_some() {
-                    el.attrs.insert("id".to_string(), element.id.as_ref().unwrap_or(&String::new()).clone());
+                    el.attrs.insert(
+                        "id".to_string(),
+                        element.id.as_ref().unwrap_or(&String::new()).clone(),
+                    );
                 }
                 for (k, v) in &element.attributes {
-                    el.attrs.insert(k.clone(), v.as_ref().unwrap_or(&String::new()).clone());
+                    el.attrs
+                        .insert(k.clone(), v.as_ref().unwrap_or(&String::new()).clone());
                 }
                 if !element.children.is_empty() {
                     let childs = as_element(&element.children);

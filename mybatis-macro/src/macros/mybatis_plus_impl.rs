@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use crate::proc_macro::TokenStream;
-use proc_macro2::{Ident};
+use proc_macro2::Ident;
 use quote::quote;
 use quote::ToTokens;
 use syn;
@@ -48,16 +48,16 @@ pub(crate) fn impl_mybatis_plus_driver(
         if ident_name.starts_with("r#") {
             let ident_name_no = ident_name.trim_start_matches("r#").to_string();
             item = quote! {
-                #ident_name | #ident_name_no => {
-                return rbson::to_bson(&self.#ident).unwrap_or_default();
-                }
-             };
+               #ident_name | #ident_name_no => {
+               return rbson::to_bson(&self.#ident).unwrap_or_default();
+               }
+            };
         } else {
             item = quote! {
-            #ident_name => {
-                return rbson::to_bson(&self.#ident).unwrap_or_default();
-            }
-          };
+              #ident_name => {
+                  return rbson::to_bson(&self.#ident).unwrap_or_default();
+              }
+            };
         }
         items = quote! {
             #items
@@ -71,7 +71,6 @@ pub(crate) fn impl_mybatis_plus_driver(
             _ => { rbson::Bson::Null }
         }
     };
-
 
     let mut formats_mysql = proc_macro2::TokenStream::new();
     let mut formats_pg = proc_macro2::TokenStream::new();
@@ -96,7 +95,6 @@ pub(crate) fn impl_mybatis_plus_driver(
             }
         }
     }
-
 
     let gen = quote! {
         impl mybatis::plus::MybatisPlus for #name {
@@ -224,7 +222,6 @@ fn gen_table_name(data: &syn::Ident) -> String {
     table_name
 }
 
-
 fn gen_fields(data: &syn::Data) -> Vec<Ident> {
     let mut fields = vec![];
     match &data {
@@ -322,7 +319,6 @@ fn gen_driver_token(token_string: &str) -> proc_macro2::TokenStream {
     }
     return driver_token;
 }
-
 
 fn read_config(arg: &str) -> CrudEnableConfig {
     let keys: Vec<&str> = arg.split("|").collect();

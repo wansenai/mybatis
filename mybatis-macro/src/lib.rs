@@ -1,20 +1,20 @@
 #![allow(unused_assignments)]
 extern crate proc_macro;
 
-use syn::{AttributeArgs, DataStruct, ItemFn, parse_macro_input};
+use syn::{parse_macro_input, AttributeArgs, DataStruct, ItemFn};
 
-use crate::proc_macro::TokenStream;
-use crate::macros::mybatis_plus_impl::{impl_mybatis_plus_driver, impl_mybatis_plus};
 use crate::macros::mybatis_html_impl::impl_macro_mybatis_html;
+use crate::macros::mybatis_plus_impl::{impl_mybatis_plus, impl_mybatis_plus_driver};
 use crate::macros::mybatis_sql_impl::impl_macro_mybatis_sql;
-use crate::macros::py_sql_impl::{impl_macro_py_sql};
+use crate::macros::py_sql_impl::impl_macro_py_sql;
+use crate::proc_macro::TokenStream;
 
-mod func;
-mod parser;
-mod html_loader;
-mod string_util;
-mod py_sql;
 mod element_from;
+mod func;
+mod html_loader;
+mod parser;
+mod py_sql;
+mod string_util;
 use std::collections::HashMap;
 
 mod macros;
@@ -25,10 +25,10 @@ pub fn macro_derive(input: TokenStream) -> TokenStream {
     let ast = syn::parse(input).unwrap();
     let stream = impl_mybatis_plus_driver(&ast, "", "", &HashMap::new());
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen impl MybatisPlus:\n {}", stream);
-            println!("............gen impl MybatisPlus end............");
-        }
+    {
+        println!("............gen impl MybatisPlus:\n {}", stream);
+        println!("............gen impl MybatisPlus end............");
+    }
 
     stream
 }
@@ -49,10 +49,10 @@ pub fn mybatis_sql(args: TokenStream, func: TokenStream) -> TokenStream {
     let target_fn: ItemFn = syn::parse(func).unwrap();
     let stream = impl_macro_mybatis_sql(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen macro sql:\n {}", stream);
-            println!("............gen macro sql end............");
-        }
+    {
+        println!("............gen macro sql:\n {}", stream);
+        println!("............gen macro sql end............");
+    }
 
     stream
 }
@@ -100,10 +100,10 @@ pub fn py_sql(args: TokenStream, func: TokenStream) -> TokenStream {
     let target_fn: ItemFn = syn::parse(func).unwrap();
     let stream = impl_macro_py_sql(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen macro py_sql :\n {}", stream);
-            println!("............gen macro py_sql end............");
-        }
+    {
+        println!("............gen macro py_sql :\n {}", stream);
+        println!("............gen macro py_sql end............");
+    }
     stream
 }
 
@@ -111,12 +111,12 @@ pub fn py_sql(args: TokenStream, func: TokenStream) -> TokenStream {
 /// for example:
 ///
 /// pub static RB:Lazy<Mybatis> = Lazy::new(||Mybatis::new());
-/// #[py_sql(RB,"example/example.html")]
+/// #[mybatis_html(RB,"example/example.html")]
 /// pub async fn py_select_mybatis(name: &str) -> Option<BizActivity> {}
 ///
 /// or:
 ///
-/// #[py_sql("example/example.html")]
+/// #[mybatis_html("example/example.html")]
 /// pub async fn py_select_mybatis(mybatis: &Mybatis, name: &str) -> Option<BizActivity> {}
 ///
 #[proc_macro_attribute]
@@ -125,13 +125,12 @@ pub fn mybatis_html(args: TokenStream, func: TokenStream) -> TokenStream {
     let target_fn: ItemFn = syn::parse(func).unwrap();
     let stream = impl_macro_mybatis_html(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen macro html_sql :\n {}", stream);
-            println!("............gen macro html_sql end............");
-        }
+    {
+        println!("............gen macro html_sql :\n {}", stream);
+        println!("............gen macro html_sql end............");
+    }
     stream
 }
-
 
 /// Mybatis Plus,You can define functionality using the following properties
 /// #[mybatis_plus]
@@ -147,10 +146,10 @@ pub fn mybatis_html(args: TokenStream, func: TokenStream) -> TokenStream {
 pub fn mybatis_plus(args: TokenStream, input: TokenStream) -> TokenStream {
     let stream = impl_mybatis_plus(args, input);
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen impl CRUDTable:\n {}", stream);
-            println!("............gen impl CRUDTable end............");
-        }
+    {
+        println!("............gen impl CRUDTable:\n {}", stream);
+        println!("............gen impl CRUDTable end............");
+    }
 
     return stream;
 }
@@ -159,15 +158,22 @@ pub fn mybatis_plus(args: TokenStream, input: TokenStream) -> TokenStream {
 pub fn expr(args: TokenStream, func: TokenStream) -> TokenStream {
     //let args = parse_macro_input!(args as AttributeArgs);
     let target_fn: ItemFn = syn::parse(func).unwrap();
-    let stream = func::impl_fn("",&target_fn.sig.ident.to_string(), &args.to_string(),true,true,&[]).into();
+    let stream = func::impl_fn(
+        "",
+        &target_fn.sig.ident.to_string(),
+        &args.to_string(),
+        true,
+        true,
+        &[],
+    )
+    .into();
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen macro rexpr:\n {}", stream);
-            println!("............gen macro rexpr end............");
-        }
+    {
+        println!("............gen macro rexpr:\n {}", stream);
+        println!("............gen macro rexpr end............");
+    }
     stream
 }
-
 
 #[proc_macro_attribute]
 pub fn html(args: TokenStream, func: TokenStream) -> TokenStream {
@@ -175,10 +181,10 @@ pub fn html(args: TokenStream, func: TokenStream) -> TokenStream {
     let target_fn = syn::parse(func).unwrap();
     let stream = parser::impl_fn_html(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen macro xml:\n {}", stream);
-            println!("............gen macro xml end............");
-        }
+    {
+        println!("............gen macro xml:\n {}", stream);
+        println!("............gen macro xml end............");
+    }
     stream
 }
 
@@ -189,9 +195,9 @@ pub fn py(args: TokenStream, func: TokenStream) -> TokenStream {
     let target_fn = syn::parse(func).unwrap();
     let stream = parser::impl_fn_py(&target_fn, &args);
     #[cfg(feature = "debug_mode")]
-        {
-            println!("............gen pysql_fn:\n {}", stream);
-            println!("............gen pysql_fn end............");
-        }
+    {
+        println!("............gen pysql_fn:\n {}", stream);
+        println!("............gen pysql_fn end............");
+    }
     stream
 }
