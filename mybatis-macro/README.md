@@ -6,7 +6,7 @@ The source code of all macros is in this module.
 ## Getting Started
 
 ```rust
-mybatis-macro = "2.0.1"
+mybatis-macro = "2.0.3"
 ```
 
 ## Macro description

@@ -1,6 +1,6 @@
 [package]
 name = "mybatis-macro"
-version = "2.0.1"
+version = "2.0.3"
 description = "mybatis macro driver"
 authors = ["James Zow <jameszow@163.com>"]
 edition = "2021"
