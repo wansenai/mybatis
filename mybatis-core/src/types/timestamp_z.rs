@@ -1,14 +1,14 @@
+use crate::value::DateTimeNow;
+use chrono::{NaiveDateTime, Utc};
+use rbson::spec::BinarySubtype;
+use rbson::Bson;
+use serde::de::Error;
+use serde::{Deserializer, Serializer};
+use sqlx_core::types::time;
 use std::alloc::Layout;
 use std::any::type_name;
 use std::ops::{Deref, DerefMut};
 use std::str::FromStr;
-use chrono::{NaiveDateTime, Utc};
-use rbson::Bson;
-use rbson::spec::BinarySubtype;
-use serde::{Deserializer, Serializer};
-use serde::de::Error;
-use sqlx_core::types::time;
-use crate::value::DateTimeNow;
 
 /// Mybatis Timestamp
 /// Rust type                Postgres type(s)
@@ -20,27 +20,26 @@ pub struct TimestampZ {
 
 impl From<chrono::DateTime<Utc>> for TimestampZ {
     fn from(arg: chrono::DateTime<Utc>) -> Self {
-        Self {
-            inner: arg
-        }
+        Self { inner: arg }
     }
 }
 
 impl From<&chrono::DateTime<Utc>> for TimestampZ {
     fn from(arg: &chrono::DateTime<Utc>) -> Self {
-        Self {
-            inner: arg.clone()
-        }
+        Self { inner: arg.clone() }
     }
 }
 
 impl serde::Serialize for TimestampZ {
     #[inline]
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
         use serde::ser::Error;
         if type_name::<S::Error>().eq("rbson::ser::error::Error") {
             return serializer.serialize_str(&format!("TimestampZ({})", self.inner.to_string()));
-        }else{
+        } else {
             return self.inner.serialize(serializer);
         }
     }
@@ -48,18 +47,19 @@ impl serde::Serialize for TimestampZ {
 
 impl<'de> serde::Deserialize<'de> for TimestampZ {
     #[inline]
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: Deserializer<'de> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
         match Bson::deserialize(deserializer)? {
             Bson::String(s) => {
                 if s.starts_with("TimestampZ(") && s.ends_with(")") {
                     let inner_data = &s["TimestampZ(".len()..(s.len() - 1)];
                     return Ok(Self {
                         inner: {
-                            match chrono::DateTime::from_str(inner_data){
-                                Ok(v)=>{
-                                    Ok(v)
-                                }
-                                Err(e)=>{
+                            match chrono::DateTime::from_str(inner_data) {
+                                Ok(v) => Ok(v),
+                                Err(e) => {
                                     log::error!("{}", e);
                                     Err(D::Error::custom("parse TimestampZ fail"))
                                 }
@@ -68,12 +68,10 @@ impl<'de> serde::Deserialize<'de> for TimestampZ {
                     });
                 } else {
                     return Ok(Self {
-                        inner:{
-                            match chrono::DateTime::from_str(&s){
-                                Ok(v)=>{
-                                    Ok(v)
-                                }
-                                Err(e)=>{
+                        inner: {
+                            match chrono::DateTime::from_str(&s) {
+                                Ok(v) => Ok(v),
+                                Err(e) => {
                                     log::error!("{}", e);
                                     Err(D::Error::custom("parse TimestampZ fail"))
                                 }
@@ -82,9 +80,7 @@ impl<'de> serde::Deserialize<'de> for TimestampZ {
                     });
                 }
             }
-            _ => {
-                Err(D::Error::custom("deserialize un supported bson type!"))
-            }
+            _ => Err(D::Error::custom("deserialize un supported bson type!")),
         }
     }
 }
@@ -104,7 +100,6 @@ impl TimestampZ {
         }
     }
 }
-
 
 impl std::fmt::Display for TimestampZ {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -135,29 +130,28 @@ impl DerefMut for TimestampZ {
 impl TimestampZ {
     pub fn now() -> Self {
         Self {
-            inner: chrono::DateTime::from_utc(NaiveDateTime::now(),Utc)
+            inner: chrono::DateTime::from_utc(NaiveDateTime::now(), Utc),
         }
     }
 
     pub fn now_utc() -> Self {
         Self {
-            inner: chrono::DateTime::from_utc(NaiveDateTime::now(),Utc)
+            inner: chrono::DateTime::from_utc(NaiveDateTime::now(), Utc),
         }
     }
 
     pub fn now_local() -> Self {
         Self {
-            inner: chrono::DateTime::from_utc(NaiveDateTime::now(),Utc)
+            inner: chrono::DateTime::from_utc(NaiveDateTime::now(), Utc),
         }
     }
 
     /// create from str
     pub fn from_str(arg: &str) -> Result<Self, crate::error::Error> {
         Ok(Self {
-            inner: chrono::DateTime::<Utc>::from_str(arg)?
+            inner: chrono::DateTime::<Utc>::from_str(arg)?,
         })
     }
-
 }
 
 #[cfg(test)]

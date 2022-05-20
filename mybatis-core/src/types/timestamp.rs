@@ -1,9 +1,9 @@
+use rbson::Bson;
+use serde::de::Error;
+use serde::{Deserializer, Serializer};
+use sqlx_core::types::time;
 use std::alloc::Layout;
 use std::ops::{Deref, DerefMut};
-use rbson::Bson;
-use serde::{Deserializer, Serializer};
-use serde::de::Error;
-use sqlx_core::types::time;
 
 /// Mybatis Timestamp
 /// Rust type                Postgres type(s)
@@ -19,23 +19,22 @@ pub struct Timestamp {
 
 impl From<time::OffsetDateTime> for Timestamp {
     fn from(arg: time::OffsetDateTime) -> Self {
-        Self {
-            inner: arg
-        }
+        Self { inner: arg }
     }
 }
 
 impl From<&time::OffsetDateTime> for Timestamp {
     fn from(arg: &time::OffsetDateTime) -> Self {
-        Self {
-            inner: arg.clone()
-        }
+        Self { inner: arg.clone() }
     }
 }
 
 impl serde::Serialize for Timestamp {
     #[inline]
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error> where S: Serializer {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
         let bs = Timestamp::from_le_i64(self.inner.unix_timestamp());
         return bs.serialize(serializer);
     }
@@ -43,11 +42,15 @@ impl serde::Serialize for Timestamp {
 
 impl<'de> serde::Deserialize<'de> for Timestamp {
     #[inline]
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error> where D: Deserializer<'de> {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
         match Bson::deserialize(deserializer)? {
             Bson::String(s) => {
                 return Ok(Self {
-                    inner: time::OffsetDateTime::parse(&s, "%F %T %z").or_else(|e| Err(D::Error::custom(e.to_string())))?,
+                    inner: time::OffsetDateTime::parse(&s, "%F %T %z")
+                        .or_else(|e| Err(D::Error::custom(e.to_string())))?,
                 });
             }
             Bson::Int64(data) => {
@@ -56,9 +59,7 @@ impl<'de> serde::Deserialize<'de> for Timestamp {
             Bson::Timestamp(data) => {
                 return Ok(Timestamp::from(data));
             }
-            _ => {
-                Err(D::Error::custom("deserialize un supported bson type!"))
-            }
+            _ => Err(D::Error::custom("deserialize un supported bson type!")),
         }
     }
 }
@@ -82,9 +83,7 @@ impl Timestamp {
 impl From<rbson::Timestamp> for Timestamp {
     fn from(data: rbson::Timestamp) -> Self {
         let offset = time::OffsetDateTime::from_unix_timestamp(Timestamp::as_timestamp(&data));
-        Self {
-            inner: offset
-        }
+        Self { inner: offset }
     }
 }
 
@@ -126,9 +125,7 @@ impl Timestamp {
     /// create from str
     pub fn from_str(arg: &str) -> Result<Self, crate::error::Error> {
         let inner = time::OffsetDateTime::parse(arg, "%F %T %z")?;
-        Ok(Self {
-            inner: inner
-        })
+        Ok(Self { inner: inner })
     }
 
     pub fn timestamp_millis(&self) -> i64 {
@@ -137,11 +134,10 @@ impl Timestamp {
 
     pub fn from_unix_timestamp(arg: i64) -> Self {
         Self {
-            inner: time::OffsetDateTime::from_unix_timestamp(arg)
+            inner: time::OffsetDateTime::from_unix_timestamp(arg),
         }
     }
 }
-
 
 #[cfg(test)]
 mod test {
