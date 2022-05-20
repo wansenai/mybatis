@@ -5,7 +5,7 @@ use std::hash::Hash;
 use async_trait::async_trait;
 use mybatis_util::as_bson;
 use serde::de::DeserializeOwned;
-use serde::{Serialize, Serializer, Deserialize, Deserializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use mybatis_core::convert::{ResultCodec, StmtConvert};
 use mybatis_core::db::{DBExecResult, DriverType};
@@ -13,21 +13,20 @@ use mybatis_core::Error;
 use mybatis_core::Result;
 
 use crate::executor::{ExecutorMut, MyBatisConnExecutor, MyBatisTxExecutor};
-use crate::page::{IPageRequest, Page, IPage};
 use crate::mybatis::Mybatis;
+use crate::page::{IPage, IPageRequest, Page};
 use crate::wrapper::Wrapper;
 
-use mybatis_sql::TEMPLATE;
+use mybatis_sql::ops::AsProxy;
 use mybatis_sql::rule::SqlRule;
-use mybatis_util::string_util::{to_snake_name, self};
+use mybatis_sql::TEMPLATE;
+use mybatis_util::string_util::{self, to_snake_name};
+use rbson::Bson;
+use rbson::Bson::Null;
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
-use rbson::Bson::Null;
 use std::option::Option::Some;
 use std::sync::Arc;
-use rbson::Bson;
-use mybatis_sql::ops::AsProxy;
-
 
 /// DataBase Table Model trait
 ///
@@ -74,7 +73,7 @@ pub trait MybatisPlus: Send + Sync + Serialize {
         let source = m.get(column);
         match source {
             Some(source) => {
-                *data = source.replace("{}",data);
+                *data = source.replace("{}", data);
             }
             _ => {}
         }
@@ -138,9 +137,7 @@ pub trait MybatisPlus: Send + Sync + Serialize {
             let mut data = String::new();
             db_type.stmt_convert(*index, &mut data);
             Self::do_format_column(db_type, &column_unpacking, &mut data);
-            value_sql = value_sql
-                + data.as_str()
-                + ",";
+            value_sql = value_sql + data.as_str() + ",";
             arr.push(v);
             *index += 1;
         }
@@ -152,30 +149,25 @@ pub trait MybatisPlus: Send + Sync + Serialize {
     /// return cast chain
     /// column:format_str
     /// for example: HashMap<"id",|arg|“{}::uuid”.to_string()>
-    fn formats(
-        driver_type: DriverType,
-    ) -> HashMap<String, String> {
+    fn formats(driver_type: DriverType) -> HashMap<String, String> {
         return HashMap::new();
     }
-
 
     /// return table column value
     /// If a macro is used, the method is overridden by the macro
     fn get(&self, column: &str) -> rbson::Bson {
         let s = rbson::to_bson(self).unwrap_or_default();
         match s {
-            rbson::Bson::Document(d) => {
-                d.get(column).unwrap_or(&Bson::Null).clone()
-            }
-            _ => {
-                Bson::Null
-            }
+            rbson::Bson::Document(d) => d.get(column).unwrap_or(&Bson::Null).clone(),
+            _ => Bson::Null,
         }
     }
 }
 
-
-impl<T> MybatisPlus for &T where T: MybatisPlus {
+impl<T> MybatisPlus for &T
+where
+    T: MybatisPlus,
+{
     fn table_name() -> String {
         T::table_name()
     }
@@ -185,7 +177,10 @@ impl<T> MybatisPlus for &T where T: MybatisPlus {
     }
 }
 
-impl<T> MybatisPlus for &mut T where T: MybatisPlus {
+impl<T> MybatisPlus for &mut T
+where
+    T: MybatisPlus,
+{
     fn table_name() -> String {
         T::table_name()
     }
@@ -196,8 +191,8 @@ impl<T> MybatisPlus for &mut T where T: MybatisPlus {
 }
 
 impl<T> MybatisPlus for Option<T>
-    where
-        T: MybatisPlus,
+where
+    T: MybatisPlus,
 {
     fn table_name() -> String {
         T::table_name()
@@ -227,8 +222,8 @@ impl<T> MybatisPlus for Option<T>
 }
 
 impl<T> MybatisPlus for Arc<T>
-    where
-        T: MybatisPlus,
+where
+    T: MybatisPlus,
 {
     fn table_name() -> String {
         T::table_name()
@@ -238,7 +233,7 @@ impl<T> MybatisPlus for Arc<T>
         T::table_columns()
     }
 
-    fn formats(driver_type: DriverType) -> HashMap<String,  String> {
+    fn formats(driver_type: DriverType) -> HashMap<String, String> {
         T::formats(driver_type)
     }
 
@@ -253,8 +248,8 @@ impl<T> MybatisPlus for Arc<T>
 }
 
 impl<T> MybatisPlus for Box<T>
-    where
-        T: MybatisPlus,
+where
+    T: MybatisPlus,
 {
     fn table_name() -> String {
         T::table_name()
@@ -264,7 +259,7 @@ impl<T> MybatisPlus for Box<T>
         T::table_columns()
     }
 
-    fn formats(driver_type: DriverType) -> HashMap<String,  String> {
+    fn formats(driver_type: DriverType) -> HashMap<String, String> {
         T::formats(driver_type)
     }
 
@@ -281,22 +276,18 @@ impl<T> MybatisPlus for Box<T>
 #[async_trait]
 pub trait Mapping {
     /// Return can be DBExecResult or any type
-    async fn save_by_wrapper<T, R>(
-        &self,
-        table: &T,
-        w: Wrapper,
-        skips: &[Skip],
-    ) -> Result<R>
-        where
-            T: MybatisPlus, R: DeserializeOwned;
+    async fn save_by_wrapper<T, R>(&self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<R>
+    where
+        T: MybatisPlus,
+        R: DeserializeOwned;
 
     async fn save<T>(&self, table: &T, skips: &[Skip]) -> Result<DBExecResult>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     async fn save_batch<T>(&self, tables: &[T], skips: &[Skip]) -> Result<DBExecResult>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     /// save_batch_slice
     /// batch save each slice_len every time
@@ -306,62 +297,62 @@ pub trait Mapping {
         slice_len: usize,
         skips: &[Skip],
     ) -> Result<DBExecResult>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     async fn remove_by_wrapper<T>(&self, w: Wrapper) -> Result<u64>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     /// remove_by_column
     /// column_value,column's value
-    async fn remove_by_column<T, P>(&self, column: &str, column_value: P) -> Result<u64> where T: MybatisPlus, P: Serialize + Send + Sync;
+    async fn remove_by_column<T, P>(&self, column: &str, column_value: P) -> Result<u64>
+    where
+        T: MybatisPlus,
+        P: Serialize + Send + Sync;
 
     /// remove_batch_by_column
     /// column_values,column's value
     async fn remove_batch_by_column<T, P>(&self, column: &str, column_values: &[P]) -> Result<u64>
-        where
-            T: MybatisPlus, P: Serialize + Send + Sync;
+    where
+        T: MybatisPlus,
+        P: Serialize + Send + Sync;
 
     /// update_by_wrapper
     /// skips: use &[Skip::Null] will skip id column and null value param
-    async fn update_by_wrapper<T>(
-        &self,
-        table: &T,
-        w: Wrapper,
-        skips: &[Skip],
-    ) -> Result<u64>
-        where
-            T: MybatisPlus;
+    async fn update_by_wrapper<T>(&self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<u64>
+    where
+        T: MybatisPlus;
     /// update database record by id
     async fn update_by_column<T>(&self, column: &str, table: &T) -> Result<u64>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     /// remove batch database record by args
     async fn update_batch_by_column<T>(&self, column: &str, tables: &[T]) -> Result<u64>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     /// fetch database record by id
     async fn fetch_by_column<T, P>(&self, column: &str, value: P) -> Result<T>
-        where
-            T: MybatisPlus + DeserializeOwned, P: Serialize + Send + Sync;
+    where
+        T: MybatisPlus + DeserializeOwned,
+        P: Serialize + Send + Sync;
 
     /// fetch database record by a wrapper
     async fn fetch_by_wrapper<T>(&self, w: Wrapper) -> Result<T>
-        where
-            T: MybatisPlus + DeserializeOwned;
+    where
+        T: MybatisPlus + DeserializeOwned;
 
     /// count database record
     async fn fetch_count<T>(&self) -> Result<u64>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     /// count database record by a wrapper
     async fn fetch_count_by_wrapper<T>(&self, w: Wrapper) -> Result<u64>
-        where
-            T: MybatisPlus;
+    where
+        T: MybatisPlus;
 
     /// fetch page database record list by a wrapper
     async fn fetch_page_by_wrapper<T>(
@@ -369,23 +360,24 @@ pub trait Mapping {
         w: Wrapper,
         page: &dyn IPageRequest,
     ) -> Result<Page<T>>
-        where
-            T: MybatisPlus + DeserializeOwned;
+    where
+        T: MybatisPlus + DeserializeOwned;
 
     /// fetch database record list for all
     async fn fetch_list<T>(&self) -> Result<Vec<T>>
-        where
-            T: MybatisPlus + DeserializeOwned;
+    where
+        T: MybatisPlus + DeserializeOwned;
 
     /// fetch database record list by a id array
     async fn fetch_list_by_column<T, P>(&self, column: &str, column_values: &[P]) -> Result<Vec<T>>
-        where
-            T: MybatisPlus + DeserializeOwned, P: Serialize + Send + Sync;
+    where
+        T: MybatisPlus + DeserializeOwned,
+        P: Serialize + Send + Sync;
 
     /// fetch database record list by a wrapper
     async fn fetch_list_by_wrapper<T>(&self, w: Wrapper) -> Result<Vec<T>>
-        where
-            T: MybatisPlus + DeserializeOwned;
+    where
+        T: MybatisPlus + DeserializeOwned;
 
     /// fetch page result(prepare sql)
     async fn fetch_page<T>(
@@ -394,21 +386,17 @@ pub trait Mapping {
         args: Vec<rbson::Bson>,
         page_request: &dyn IPageRequest,
     ) -> Result<Page<T>>
-        where
-            T: DeserializeOwned + Serialize + Send + Sync;
+    where
+        T: DeserializeOwned + Serialize + Send + Sync;
 }
 
 #[async_trait]
 pub trait MappingMut: ExecutorMut {
     /// save by wrapper, use fetch.
-    async fn save_by_wrapper<T, R>(
-        &mut self,
-        table: &T,
-        w: Wrapper,
-        skips: &[Skip],
-    ) -> Result<R>
-        where
-            T: MybatisPlus, R: DeserializeOwned
+    async fn save_by_wrapper<T, R>(&mut self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<R>
+    where
+        T: MybatisPlus,
+        R: DeserializeOwned,
     {
         if w.sql.starts_with(TEMPLATE.insert_into.value) {
             let res = self.exec(&w.sql, w.args).await?;
@@ -417,7 +405,8 @@ pub trait MappingMut: ExecutorMut {
             let driver_type = self.driver_type()?;
             let mut new_w = Wrapper::new(&driver_type);
             let mut index = 0;
-            let (columns, column_values, args) = table.make_value_sql_arg(&self.driver_type()?, &mut index, skips)?;
+            let (columns, column_values, args) =
+                table.make_value_sql_arg(&self.driver_type()?, &mut index, skips)?;
             let table_name = choose_dyn_table_name::<T>(&new_w);
             new_w = new_w.insert_into(&table_name, &columns, &column_values);
             for x in args {
@@ -430,8 +419,8 @@ pub trait MappingMut: ExecutorMut {
 
     /// save one entity to database
     async fn save<T>(&mut self, table: &T, skips: &[Skip]) -> Result<DBExecResult>
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
         let mut index = 0;
         let (columns, values, args) =
@@ -455,8 +444,8 @@ pub trait MappingMut: ExecutorMut {
     ///
     ///
     async fn save_batch<T>(&mut self, tables: &[T], skips: &[Skip]) -> Result<DBExecResult>
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
         if tables.is_empty() {
             return Ok(DBExecResult {
@@ -505,8 +494,8 @@ pub trait MappingMut: ExecutorMut {
         slice_len: usize,
         skips: &[Skip],
     ) -> Result<DBExecResult>
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
         if slice_len == 0 || tables.len() <= slice_len {
             return self.save_batch(tables, skips).await;
@@ -536,12 +525,12 @@ pub trait MappingMut: ExecutorMut {
 
     /// remove database record by a wrapper
     async fn remove_by_wrapper<T>(&mut self, w: Wrapper) -> Result<u64>
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
         let table_name = choose_dyn_table_name::<T>(&w);
         let driver_type = self.driver_type().unwrap();
-        
+
         let where_sql = make_where(&w.sql);
 
         let mut sql = String::new();
@@ -559,21 +548,17 @@ pub trait MappingMut: ExecutorMut {
         if sql.is_empty() {
             sql = format!(
                 "{} {} {}",
-                TEMPLATE.delete_from.value,
-                table_name,
-                &where_sql
+                TEMPLATE.delete_from.value, table_name, &where_sql
             );
         }
-        return Ok(self
-            .exec(sql.as_str(), w.args)
-            .await?
-            .rows_affected);
+        return Ok(self.exec(sql.as_str(), w.args).await?.rows_affected);
     }
 
     /// remove database record by id
     async fn remove_by_column<T, P>(&mut self, column: &str, value: P) -> Result<u64>
-        where
-            T: MybatisPlus, P: Serialize + Send + Sync,
+    where
+        T: MybatisPlus,
+        P: Serialize + Send + Sync,
     {
         let mut sql = String::new();
         let driver_type = &self.driver_type()?;
@@ -585,12 +570,7 @@ pub trait MappingMut: ExecutorMut {
                 &driver_type,
                 T::table_name().as_str(),
                 &T::table_columns(),
-                format!(
-                    "{} {} = {}",
-                    TEMPLATE.r#where.value,
-                    column,
-                    data
-                ).as_str(),
+                format!("{} {} = {}", TEMPLATE.r#where.value, column, data).as_str(),
             )?;
         }
         if sql.is_empty() {
@@ -603,10 +583,7 @@ pub trait MappingMut: ExecutorMut {
                 data
             );
         }
-        return Ok(self
-            .exec(&sql, vec![as_bson!(&value)])
-            .await?
-            .rows_affected);
+        return Ok(self.exec(&sql, vec![as_bson!(&value)]).await?.rows_affected);
     }
 
     ///remove batch id
@@ -615,8 +592,9 @@ pub trait MappingMut: ExecutorMut {
     /// [mybatis] Exec ==> delete from biz_activity where id IN ( ? , ? )
     ///
     async fn remove_batch_by_column<T, P>(&mut self, column: &str, values: &[P]) -> Result<u64>
-        where
-            T: MybatisPlus, P: Serialize + Send + Sync
+    where
+        T: MybatisPlus,
+        P: Serialize + Send + Sync,
     {
         if values.is_empty() {
             return Ok(0);
@@ -631,14 +609,9 @@ pub trait MappingMut: ExecutorMut {
 
     /// update_by_wrapper
     /// skips: use &[Skip::Value(&rbson::Bson::Null), Skip::Column("id"), Skip::Column(column)] will skip id column and null value param
-    async fn update_by_wrapper<T>(
-        &mut self,
-        table: &T,
-        w: Wrapper,
-        skips: &[Skip],
-    ) -> Result<u64>
-        where
-            T: MybatisPlus,
+    async fn update_by_wrapper<T>(&mut self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<u64>
+    where
+        T: MybatisPlus,
     {
         let table_name = choose_dyn_table_name::<T>(&w);
         let mut args = vec![];
@@ -693,38 +666,20 @@ pub trait MappingMut: ExecutorMut {
             }
             let mut data = String::new();
             driver_type.stmt_convert(args.len(), &mut data);
-            T::do_format_column(
-                &driver_type,
-                &column,
-                &mut data,
-            );
-            sets.push_str(
-                format!(
-                    " {} = {},",
-                    column,
-                    data
-                ).as_str(),
-            );
+            T::do_format_column(&driver_type, &column, &mut data);
+            sets.push_str(format!(" {} = {},", column, data).as_str());
             args.push(v.clone());
         }
         sets.pop();
         let mut wrapper = self.get_mybatis().new_wrapper_table::<T>();
         wrapper.sql = format!(
             "{} {} {} {} ",
-            TEMPLATE.update.value,
-            table_name,
-           TEMPLATE.set.value,
-            sets
+            TEMPLATE.update.value, table_name, TEMPLATE.set.value, sets
         );
         wrapper.args = args;
         if !w.sql.is_empty() {
-            if !wrapper
-                .sql
-                .contains(TEMPLATE.r#where.left_right_space)
-            {
-                wrapper
-                    .sql
-                    .push_str(TEMPLATE.r#where.left_right_space);
+            if !wrapper.sql.contains(TEMPLATE.r#where.left_right_space) {
+                wrapper.sql.push_str(TEMPLATE.r#where.left_right_space);
             }
             wrapper = wrapper.and();
             wrapper = wrapper.push_wrapper(w);
@@ -739,25 +694,27 @@ pub trait MappingMut: ExecutorMut {
     /// update database record by id
     /// update sql will be skip null value and id column
     async fn update_by_column<T>(&mut self, column: &str, table: &T) -> Result<u64>
-        where
-            T: MybatisPlus
+    where
+        T: MybatisPlus,
     {
-        let rb = self
-            .get_mybatis();
+        let rb = self.get_mybatis();
         let value = table.get(column);
         self.update_by_wrapper(
-            table, rb
-                .new_wrapper_table::<T>()
-                .eq(column, value),
-            &[Skip::Value(Bson::Null), Skip::Column("id"), Skip::Column(column)],
+            table,
+            rb.new_wrapper_table::<T>().eq(column, value),
+            &[
+                Skip::Value(Bson::Null),
+                Skip::Column("id"),
+                Skip::Column(column),
+            ],
         )
-            .await
+        .await
     }
 
     /// remove batch database record by args
     async fn update_batch_by_column<T>(&mut self, column: &str, args: &[T]) -> Result<u64>
-        where
-            T: MybatisPlus
+    where
+        T: MybatisPlus,
     {
         let mut updates = 0;
         for x in args {
@@ -768,8 +725,8 @@ pub trait MappingMut: ExecutorMut {
 
     /// fetch database record by a wrapper
     async fn fetch_by_wrapper<T>(&mut self, w: Wrapper) -> Result<T>
-        where
-            T: MybatisPlus + DeserializeOwned,
+    where
+        T: MybatisPlus + DeserializeOwned,
     {
         let sql = make_select_sql::<T>(self.get_mybatis(), &T::table_columns(), &w)?;
         return self.fetch(sql.as_str(), w.args).await;
@@ -777,17 +734,21 @@ pub trait MappingMut: ExecutorMut {
 
     /// count database record
     async fn fetch_count<T>(&mut self) -> Result<u64>
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
-        let sql = make_select_sql::<T>(self.get_mybatis(), "count(1)", &Wrapper::new(&self.driver_type()?))?;
+        let sql = make_select_sql::<T>(
+            self.get_mybatis(),
+            "count(1)",
+            &Wrapper::new(&self.driver_type()?),
+        )?;
         return self.fetch(sql.as_str(), vec![]).await;
     }
 
     /// count database record by a wrapper
     async fn fetch_count_by_wrapper<T>(&mut self, w: Wrapper) -> Result<u64>
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
         let sql = make_select_sql::<T>(self.get_mybatis(), "count(1)", &w)?;
         return self.fetch(sql.as_str(), w.args).await;
@@ -795,17 +756,21 @@ pub trait MappingMut: ExecutorMut {
 
     /// fetch database record by value
     async fn fetch_by_column<T, P>(&mut self, column: &str, value: P) -> Result<T>
-        where
-            T: MybatisPlus + DeserializeOwned, P: Serialize + Send + Sync,
+    where
+        T: MybatisPlus + DeserializeOwned,
+        P: Serialize + Send + Sync,
     {
-        let w = self.get_mybatis().new_wrapper_table::<T>().eq(&column, value);
+        let w = self
+            .get_mybatis()
+            .new_wrapper_table::<T>()
+            .eq(&column, value);
         return self.fetch_by_wrapper(w).await;
     }
 
     /// fetch database record list by a wrapper
     async fn fetch_list_by_wrapper<T>(&mut self, w: Wrapper) -> Result<Vec<T>>
-        where
-            T: MybatisPlus + DeserializeOwned,
+    where
+        T: MybatisPlus + DeserializeOwned,
     {
         let sql = make_select_sql::<T>(self.get_mybatis(), &T::table_columns(), &w)?;
         return self.fetch(sql.as_str(), w.args).await;
@@ -813,23 +778,32 @@ pub trait MappingMut: ExecutorMut {
 
     /// fetch database record list for all
     async fn fetch_list<T>(&mut self) -> Result<Vec<T>>
-        where
-            T: MybatisPlus + DeserializeOwned,
+    where
+        T: MybatisPlus + DeserializeOwned,
     {
         let rb = self.get_mybatis();
-        return self.fetch_list_by_wrapper(rb.new_wrapper_table::<T>())
+        return self
+            .fetch_list_by_wrapper(rb.new_wrapper_table::<T>())
             .await;
     }
 
     /// fetch database record list by a id array
-    async fn fetch_list_by_column<T, P>(&mut self, column: &str, column_values: &[P]) -> Result<Vec<T>>
-        where
-            T: MybatisPlus + DeserializeOwned, P: Serialize + Send + Sync,
+    async fn fetch_list_by_column<T, P>(
+        &mut self,
+        column: &str,
+        column_values: &[P],
+    ) -> Result<Vec<T>>
+    where
+        T: MybatisPlus + DeserializeOwned,
+        P: Serialize + Send + Sync,
     {
         if column_values.is_empty() {
             return Ok(vec![]);
         }
-        let w = self.get_mybatis().new_wrapper_table::<T>().in_array(&column, column_values);
+        let w = self
+            .get_mybatis()
+            .new_wrapper_table::<T>()
+            .in_array(&column, column_values);
         return self.fetch_list_by_wrapper(w).await;
     }
 
@@ -839,8 +813,8 @@ pub trait MappingMut: ExecutorMut {
         w: Wrapper,
         page: &dyn IPageRequest,
     ) -> Result<Page<T>>
-        where
-            T: MybatisPlus + DeserializeOwned,
+    where
+        T: MybatisPlus + DeserializeOwned,
     {
         let sql = make_select_sql::<T>(self.get_mybatis(), &T::table_columns(), &w)?;
         self.fetch_page(sql.as_str(), w.args, page).await
@@ -853,8 +827,8 @@ pub trait MappingMut: ExecutorMut {
         args: Vec<rbson::Bson>,
         page_request: &dyn IPageRequest,
     ) -> Result<Page<T>>
-        where
-            T: DeserializeOwned + Serialize + Send + Sync,
+    where
+        T: DeserializeOwned + Serialize + Send + Sync,
     {
         let mut page_result = Page::new(page_request.get_page_no(), page_request.get_page_size());
         page_result.search_count = page_request.is_search_count();
@@ -866,9 +840,7 @@ pub trait MappingMut: ExecutorMut {
         )?;
         if page_request.is_search_count() {
             //make count sql
-            let total: Option<u64> = self
-                .fetch(&count_sql, args.clone())
-                .await?;
+            let total: Option<u64> = self.fetch(&count_sql, args.clone()).await?;
             page_result.set_total(total.unwrap_or(0));
             page_result.pages = page_result.get_pages();
             if page_result.get_total() == 0 {
@@ -887,7 +859,6 @@ impl MappingMut for MyBatisConnExecutor<'_> {}
 impl MappingMut for MyBatisTxExecutor<'_> {}
 
 fn make_where(where_sql: &str) -> String {
-
     let sql = where_sql.trim_start();
     if sql.is_empty() {
         return String::new();
@@ -923,18 +894,14 @@ fn make_left_insert_where(insert_sql: &str, where_sql: &str) -> String {
         format!(
             " {} {} {}",
             TEMPLATE.r#where.value,
-            insert_sql
-                .trim()
-                .trim_end_matches(TEMPLATE.and.left_space),
+            insert_sql.trim().trim_end_matches(TEMPLATE.and.left_space),
             sql
         )
     } else {
         format!(
             " {} {} {} {}",
             TEMPLATE.r#where.value,
-            insert_sql
-                .trim()
-                .trim_end_matches(TEMPLATE.and.left_space),
+            insert_sql.trim().trim_end_matches(TEMPLATE.and.left_space),
             TEMPLATE.and.value,
             sql
         )
@@ -943,20 +910,20 @@ fn make_left_insert_where(insert_sql: &str, where_sql: &str) -> String {
 
 /// choose table name
 fn choose_dyn_table_name<T>(w: &Wrapper) -> String
-    where
-        T: MybatisPlus,
+where
+    T: MybatisPlus,
 {
     let mut table_name = T::table_name();
     let table_name_format = w.formats.get("table_name");
     if let Some(table_name_format) = table_name_format {
-        table_name = table_name_format.replace("{}",&table_name);
+        table_name = table_name_format.replace("{}", &table_name);
     }
     return table_name;
 }
 
 fn make_select_sql<T>(rb: &Mybatis, column: &str, w: &Wrapper) -> Result<String>
-    where
-        T: MybatisPlus,
+where
+    T: MybatisPlus,
 {
     let driver_type = rb.driver_type().unwrap();
 
@@ -964,125 +931,168 @@ fn make_select_sql<T>(rb: &Mybatis, column: &str, w: &Wrapper) -> Result<String>
     let table_name = choose_dyn_table_name::<T>(w);
     Ok(format!(
         "{} {} {} {} {}",
-        TEMPLATE.select.value,
-        column,
-        TEMPLATE.from.value,
-        table_name,
-        where_sql,
+        TEMPLATE.select.value, column, TEMPLATE.from.value, table_name, where_sql,
     ))
 }
 
 #[async_trait]
 impl Mapping for Mybatis {
-    async fn save_by_wrapper<T, R>(&self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<R> where
-        T: MybatisPlus, R: DeserializeOwned {
+    async fn save_by_wrapper<T, R>(&self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<R>
+    where
+        T: MybatisPlus,
+        R: DeserializeOwned,
+    {
         let mut conn = self.acquire().await?;
         conn.save_by_wrapper(table, w, skips).await
     }
 
-    async fn save<T>(&self, table: &T, skips: &[Skip]) -> Result<DBExecResult> where
-        T: MybatisPlus {
+    async fn save<T>(&self, table: &T, skips: &[Skip]) -> Result<DBExecResult>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.save(table, skips).await
     }
 
-    async fn save_batch<T>(&self, tables: &[T], skips: &[Skip]) -> Result<DBExecResult> where
-        T: MybatisPlus {
+    async fn save_batch<T>(&self, tables: &[T], skips: &[Skip]) -> Result<DBExecResult>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.save_batch(tables, skips).await
     }
 
-    async fn save_batch_slice<T>(&self, tables: &[T], slice_len: usize, skips: &[Skip]) -> Result<DBExecResult> where
-        T: MybatisPlus {
+    async fn save_batch_slice<T>(
+        &self,
+        tables: &[T],
+        slice_len: usize,
+        skips: &[Skip],
+    ) -> Result<DBExecResult>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.save_batch_slice(tables, slice_len, skips).await
     }
 
-    async fn remove_by_wrapper<T>(&self, w: Wrapper) -> Result<u64> where
-        T: MybatisPlus {
+    async fn remove_by_wrapper<T>(&self, w: Wrapper) -> Result<u64>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.remove_by_wrapper::<T>(w).await
     }
 
-    async fn remove_by_column<T, P>(&self, column: &str, value: P) -> Result<u64> where
-        T: MybatisPlus, P: Serialize + Send + Sync {
+    async fn remove_by_column<T, P>(&self, column: &str, value: P) -> Result<u64>
+    where
+        T: MybatisPlus,
+        P: Serialize + Send + Sync,
+    {
         let mut conn = self.acquire().await?;
         conn.remove_by_column::<T, P>(column, value).await
     }
 
-    async fn remove_batch_by_column<T, P>(&self, column: &str, values: &[P]) -> Result<u64> where
-        T: MybatisPlus, P: Serialize + Send + Sync {
+    async fn remove_batch_by_column<T, P>(&self, column: &str, values: &[P]) -> Result<u64>
+    where
+        T: MybatisPlus,
+        P: Serialize + Send + Sync,
+    {
         let mut conn = self.acquire().await?;
         conn.remove_batch_by_column::<T, P>(column, values).await
     }
 
     /// update_by_wrapper
     /// skips: use &[Skip::Value(&rbson::Bson::Null), Skip::Column("id"), Skip::Column(column)] will skip id column and null value param
-    async fn update_by_wrapper<T>(&self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<u64> where
-        T: MybatisPlus {
+    async fn update_by_wrapper<T>(&self, table: &T, w: Wrapper, skips: &[Skip]) -> Result<u64>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.update_by_wrapper(table, w, skips).await
     }
 
-    async fn update_by_column<T>(&self, column: &str, table: &T) -> Result<u64> where
-        T: MybatisPlus {
+    async fn update_by_column<T>(&self, column: &str, table: &T) -> Result<u64>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.update_by_column(column, table).await
     }
 
-    async fn update_batch_by_column<T>(&self, column: &str, args: &[T]) -> Result<u64> where
-        T: MybatisPlus {
+    async fn update_batch_by_column<T>(&self, column: &str, args: &[T]) -> Result<u64>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.update_batch_by_column::<T>(column, args).await
     }
 
-    async fn fetch_by_column<T, P>(&self, column: &str, value: P) -> Result<T> where
-        T: MybatisPlus + DeserializeOwned, P: Serialize + Send + Sync {
+    async fn fetch_by_column<T, P>(&self, column: &str, value: P) -> Result<T>
+    where
+        T: MybatisPlus + DeserializeOwned,
+        P: Serialize + Send + Sync,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_by_column::<T, P>(column, value).await
     }
 
-    async fn fetch_by_wrapper<T>(&self, w: Wrapper) -> Result<T> where
-        T: MybatisPlus + DeserializeOwned {
+    async fn fetch_by_wrapper<T>(&self, w: Wrapper) -> Result<T>
+    where
+        T: MybatisPlus + DeserializeOwned,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_by_wrapper(w).await
     }
 
-    async fn fetch_count<T>(&self) -> Result<u64> where
-        T: MybatisPlus {
+    async fn fetch_count<T>(&self) -> Result<u64>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_count::<T>().await
     }
 
-    async fn fetch_count_by_wrapper<T>(&self, w: Wrapper) -> Result<u64> where
-        T: MybatisPlus {
+    async fn fetch_count_by_wrapper<T>(&self, w: Wrapper) -> Result<u64>
+    where
+        T: MybatisPlus,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_count_by_wrapper::<T>(w).await
     }
 
-    async fn fetch_page_by_wrapper<T>(&self, w: Wrapper, page: &dyn IPageRequest) -> Result<Page<T>> where
-        T: MybatisPlus + DeserializeOwned {
+    async fn fetch_page_by_wrapper<T>(&self, w: Wrapper, page: &dyn IPageRequest) -> Result<Page<T>>
+    where
+        T: MybatisPlus + DeserializeOwned,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_page_by_wrapper::<T>(w, page).await
     }
 
-    async fn fetch_list<T>(&self) -> Result<Vec<T>> where
-        T: MybatisPlus + DeserializeOwned {
+    async fn fetch_list<T>(&self) -> Result<Vec<T>>
+    where
+        T: MybatisPlus + DeserializeOwned,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_list().await
     }
 
-    async fn fetch_list_by_column<T, P>(&self, column: &str, column_values: &[P]) -> Result<Vec<T>> where
-        T: MybatisPlus + DeserializeOwned, P: Serialize + Send + Sync {
+    async fn fetch_list_by_column<T, P>(&self, column: &str, column_values: &[P]) -> Result<Vec<T>>
+    where
+        T: MybatisPlus + DeserializeOwned,
+        P: Serialize + Send + Sync,
+    {
         if column_values.is_empty() {
             return Ok(vec![]);
         }
         let mut conn = self.acquire().await?;
-        conn.fetch_list_by_column::<T, P>(column, column_values).await
+        conn.fetch_list_by_column::<T, P>(column, column_values)
+            .await
     }
 
-    async fn fetch_list_by_wrapper<T>(&self, w: Wrapper) -> Result<Vec<T>> where
-        T: MybatisPlus + DeserializeOwned {
+    async fn fetch_list_by_wrapper<T>(&self, w: Wrapper) -> Result<Vec<T>>
+    where
+        T: MybatisPlus + DeserializeOwned,
+    {
         let mut conn = self.acquire().await?;
         conn.fetch_list_by_wrapper(w).await
     }
@@ -1094,14 +1104,13 @@ impl Mapping for Mybatis {
         args: Vec<rbson::Bson>,
         page_request: &dyn IPageRequest,
     ) -> Result<Page<T>>
-        where
-            T: DeserializeOwned + Serialize + Send + Sync,
+    where
+        T: DeserializeOwned + Serialize + Send + Sync,
     {
         let mut conn = self.acquire().await?;
         conn.fetch_page(sql, args, page_request).await
     }
 }
-
 
 /// skip column or param value
 pub enum Skip<'a> {
@@ -1113,11 +1122,13 @@ pub enum Skip<'a> {
 
 impl<'a> Skip<'a> {
     /// from serialize value
-    pub fn value<T>(arg: T) -> Self where T: Serialize {
+    pub fn value<T>(arg: T) -> Self
+    where
+        T: Serialize,
+    {
         Self::Value(as_bson!(&arg))
     }
 }
-
 
 pub trait TableColumnProvider: Send + Sync {
     fn table_name() -> String;
@@ -1130,16 +1141,31 @@ pub struct DynTableColumn<T: MybatisPlus, P: TableColumnProvider> {
     pub p: PhantomData<P>,
 }
 
-impl<T, P> Serialize for DynTableColumn<T, P> where T: MybatisPlus, P: TableColumnProvider {
-    fn serialize<S>(&self, serializer: S) -> std::result::Result<<S as Serializer>::Ok, <S as Serializer>::Error> where
-        S: Serializer {
+impl<T, P> Serialize for DynTableColumn<T, P>
+where
+    T: MybatisPlus,
+    P: TableColumnProvider,
+{
+    fn serialize<S>(
+        &self,
+        serializer: S,
+    ) -> std::result::Result<<S as Serializer>::Ok, <S as Serializer>::Error>
+    where
+        S: Serializer,
+    {
         T::serialize(&self.inner, serializer)
     }
 }
 
-impl<'de, T, P> Deserialize<'de> for DynTableColumn<T, P> where T: MybatisPlus + DeserializeOwned, P: TableColumnProvider {
-    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, <D as Deserializer<'de>>::Error> where
-        D: Deserializer<'de> {
+impl<'de, T, P> Deserialize<'de> for DynTableColumn<T, P>
+where
+    T: MybatisPlus + DeserializeOwned,
+    P: TableColumnProvider,
+{
+    fn deserialize<D>(deserializer: D) -> std::result::Result<Self, <D as Deserializer<'de>>::Error>
+    where
+        D: Deserializer<'de>,
+    {
         let result = T::deserialize(deserializer)?;
         return Ok(DynTableColumn {
             inner: result,
@@ -1148,7 +1174,11 @@ impl<'de, T, P> Deserialize<'de> for DynTableColumn<T, P> where T: MybatisPlus +
     }
 }
 
-impl<T, P> Deref for DynTableColumn<T, P> where T: MybatisPlus, P: TableColumnProvider {
+impl<T, P> Deref for DynTableColumn<T, P>
+where
+    T: MybatisPlus,
+    P: TableColumnProvider,
+{
     type Target = T;
 
     fn deref(&self) -> &Self::Target {
@@ -1156,13 +1186,21 @@ impl<T, P> Deref for DynTableColumn<T, P> where T: MybatisPlus, P: TableColumnPr
     }
 }
 
-impl<T, P> DerefMut for DynTableColumn<T, P> where T: MybatisPlus, P: TableColumnProvider {
+impl<T, P> DerefMut for DynTableColumn<T, P>
+where
+    T: MybatisPlus,
+    P: TableColumnProvider,
+{
     fn deref_mut(&mut self) -> &mut Self::Target {
         &mut self.inner
     }
 }
 
-impl<T, P> MybatisPlus for DynTableColumn<T, P> where T: MybatisPlus, P: TableColumnProvider {
+impl<T, P> MybatisPlus for DynTableColumn<T, P>
+where
+    T: MybatisPlus,
+    P: TableColumnProvider,
+{
     fn table_name() -> String {
         P::table_name()
     }
@@ -1189,12 +1227,9 @@ impl<T, P> MybatisPlus for DynTableColumn<T, P> where T: MybatisPlus, P: TableCo
     /// return cast chain
     /// column:format_str
     /// for example: HashMap<"id",“{}::uuid”.to_string()>
-    fn formats(
-        driver_type: DriverType,
-    ) -> HashMap<String,  String> {
+    fn formats(driver_type: DriverType) -> HashMap<String, String> {
         T::formats(driver_type)
     }
-
 
     /// return table column value
     /// If a macro is used, the method is overridden by the macro

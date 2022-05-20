@@ -1,12 +1,12 @@
 use mybatis_core::convert::StmtConvert;
 
-use crate::plus::MybatisPlus;
 use crate::mybatis::Mybatis;
+use crate::plus::MybatisPlus;
 use mybatis_core::db::DriverType;
 use mybatis_core::Error;
+use mybatis_sql::TEMPLATE;
 use rbson::Bson;
 use std::fmt::{Debug, Display};
-use mybatis_sql::TEMPLATE;
 
 /// sql intercept
 pub trait SqlIntercept: Send + Sync + Debug {
@@ -44,11 +44,8 @@ impl SqlIntercept for MyBatisLogFormatSqlIntercept {
                 for index in 0..args.len() {
                     let mut data = String::new();
                     driver_type.stmt_convert(index, &mut data);
-                    formated = formated.replacen(
-                        &data,
-                        &format!("{}", args.get(index).unwrap()),
-                        1,
-                    );
+                    formated =
+                        formated.replacen(&data, &format!("{}", args.get(index).unwrap()), 1);
                 }
                 rb.log_plugin.info(0, &formated);
             }

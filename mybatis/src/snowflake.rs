@@ -14,7 +14,6 @@ pub struct Snowflake {
     pub time: AtomicI64,
 }
 
-
 impl Clone for Snowflake {
     fn clone(&self) -> Self {
         let sequence = self.sequence.load(Ordering::Relaxed);

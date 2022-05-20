@@ -1,10 +1,10 @@
+use mybatis_sql::ops::AsProxy;
+use mybatis_sql::TEMPLATE;
+use mybatis_util::as_bson;
+use rbson::Bson;
 use std::collections::HashMap;
 use std::fmt::{Debug, Formatter};
 use std::ops::Add;
-use mybatis_sql::TEMPLATE;
-use mybatis_sql::ops::AsProxy;
-use mybatis_util::as_bson;
-use rbson::Bson;
 
 use serde::{Deserialize, Serialize};
 
@@ -109,8 +109,7 @@ impl Wrapper {
     }
 
     /// push sql,args into self
-    pub fn push(mut self, sql: &str, args: Vec<rbson::Bson>) -> Self
-    {
+    pub fn push(mut self, sql: &str, args: Vec<rbson::Bson>) -> Self {
         let mut new_sql = sql.to_string();
         match self.driver_type {
             DriverType::None => {}
@@ -122,24 +121,20 @@ impl Wrapper {
                     self.driver_type.stmt_convert(index, &mut convert_column);
 
                     let mut convert_column_new = String::new();
-                    self.driver_type.stmt_convert(index + args.len(), &mut convert_column_new);
-                    new_sql = new_sql.replace(
-                        convert_column.as_str(),
-                        convert_column_new.as_str(),
-                    );
+                    self.driver_type
+                        .stmt_convert(index + args.len(), &mut convert_column_new);
+                    new_sql = new_sql.replace(convert_column.as_str(), convert_column_new.as_str());
                 }
                 for index in args.len()..self_arg_len {
                     let mut convert_column = String::new();
                     self.driver_type.stmt_convert(index, &mut convert_column);
 
                     let mut convert_column_new = String::new();
-                    self.driver_type.stmt_convert(index + args.len(), &mut convert_column_new);
+                    self.driver_type
+                        .stmt_convert(index + args.len(), &mut convert_column_new);
 
                     println!("{},{}", convert_column, convert_column_new);
-                    new_sql = new_sql.replace(
-                        convert_column.as_str(),
-                        convert_column_new.as_str(),
-                    );
+                    new_sql = new_sql.replace(convert_column.as_str(), convert_column_new.as_str());
                 }
             }
             DriverType::Sqlite => {}
@@ -156,8 +151,8 @@ impl Wrapper {
     ///  let arg = 1;
     ///  wrapper.do_if(true, |w| w.eq("id"))
     pub fn do_if<'s, F>(self, test: bool, method: F) -> Self
-        where
-            F: FnOnce(Self) -> Self,
+    where
+        F: FnOnce(Self) -> Self,
     {
         if test {
             return method(self);
@@ -170,8 +165,8 @@ impl Wrapper {
     ///  let arg = 1;
     ///  wrapper.r#if(true, |w| w.eq("id"))
     pub fn r#if<'s, F>(self, test: bool, method: F) -> Self
-        where
-            F: FnOnce(Self) -> Self,
+    where
+        F: FnOnce(Self) -> Self,
     {
         self.do_if(test, method)
     }
@@ -181,8 +176,8 @@ impl Wrapper {
     ///  let arg = 1;
     ///  wrapper.do_if(true, |w| w.eq("id"),|w|w)
     pub fn do_if_else<'s, F>(self, test: bool, method_if: F, method_else: fn(Self) -> Self) -> Self
-        where
-            F: FnOnce(Self) -> Self,
+    where
+        F: FnOnce(Self) -> Self,
     {
         if test {
             return method_if(self);
@@ -196,8 +191,8 @@ impl Wrapper {
     ///  let arg = 1;
     ///  wrapper.do_if(true, |w| w.eq("id"),|w|w)
     pub fn r#if_else<'s, F>(self, test: bool, method_if: F, method_else: fn(Self) -> Self) -> Self
-        where
-            F: FnOnce(Self) -> Self,
+    where
+        F: FnOnce(Self) -> Self,
     {
         self.do_if_else(test, method_if, method_else)
     }
@@ -212,8 +207,8 @@ impl Wrapper {
     ///             ], |w| w.eq("a", "default"))
     ///             ;
     pub fn do_match<'s, F>(self, cases: &[(bool, fn(Wrapper) -> Wrapper)], default: F) -> Self
-        where
-            F: FnOnce(Self) -> Self,
+    where
+        F: FnOnce(Self) -> Self,
     {
         for (test, case) in cases {
             if *test {
@@ -234,8 +229,8 @@ impl Wrapper {
     }
 
     pub fn set_args<T>(mut self, args: &[T]) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         let v = as_bson!(args);
         match v {
@@ -251,8 +246,8 @@ impl Wrapper {
     }
 
     pub fn push_arg<T>(mut self, arg: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         let v = as_bson!(&arg);
         self.args.push(v);
@@ -290,8 +285,7 @@ impl Wrapper {
     /// link wrapper sql, if end with where , do nothing
     pub fn and(mut self) -> Self {
         if !self.not_allow_add_and_on_end() {
-            self.sql
-                .push_str(&TEMPLATE.and.left_right_space);
+            self.sql.push_str(&TEMPLATE.and.left_right_space);
         }
         self
     }
@@ -306,14 +300,14 @@ impl Wrapper {
 
     pub fn having(mut self, sql_having: &str) -> Self {
         self = self.and();
-        push_sql!(self.sql,TEMPLATE.having.value," ",sql_having);
+        push_sql!(self.sql, TEMPLATE.having.value, " ", sql_having);
         self
     }
 
     /// arg: JsonObject or struct{} or map[String,**]
     pub fn all_eq<T>(mut self, arg: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let v = as_bson!(&arg);
@@ -346,7 +340,7 @@ impl Wrapper {
         let source = self.formats.get(column);
         match source {
             Some(source) => {
-                *data = source.replace("{}",data);
+                *data = source.replace("{}", data);
             }
             _ => {}
         }
@@ -356,28 +350,30 @@ impl Wrapper {
     /// for example:
     ///  eq("a",1) " a = 1 "
     pub fn eq<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," = ",convert_column.as_str(),);
+        push_sql!(self.sql, column, " = ", convert_column.as_str(),);
         self.args.push(as_bson!(&obj));
         self
     }
 
     /// not equal
     pub fn ne<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," <> ",convert_column.as_str(),);
+        push_sql!(self.sql, column, " <> ", convert_column.as_str(),);
         self.args.push(as_bson!(&obj));
         self
     }
@@ -398,9 +394,9 @@ impl Wrapper {
         self.sql.push_str(&TEMPLATE.order_by.left_right_space);
         for x in columns {
             if is_asc {
-                push_sql!(self.sql,x," ",TEMPLATE.asc.value,);
+                push_sql!(self.sql, x, " ", TEMPLATE.asc.value,);
             } else {
-                push_sql!(self.sql,x," ",TEMPLATE.desc.value,);
+                push_sql!(self.sql, x, " ", TEMPLATE.desc.value,);
             }
             if (index + 1) != len {
                 self.sql.push_str(",");
@@ -427,9 +423,9 @@ impl Wrapper {
         self.sql.push_str(&TEMPLATE.order_by.left_right_space);
         for (x, is_asc) in column_asc {
             if *is_asc {
-                push_sql!(self.sql,x," ",TEMPLATE.asc.value,);
+                push_sql!(self.sql, x, " ", TEMPLATE.asc.value,);
             } else {
-                push_sql!(self.sql,x," ",TEMPLATE.desc.value,);
+                push_sql!(self.sql, x, " ", TEMPLATE.desc.value,);
             }
             if (index + 1) != len {
                 self.sql.push_str(",");
@@ -453,8 +449,7 @@ impl Wrapper {
             .trim_end_matches(TEMPLATE.and.left_space)
             .trim_end_matches(TEMPLATE.or.left_space)
             .to_string();
-        self.sql
-            .push_str(&TEMPLATE.group_by.left_right_space);
+        self.sql.push_str(&TEMPLATE.group_by.left_right_space);
         for x in columns {
             self.sql.push_str(x);
             if (index + 1) != len {
@@ -468,106 +463,142 @@ impl Wrapper {
 
     ///  sql:   column > obj
     pub fn gt<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," > ", &convert_column.as_str(),);
+        push_sql!(self.sql, column, " > ", &convert_column.as_str(),);
         self.args.push(as_bson!(&obj));
         self
     }
     ///  sql:   column >= obj
     pub fn ge<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," >= ", &convert_column.as_str(),);
+        push_sql!(self.sql, column, " >= ", &convert_column.as_str(),);
         self.args.push(as_bson!(&obj));
         self
     }
 
     ///  sql:   column < obj
     pub fn lt<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," < ", &convert_column.as_str(),);
+        push_sql!(self.sql, column, " < ", &convert_column.as_str(),);
         self.args.push(as_bson!(&obj));
         self
     }
 
     ///  sql:   column <= obj
     pub fn le<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," <= ", &convert_column.as_str(),);
+        push_sql!(self.sql, column, " <= ", &convert_column.as_str(),);
         self.args.push(as_bson!(&obj));
         self
     }
 
     pub fn between<T>(mut self, column: &str, min: T, max: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," ",TEMPLATE.between.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.between.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&min));
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql," ",TEMPLATE.and.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            " ",
+            TEMPLATE.and.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&max));
         self
     }
 
     pub fn not_between<T>(mut self, column: &str, min: T, max: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," ",TEMPLATE.not.value," ",TEMPLATE.between.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.not.value,
+            " ",
+            TEMPLATE.between.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&min));
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql," ",TEMPLATE.and.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            " ",
+            TEMPLATE.and.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&max));
         self
     }
 
     pub fn like<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let v = as_bson!(&obj);
@@ -579,17 +610,25 @@ impl Wrapper {
         }
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," ",TEMPLATE.like.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.like.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&v_str));
         self
     }
 
     pub fn like_left<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let v = as_bson!(&obj);
@@ -601,17 +640,25 @@ impl Wrapper {
         }
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," ",TEMPLATE.like.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.like.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&v_str));
         self
     }
 
     pub fn like_right<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let v = as_bson!(&obj);
@@ -623,17 +670,25 @@ impl Wrapper {
         }
 
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," ",TEMPLATE.like.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.like.value,
+            " ",
+            &convert_column.as_str(),
+        );
 
         self.args.push(as_bson!(&v_str));
         self
     }
 
     pub fn not_like<T>(mut self, column: &str, obj: T) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self = self.and();
         let v = as_bson!(&obj);
@@ -644,9 +699,19 @@ impl Wrapper {
             v_str = format!("%{}%", v.to_string());
         }
         let mut convert_column = String::new();
-        self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+        self.driver_type
+            .stmt_convert(self.args.len(), &mut convert_column);
         self.do_format_column(column, &mut convert_column);
-        push_sql!(self.sql,column," ",TEMPLATE.not.value," ",TEMPLATE.like.value," ", &convert_column.as_str(),);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.not.value,
+            " ",
+            TEMPLATE.like.value,
+            " ",
+            &convert_column.as_str(),
+        );
         self.args.push(as_bson!(&v_str));
         self
     }
@@ -670,62 +735,72 @@ impl Wrapper {
 
     /// gen sql: * in (*,*,*)
     pub fn in_array<T>(mut self, column: &str, obj: &[T]) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         if obj.len() == 0 {
             return self;
         }
         self = self.and();
-        push_sql!(self.sql,column," ",TEMPLATE.r#in.value," (",);
+        push_sql!(self.sql, column, " ", TEMPLATE.r#in.value, " (",);
         for x in obj {
             let mut convert_column = String::new();
-            self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+            self.driver_type
+                .stmt_convert(self.args.len(), &mut convert_column);
             self.do_format_column(column, &mut convert_column);
-            push_sql!(self.sql," ",&convert_column.as_str()," ",);
+            push_sql!(self.sql, " ", &convert_column.as_str(), " ",);
             self.sql.push_str(",");
             self.args.push(as_bson!(x));
         }
         self.sql.pop();
-        push_sql!(self.sql,")",);
+        push_sql!(self.sql, ")",);
         self
     }
 
     /// gen sql: * in (*,*,*)
     pub fn in_<T>(self, column: &str, obj: &[T]) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self.in_array(column, obj)
     }
 
     /// gen sql: * in (*,*,*)
     pub fn r#in<T>(self, column: &str, obj: &[T]) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         self.in_array(column, obj)
     }
 
     pub fn not_in<T>(mut self, column: &str, obj: &[T]) -> Self
-        where
-            T: Serialize,
+    where
+        T: Serialize,
     {
         if obj.len() == 0 {
             return self;
         }
         self = self.and();
-        push_sql!(self.sql,column," ",TEMPLATE.not.value," ",TEMPLATE.r#in.value," (",);
+        push_sql!(
+            self.sql,
+            column,
+            " ",
+            TEMPLATE.not.value,
+            " ",
+            TEMPLATE.r#in.value,
+            " (",
+        );
         for x in obj {
             let mut convert_column = String::new();
-            self.driver_type.stmt_convert(self.args.len(), &mut convert_column);
+            self.driver_type
+                .stmt_convert(self.args.len(), &mut convert_column);
             self.do_format_column(column, &mut convert_column);
-            push_sql!(self.sql," ",&convert_column.as_str()," ",);
+            push_sql!(self.sql, " ", &convert_column.as_str(), " ",);
             self.sql.push_str(",");
             self.args.push(as_bson!(x));
         }
         self.sql.pop();
-        push_sql!(self.sql,")",);
+        push_sql!(self.sql, ")",);
         self
     }
 
@@ -770,20 +845,12 @@ impl Wrapper {
         if values.starts_with("(") && values.ends_with(")") {
             self.sql = format!(
                 "{} {} ({}) {} ({})",
-                TEMPLATE.insert_into.value,
-                table_name,
-                columns,
-                TEMPLATE.values.value,
-                values
+                TEMPLATE.insert_into.value, table_name, columns, TEMPLATE.values.value, values
             );
         } else {
             self.sql = format!(
                 "{} {} ({}) {} ({})",
-                TEMPLATE.insert_into.value,
-                table_name,
-                columns,
-                TEMPLATE.values.value,
-                values
+                TEMPLATE.insert_into.value, table_name, columns, TEMPLATE.values.value, values
             );
         }
         self
@@ -794,7 +861,7 @@ impl Wrapper {
     ///  limit(1) " limit 1 "
     pub fn limit(mut self, limit: u64) -> Self {
         use std::fmt::Write;
-        push_sql!(self.sql," ",TEMPLATE.limit.value," ",);
+        push_sql!(self.sql, " ", TEMPLATE.limit.value, " ",);
         self.sql.write_fmt(format_args!("{}", limit));
         self.sql.push_str(" ");
         self

@@ -4,9 +4,9 @@ use std::future::Future;
 
 use futures_core::future::BoxFuture;
 use mybatis_core::Error;
+use rbson::Bson;
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-use rbson::Bson;
 
 use mybatis_sql::{PageLimit, TEMPLATE};
 
@@ -213,8 +213,8 @@ impl<T> Default for Page<T> {
 }
 
 impl<T> IPageRequest for Page<T>
-    where
-        T: Send + Sync,
+where
+    T: Send + Sync,
 {
     fn get_page_size(&self) -> u64 {
         self.page_size
@@ -249,8 +249,8 @@ impl<T> IPageRequest for Page<T>
 }
 
 impl<T> IPage<T> for Page<T>
-    where
-        T: Send + Sync,
+where
+    T: Send + Sync,
 {
     fn get_records(&self) -> &Vec<T> {
         self.records.as_ref()
@@ -265,7 +265,6 @@ impl<T> IPage<T> for Page<T>
     }
 }
 
-
 ///use Replace page plugin
 #[derive(Copy, Clone, Debug)]
 pub struct MyBatisReplacePagePlugin {}
@@ -278,9 +277,7 @@ impl MyBatisReplacePagePlugin {
         //     .replace(" limit ", " limit ");
         let mut from_index = sql.find(TEMPLATE.from.left_space);
         if from_index.is_some() {
-            from_index = Option::Some(
-                from_index.unwrap() + TEMPLATE.from.left_space.len(),
-            );
+            from_index = Option::Some(from_index.unwrap() + TEMPLATE.from.left_space.len());
         }
         let mut where_sql = sql[from_index.unwrap_or(0)..sql.len()].to_string();
         //remove order by
@@ -298,34 +295,21 @@ impl MyBatisReplacePagePlugin {
         }
         format!(
             "{} count(1) {} {} ",
-            TEMPLATE.select.value,
-            TEMPLATE.from.value,
-            where_sql
+            TEMPLATE.select.value, TEMPLATE.from.value, where_sql
         )
     }
 }
 
 fn page_limit_sql(driver: DriverType, offset: u64, size: u64) -> Result<String, Error> {
     return match driver {
-        DriverType::Mysql => Ok(format!(
-            " {} {},{}",
-            TEMPLATE.limit.value,
-            offset,
-            size
-        )),
+        DriverType::Mysql => Ok(format!(" {} {},{}", TEMPLATE.limit.value, offset, size)),
         DriverType::Postgres => Ok(format!(
             " {} {} {} {}",
-            TEMPLATE.limit.value,
-            size,
-            TEMPLATE.offset.value,
-            offset
+            TEMPLATE.limit.value, size, TEMPLATE.offset.value, offset
         )),
         DriverType::Sqlite => Ok(format!(
             " {} {} {} {}",
-            TEMPLATE.limit.value,
-            size,
-            TEMPLATE.offset.value,
-            offset
+            TEMPLATE.limit.value, size, TEMPLATE.offset.value, offset
         )),
         DriverType::Mssql => {
             //sqlserver
@@ -355,8 +339,7 @@ impl PagePlugin for MyBatisReplacePagePlugin {
     ) -> Result<(String, String), Error> {
         //default sql
         let mut sql = sql.trim().to_owned();
-        if !sql.starts_with(TEMPLATE.select.right_space)
-            && !sql.contains(TEMPLATE.from.left_space)
+        if !sql.starts_with(TEMPLATE.select.right_space) && !sql.contains(TEMPLATE.from.left_space)
         {
             return Err(Error::from(
                 "[mybatis] make_page_sql() sql must contains 'select ' And ' from '",
@@ -369,7 +352,7 @@ impl PagePlugin for MyBatisReplacePagePlugin {
             count_sql = self.make_count_sql(&count_sql);
         }
         //limit sql
-        let limit_sql = page_limit_sql(*driver_type ,page.offset(), page.get_page_size()).unwrap();
+        let limit_sql = page_limit_sql(*driver_type, page.offset(), page.get_page_size()).unwrap();
         match driver_type {
             DriverType::Mssql => {
                 sql = format!(
@@ -398,9 +381,7 @@ impl MyBatisPackPagePlugin {
     fn make_count_sql(&self, sql: &str) -> String {
         format!(
             "{} count(1) {} ({}) a",
-            TEMPLATE.select.value,
-            TEMPLATE.from.value,
-            sql
+            TEMPLATE.select.value, TEMPLATE.from.value, sql
         )
     }
 }
@@ -415,8 +396,7 @@ impl PagePlugin for MyBatisPackPagePlugin {
     ) -> Result<(String, String), Error> {
         //default sql
         let mut sql = sql.trim().to_owned();
-        if !sql.starts_with(TEMPLATE.select.right_space)
-            && !sql.contains(TEMPLATE.from.left_space)
+        if !sql.starts_with(TEMPLATE.select.right_space) && !sql.contains(TEMPLATE.from.left_space)
         {
             return Err(Error::from(
                 "[mybatis] make_page_sql() sql must contains 'select ' And ' from '",
@@ -429,7 +409,7 @@ impl PagePlugin for MyBatisPackPagePlugin {
             count_sql = self.make_count_sql(&count_sql);
         }
         //limit sql
-        let limit_sql = page_limit_sql(*driver_type ,page.offset(), page.get_page_size()).unwrap();
+        let limit_sql = page_limit_sql(*driver_type, page.offset(), page.get_page_size()).unwrap();
         match driver_type {
             DriverType::Mssql => {
                 sql = format!(
@@ -481,13 +461,9 @@ impl PagePlugin for MyBatisPagePlugin {
         page: &dyn IPageRequest,
     ) -> Result<(String, String), Error> {
         if sql.contains(TEMPLATE.group_by.value) {
-            return self
-                .pack
-                .make_page_sql(driver_type, sql, args, page);
+            return self.pack.make_page_sql(driver_type, sql, args, page);
         } else {
-            return self
-                .replace
-                .make_page_sql(driver_type, sql, args, page);
+            return self.replace.make_page_sql(driver_type, sql, args, page);
         }
     }
 }

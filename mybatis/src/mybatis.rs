@@ -1,27 +1,29 @@
+use mybatis_core::db::DBConnectOption;
+use once_cell::sync::OnceCell;
+use serde::de::DeserializeOwned;
+use serde::ser::Serialize;
 use std::borrow::BorrowMut;
 use std::cell::Cell;
 use std::collections::HashMap;
 use std::sync::Arc;
 use std::time::Duration;
-use once_cell::sync::OnceCell;
-use mybatis_core::db::DBConnectOption;
-use serde::de::DeserializeOwned;
-use serde::ser::Serialize;
 use uuid::Uuid;
 
-use mybatis_core::db::{DBExecResult, DBPool, DBPoolConn, DBPoolOptions, DBQuery, DBTx, DriverType};
-use mybatis_core::Error;
-use crate::plus::MybatisPlus;
-use crate::executor::{MyBatisConnExecutor, MyBatisTxExecutor, MyBatisExecutor};
+use crate::executor::{MyBatisConnExecutor, MyBatisExecutor, MyBatisTxExecutor};
 use crate::intercept::SqlIntercept;
 use crate::log::{LogPlugin, MyBatisLogPlugin};
 use crate::logic_delete::{LogicDelete, MyBatisLogicDeletePlugin};
-use crate::page::{IPage, IPageRequest, Page, PagePlugin, MyBatisPagePlugin};
+use crate::page::{IPage, IPageRequest, MyBatisPagePlugin, Page, PagePlugin};
+use crate::plus::MybatisPlus;
+use crate::snowflake::new_snowflake_id;
+use crate::wrapper::Wrapper;
+use mybatis_core::db::{
+    DBExecResult, DBPool, DBPoolConn, DBPoolOptions, DBQuery, DBTx, DriverType,
+};
+use mybatis_core::Error;
 use mybatis_sql::PageLimit;
 use mybatis_util::error_util::ToResult;
-use crate::wrapper::Wrapper;
 use std::fmt::{Debug, Formatter};
-use crate::snowflake::new_snowflake_id;
 
 /// mybatis engine
 // #[derive(Debug)]
@@ -50,7 +52,6 @@ impl Debug for Mybatis {
             .finish()
     }
 }
-
 
 impl Default for Mybatis {
     fn default() -> Mybatis {
@@ -116,8 +117,8 @@ impl Mybatis {
 
     /// try return an new wrapper and set table formats,if not call the link() method,it will be panic!
     pub fn new_wrapper_table<T>(&self) -> Wrapper
-        where
-            T: MybatisPlus,
+    where
+        T: MybatisPlus,
     {
         let mut w = self.new_wrapper();
         let formats = T::formats(self.driver_type().unwrap());
@@ -232,7 +233,6 @@ impl Mybatis {
     }
 }
 
-
 pub trait AsSqlTag {
     fn sql_tag(&self) -> char;
     fn do_replace_tag(&self, sql: &mut String);
@@ -242,12 +242,12 @@ impl AsSqlTag for DriverType {
     #[inline]
     fn sql_tag(&self) -> char {
         match self {
-            DriverType::None => { '?' }
-            DriverType::Mysql => { '?' }
-            DriverType::Sqlite => { '?' }
-            DriverType::Postgres => { '$' }
+            DriverType::None => '?',
+            DriverType::Mysql => '?',
+            DriverType::Sqlite => '?',
+            DriverType::Postgres => '$',
             //mssql is '@p',so use '$' to '@p'
-            DriverType::Mssql => { '$' }
+            DriverType::Mssql => '$',
         }
     }
     #[inline]
@@ -257,5 +257,3 @@ impl AsSqlTag for DriverType {
         }
     }
 }
-
-

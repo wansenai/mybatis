@@ -2,16 +2,16 @@ use std::fmt::{Debug, Display, Formatter};
 
 use rbson::Bson;
 
+use crate::plus::{MybatisPlus, Skip};
 use mybatis_core::db::DriverType;
 use mybatis_core::Error;
-use mybatis_sql::TEMPLATE;
 use mybatis_sql::rule::SqlRule;
-use crate::plus::{MybatisPlus, Skip};
-use std::ops::{Deref, DerefMut};
-use std::collections::HashMap;
-use serde::{Serialize, Deserialize, Serializer, Deserializer};
+use mybatis_sql::TEMPLATE;
 use serde::de::DeserializeOwned;
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
+use std::collections::HashMap;
 use std::marker::PhantomData;
+use std::ops::{Deref, DerefMut};
 
 /// Logic Delete Plugin trait
 pub trait LogicDelete: Send + Sync + Debug {
@@ -60,8 +60,7 @@ impl MyBatisLogicDeletePlugin {
 
 impl Debug for MyBatisLogicDeletePlugin {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("MyBatisLogicDeletePlugin")
-            .finish()
+        f.debug_struct("MyBatisLogicDeletePlugin").finish()
     }
 }
 

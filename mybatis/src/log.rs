@@ -40,7 +40,7 @@ pub trait LogPlugin: Send + Sync + Debug {
             return;
         }
         if filter.ge(&LevelFilter::Error) {
-            error!("[mybatis] [{}] {}", id ,data);
+            error!("[mybatis] [{}] {}", id, data);
         }
     }
 
@@ -50,7 +50,7 @@ pub trait LogPlugin: Send + Sync + Debug {
             return;
         }
         if filter.ge(&LevelFilter::Warn) {
-            warn!("[mybatis] [{}] {}", id,data);
+            warn!("[mybatis] [{}] {}", id, data);
         }
     }
 
@@ -60,7 +60,7 @@ pub trait LogPlugin: Send + Sync + Debug {
             return;
         }
         if filter.ge(&LevelFilter::Info) {
-            info!("[mybatis] [{}] {}", id,data);
+            info!("[mybatis] [{}] {}", id, data);
         }
     }
 
@@ -70,7 +70,7 @@ pub trait LogPlugin: Send + Sync + Debug {
             return;
         }
         if filter.ge(&LevelFilter::Debug) {
-            debug!("[mybatis] [{}] {}", id,data);
+            debug!("[mybatis] [{}] {}", id, data);
         }
     }
 
@@ -80,7 +80,7 @@ pub trait LogPlugin: Send + Sync + Debug {
             return;
         }
         if filter.ge(&LevelFilter::Trace) {
-            trace!("[mybatis] [{}] {}", id,data);
+            trace!("[mybatis] [{}] {}", id, data);
         }
     }
 }
