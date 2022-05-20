@@ -33,14 +33,14 @@ pub fn macro_derive(input: TokenStream) -> TokenStream {
     stream
 }
 
-/// auto create sql macro,this macro use RB.fetch_prepare and RB.exec_prepare
+/// auto create sql macro,this macro use Mybatis.fetch_prepare and Mybatis.exec_prepare
 /// for example:
-///     pub static RB:Lazy<Mybatis> = Lazy::new(||Mybatis::new());
-///     #[sql(RB, "select * from biz_activity where id = ?")]
+///     pub static Mybatis:Lazy<Mybatis> = Lazy::new(||Mybatis::new());
+///     #[mybatis_sql(Mybatis, "select * from biz_activity where id = ?")]
 ///     async fn select(name: &str) -> BizActivity {}
 ///
 /// or:
-///     #[sql("select * from biz_activity where id = ?")]
+///     #[mybatis_sql("select * from biz_activity where id = ?")]
 ///     async fn select(mybatis:&Mybatis, name: &str) -> BizActivity {}
 ///
 #[proc_macro_attribute]
