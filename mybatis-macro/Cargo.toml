@@ -1,11 +1,14 @@
 [package]
 name = "mybatis-macro"
-version = "2.0.0"
+version = "2.0.1"
 description = "mybatis macro driver"
 authors = ["James Zow <jameszow@163.com>"]
 edition = "2021"
 license = "Apache-2.0"
 rust-version = "1.59.0"
+repository = "https://github.com/summer-rust/summer-mybatis/tree/master/mybatis-macro"
+homepage = "https://github.com/summer-rust/summer-mybatis/blob/master/mybatis-macro/README.md"
+documentation = "https://github.com/summer-rust/summer-mybatis/blob/master/mybatis-macro/README.md"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
