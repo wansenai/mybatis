@@ -151,7 +151,7 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 ## Community
 If you have any use questions, you can ask questions in [mybatis discussions](https://github.com/summer-rust/summer-mybatis/discussions) or submit an issue.
 
-You can also scan qr code to add wechat groups.
+You can also scan [QR Code](https://github.com/Jzow/summer-mybatis/blob/master/website/image/wechat_group_add.jpeg) to add wechat groups.
  
 ## Contribution
 
