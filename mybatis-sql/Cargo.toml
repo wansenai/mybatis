@@ -20,6 +20,6 @@ mybatis-macro = { version = "2.0.2", path = "../mybatis-macro" }
 #serde
 serde = { version = "1", features = ["derive"] }
 rbson = "2.0.3"
-dashmap = { version = "4" }
+dashmap = { version = "5" }
 base64 = "0.13"
 async-trait = "0.1"
