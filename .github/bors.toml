@@ -1,4 +1,4 @@
-block_labels = [ "Summer-mybatis-bors" ]
+block_labels = [ "S-blocked" ]
 delete_merged_branches = true
 timeout_sec = 1200
 # keep MSRV in sync in ci.yaml, bors.toml, and setup.md
