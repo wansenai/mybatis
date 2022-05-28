@@ -1,13 +1,10 @@
 delete_merged_branches = true
-timeout_sec = 1200
+timeout_sec = 2400
 # keep MSRV in sync in ci.yaml, bors.toml, and setup.md
 status = [
   "Dependency Check",
-  "iOS Stable",
-  "Web Assembly",
   "MacOS Stable",
   "MacOS Nightly",
-  "Android Stable",
   "Ubuntu Stable",
   "Ubuntu Nightly",
   "Windows Stable",
