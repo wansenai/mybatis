@@ -29,7 +29,4 @@ pub mod ops_xor;
 #[macro_use]
 pub mod sql_replace;
 
-#[macro_use]
-use mybatis_macro::*;
-
 pub use mybatis_macro::{expr, html, py};
