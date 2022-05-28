@@ -1,3 +1,4 @@
+block_labels = [ "Rust" ]
 delete_merged_branches = true
 timeout_sec = 2400
 # keep MSRV in sync in ci.yaml, bors.toml, and setup.md
