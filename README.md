@@ -163,4 +163,4 @@ Licensed under either of
 
 So far, we have only implemented some flexible conditional wrappers for summer-mybatis. We are developing the mapping of XML files and supporting Oracle database driver. If you have any interests and ideas, please submit to PR or contact me.
 
-I have been working hard and are looking for various contributions. Look forward to your help!
+We looking for various contributions. Look forward to your contributions!
