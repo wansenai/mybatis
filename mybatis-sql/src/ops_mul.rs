@@ -5,7 +5,7 @@ use crate::ops::Value;
 impl Mul<&Value> for Value {
     type Output = Value;
     fn op_mul(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s * rhs);
@@ -36,7 +36,7 @@ impl Mul<&Value> for Value {
 impl Mul<&&Value> for Value {
     type Output = Value;
     fn op_mul(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s * rhs);
@@ -67,7 +67,7 @@ impl Mul<&&Value> for Value {
 impl Mul<Value> for Value {
     type Output = Value;
     fn op_mul(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s * rhs);
@@ -98,7 +98,7 @@ impl Mul<Value> for Value {
 impl Mul<&Value> for &Value {
     type Output = Value;
     fn op_mul(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s * rhs);
@@ -129,7 +129,7 @@ impl Mul<&Value> for &Value {
 impl Mul<&&Value> for &Value {
     type Output = Value;
     fn op_mul(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s * rhs);
@@ -160,7 +160,7 @@ impl Mul<&&Value> for &Value {
 impl Mul<Value> for &Value {
     type Output = Value;
     fn op_mul(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s * rhs);

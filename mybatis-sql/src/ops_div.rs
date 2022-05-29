@@ -1,5 +1,4 @@
 use crate::ops::Div;
-use rbson::Bson;
 
 use crate::ops::AsProxy;
 use crate::ops::Value;
@@ -8,14 +7,14 @@ fn op_div_u64(value: &Value, other: u64) -> u64 {
     if other == 0 {
         return 0;
     }
-    (value.u64() / other)
+    value.u64() / other
 }
 
 fn op_div_i64(value: &Value, other: i64) -> i64 {
     if other == 0 {
         return 0;
     }
-    (value.i64() / other)
+    value.i64() / other
 }
 
 fn op_div_f64(value: &Value, other: f64) -> f64 {
@@ -30,7 +29,7 @@ fn op_div_i64_value(value: &Value, other: i64) -> i64 {
     if v == 0 {
         return 0;
     }
-    (other / v)
+    other / v
 }
 
 fn op_div_u64_value(value: &Value, other: u64) -> u64 {
@@ -38,7 +37,7 @@ fn op_div_u64_value(value: &Value, other: u64) -> u64 {
     if v == 0 {
         return 0;
     }
-    (other / v)
+    other / v
 }
 
 fn op_div_f64_value(value: &Value, other: f64) -> f64 {
@@ -46,7 +45,7 @@ fn op_div_f64_value(value: &Value, other: f64) -> f64 {
     if v == 0.0 {
         return 0.0;
     }
-    (other / v)
+    other / v
 }
 
 macro_rules! impl_numeric_div {
@@ -128,7 +127,7 @@ impl_numeric_div! {
 impl Div<&Value> for Value {
     type Output = Value;
     fn op_div(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
                 if rhs == 0.0 {
@@ -174,7 +173,7 @@ impl Div<&Value> for Value {
 impl Div<&&Value> for Value {
     type Output = Value;
     fn op_div(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
                 if rhs == 0.0 {
@@ -220,7 +219,7 @@ impl Div<&&Value> for Value {
 impl Div<Value> for Value {
     type Output = Value;
     fn op_div(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
                 if rhs == 0.0 {
@@ -266,7 +265,7 @@ impl Div<Value> for Value {
 impl Div<Value> for &Value {
     type Output = Value;
     fn op_div(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
                 if rhs == 0.0 {
@@ -312,7 +311,7 @@ impl Div<Value> for &Value {
 impl Div<&Value> for &Value {
     type Output = Value;
     fn op_div(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
                 if rhs == 0.0 {
@@ -358,7 +357,7 @@ impl Div<&Value> for &Value {
 impl Div<&&Value> for &Value {
     type Output = Value;
     fn op_div(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
                 if rhs == 0.0 {
