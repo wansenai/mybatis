@@ -22,11 +22,6 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
     
     ```rust
     mybatis = { version = "2.0.3"}
-    
-    /// other dependencys
-    serde = { version = "1", features =  ["derive"] }
-    rbson = "2.0"
-    tokio = { version = "1.18.2", features = ["full"] }
     ```
 
 * Example
@@ -147,9 +142,20 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
     }
     ```
     </details>
+
+## Community
+If you have any use questions, you can ask questions in [mybatis discussions](https://github.com/summer-rust/summer-mybatis/discussions) or submit an issue.
+
+You can also scan [QR Code](https://github.com/Jzow/summer-mybatis/blob/master/website/image/wechat_group_add.jpeg) to add wechat groups.
+        
+## License
+
+Licensed under either of
+
+ * [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
  
 ## Contribution
 
 So far, we have only implemented some flexible conditional wrappers for summer-mybatis. We are developing the mapping of XML files and supporting Oracle database driver. If you have any interests and ideas, please submit to PR or contact me.
 
-I have been working hard and are looking for various contributions. Look forward to your help!
+We looking for various contributions. Look forward to your contributions!

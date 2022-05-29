@@ -1,4 +1,4 @@
-use crate::ops::{AsProxy, AsSql, Value};
+use crate::ops::{AsSql, Value};
 
 impl AsSql for Value {
     fn as_sql(&self) -> String {

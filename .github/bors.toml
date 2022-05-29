@@ -1,0 +1,13 @@
+block_labels = [ "Rust" ]
+delete_merged_branches = true
+timeout_sec = 2400
+# keep MSRV in sync in ci.yaml, bors.toml, and setup.md
+status = [
+  "Dependency Check",
+  "MacOS Stable",
+  "MacOS Nightly",
+  "Ubuntu Stable",
+  "Ubuntu Nightly",
+  "Windows Stable",
+  "Windows Nightly",
+]
