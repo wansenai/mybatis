@@ -1,10 +1,6 @@
-use std::borrow::{Borrow, Cow};
 use std::cmp::Ordering;
-use std::fmt::{Debug, Formatter};
-use std::ops::{Deref, Index};
 
 use rbson::{Document, Timestamp};
-use serde::{Deserializer, Serializer};
 use std::cmp::Ordering::Less;
 
 /// convert Value to Value

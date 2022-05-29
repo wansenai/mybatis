@@ -1,6 +1,5 @@
 use crate::ops::{OpsIndex, OpsIndexMut, Value};
 use rbson::Document;
-use std::ops;
 
 pub trait Index: private::Sealed {
     /// Return None if the key is not already in the array or object.

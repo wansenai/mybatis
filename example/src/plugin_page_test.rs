@@ -32,6 +32,4 @@ mod tests {
         println!("{}", select);
     }
 
-    #[test]
-    fn test_all() {}
 }

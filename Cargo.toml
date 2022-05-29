@@ -7,3 +7,5 @@ members = [
     "mybatis-util",
     "mybatis",
 ]
+
+exclude = [".github/"]

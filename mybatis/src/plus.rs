@@ -18,11 +18,9 @@ use crate::page::{IPage, IPageRequest, Page};
 use crate::wrapper::Wrapper;
 
 use mybatis_sql::ops::AsProxy;
-use mybatis_sql::rule::SqlRule;
 use mybatis_sql::TEMPLATE;
 use mybatis_util::string_util::{self, to_snake_name};
 use rbson::Bson;
-use rbson::Bson::Null;
 use std::marker::PhantomData;
 use std::ops::{Deref, DerefMut};
 use std::option::Option::Some;

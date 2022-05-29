@@ -6,7 +6,7 @@ use crate::ops::Value;
 impl Sub<&Value> for Value {
     type Output = Value;
     fn op_sub(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int64((s - rhs) as i64);
@@ -17,11 +17,11 @@ impl Sub<&Value> for Value {
             }
             Value::UInt32(s) => {
                 let rhs = rhs.u32();
-                return Value::UInt64(((s - rhs) as u64));
+                return Value::UInt64((s - rhs) as u64);
             }
             Value::UInt64(s) => {
                 let rhs = rhs.u64();
-                return Value::UInt64((s - rhs));
+                return Value::UInt64(s - rhs);
             }
             Value::Double(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
@@ -37,7 +37,7 @@ impl Sub<&Value> for Value {
 impl Sub<&&Value> for Value {
     type Output = Value;
     fn op_sub(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int64((s - rhs) as i64);
@@ -48,11 +48,11 @@ impl Sub<&&Value> for Value {
             }
             Value::UInt32(s) => {
                 let rhs = rhs.u32();
-                return Value::UInt64(((s - rhs) as u64));
+                return Value::UInt64((s - rhs) as u64);
             }
             Value::UInt64(s) => {
                 let rhs = rhs.u64();
-                return Value::UInt64((s - rhs));
+                return Value::UInt64(s - rhs);
             }
             Value::Double(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
@@ -68,7 +68,7 @@ impl Sub<&&Value> for Value {
 impl Sub<Value> for Value {
     type Output = Value;
     fn op_sub(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int64((s - rhs) as i64);
@@ -79,11 +79,11 @@ impl Sub<Value> for Value {
             }
             Value::UInt32(s) => {
                 let rhs = rhs.u32();
-                return Value::UInt64(((s - rhs) as u64));
+                return Value::UInt64((s - rhs) as u64);
             }
             Value::UInt64(s) => {
                 let rhs = rhs.u64();
-                return Value::UInt64((s - rhs));
+                return Value::UInt64(s - rhs);
             }
             Value::Double(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
@@ -99,7 +99,7 @@ impl Sub<Value> for Value {
 impl Sub<&Value> for &Value {
     type Output = Value;
     fn op_sub(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int64((s - rhs) as i64);
@@ -110,11 +110,11 @@ impl Sub<&Value> for &Value {
             }
             Value::UInt32(s) => {
                 let rhs = rhs.u32();
-                return Value::UInt64(((s - rhs) as u64));
+                return Value::UInt64((s - rhs) as u64);
             }
             Value::UInt64(s) => {
                 let rhs = rhs.u64();
-                return Value::UInt64((s - rhs));
+                return Value::UInt64(s - rhs);
             }
             Value::Double(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
@@ -130,7 +130,7 @@ impl Sub<&Value> for &Value {
 impl Sub<&&Value> for &Value {
     type Output = Value;
     fn op_sub(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int64((s - rhs) as i64);
@@ -141,11 +141,11 @@ impl Sub<&&Value> for &Value {
             }
             Value::UInt32(s) => {
                 let rhs = rhs.u32();
-                return Value::UInt64(((s - rhs) as u64));
+                return Value::UInt64((s - rhs) as u64);
             }
             Value::UInt64(s) => {
                 let rhs = rhs.u64();
-                return Value::UInt64((s - rhs));
+                return Value::UInt64(s - rhs);
             }
             Value::Double(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
@@ -161,7 +161,7 @@ impl Sub<&&Value> for &Value {
 impl Sub<Value> for &Value {
     type Output = Value;
     fn op_sub(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int64((s - rhs) as i64);
@@ -172,11 +172,11 @@ impl Sub<Value> for &Value {
             }
             Value::UInt32(s) => {
                 let rhs = rhs.u32();
-                return Value::UInt64(((s - rhs) as u64));
+                return Value::UInt64((s - rhs) as u64);
             }
             Value::UInt64(s) => {
                 let rhs = rhs.u64();
-                return Value::UInt64((s - rhs));
+                return Value::UInt64(s - rhs);
             }
             Value::Double(s) => {
                 let rhs = rhs.as_f64().unwrap_or_default();
