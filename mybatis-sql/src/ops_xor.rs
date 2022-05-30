@@ -6,7 +6,7 @@ use crate::ops::Value;
 impl BitXor<&Value> for Value {
     type Output = Value;
     fn op_bitxor(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s ^ rhs);
@@ -37,7 +37,7 @@ impl BitXor<&Value> for Value {
 impl BitXor<&&Value> for Value {
     type Output = Value;
     fn op_bitxor(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s ^ rhs);
@@ -68,7 +68,7 @@ impl BitXor<&&Value> for Value {
 impl BitXor<Value> for Value {
     type Output = Value;
     fn op_bitxor(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s ^ rhs);
@@ -99,7 +99,7 @@ impl BitXor<Value> for Value {
 impl BitXor<&Value> for &Value {
     type Output = Value;
     fn op_bitxor(self, rhs: &Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s ^ rhs);
@@ -130,7 +130,7 @@ impl BitXor<&Value> for &Value {
 impl BitXor<&&Value> for &Value {
     type Output = Value;
     fn op_bitxor(self, rhs: &&Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s ^ rhs);
@@ -161,7 +161,7 @@ impl BitXor<&&Value> for &Value {
 impl BitXor<Value> for &Value {
     type Output = Value;
     fn op_bitxor(self, rhs: Value) -> Self::Output {
-        return match self {
+        match self {
             Value::Int32(s) => {
                 let rhs = rhs.i32();
                 return Value::Int32(s ^ rhs);
