@@ -3,7 +3,14 @@
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
 
-Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. In addition, its speed is very fast.
+Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. Use 
+[sqlx-core crate](https://crates.io/crates/sqlx-core)、
+[tokio crate](https://crates.io/crates/tokio)、
+[rbatis crate](https://crates.io/crates/tokio)、
+[bson crate](https://crates.io/crates/bson) 
+is used for secondary packaging development. 
+
+In addition, its speed is very fast.
 
 
 ## Features:
@@ -145,8 +152,6 @@ Summer MyBatis is an ORM framework based on rust language and mybatis framework.
 
 ## Community
 If you have any use questions, you can ask questions in [mybatis discussions](https://github.com/summer-rust/summer-mybatis/discussions) or submit an issue.
-
-You can also scan [QR Code](https://summeros.oss-cn-shanghai.aliyuncs.com/wechat_group_add.jpeg) to add wechat groups.
         
 ## License
 
