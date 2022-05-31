@@ -152,8 +152,6 @@ In addition, its speed is very fast.
 
 ## Community
 If you have any use questions, you can ask questions in [mybatis discussions](https://github.com/summer-rust/summer-mybatis/discussions) or submit an issue.
-
-You can also scan [QR Code](https://summeros.oss-cn-shanghai.aliyuncs.com/wechat_group_add.jpeg) to add wechat groups.
         
 ## License
 
