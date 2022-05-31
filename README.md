@@ -3,7 +3,7 @@
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 
 
-Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. Use [rbatis crate](https://crates.io/crates/rbatis) is used for secondary packaging development. In addition, its speed is very fast.
+Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. Use [rbatis crate](https://crates.io/crates/rbatis) and [tokio](https://crates.io/crates/tokio) is used for secondary packaging development. In addition, its speed is very fast.
 
 
 ## Features:
