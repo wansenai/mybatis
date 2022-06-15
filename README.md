@@ -1,6 +1,7 @@
 # Summer MyBatis
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis.svg?type=small)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis?ref=badge_small)
 
 
 Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. Use 
@@ -158,6 +159,8 @@ If you have any use questions, you can ask questions in [mybatis discussions](ht
 Licensed under either of
 
  * [Apache License, Version 2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis?ref=badge_large)
  
 ## Contribution
 
