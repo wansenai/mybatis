@@ -90,15 +90,6 @@ impl Format for Bson {
             Bson::Null => {
                 format!("null")
             }
-            Bson::RegularExpression(j) => {
-                format!("{:?}", j)
-            }
-            Bson::JavaScriptCode(j) => {
-                format!("{:?}", j)
-            }
-            Bson::JavaScriptCodeWithScope(j) => {
-                format!("{:?}", j)
-            }
             Bson::Int32(i) => {
                 format!("{}", i)
             }
@@ -144,29 +135,11 @@ impl Format for Bson {
                     }
                 }
             }
-            Bson::ObjectId(id) => {
-                format!("\"{}\"", id)
-            }
             Bson::DateTime(dt) => {
                 format!("\"{}\"", DateTimeNative::from(dt.clone()))
             }
-            Bson::Symbol(s) => {
-                format!("{}", s)
-            }
             Bson::Decimal128(d) => {
                 format!("{}", d)
-            }
-            Bson::Undefined => {
-                format!("{}", "Undefined")
-            }
-            Bson::MaxKey => {
-                format!("{}", "MaxKey")
-            }
-            Bson::MinKey => {
-                format!("{}", "MinKey")
-            }
-            Bson::DbPointer(p) => {
-                format!("{:?}", p)
             }
         }
     }
