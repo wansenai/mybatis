@@ -117,9 +117,6 @@ pub fn bind(
             let primitive_date_time = time::PrimitiveDateTime::from(systime);
             q = q.bind(primitive_date_time);
         }
-        Bson::ObjectId(d) => {
-            q = q.bind(d.to_string());
-        }
         Bson::Array(arr) => {
             let mut arr_str = vec![];
             let mut arr_i32 = vec![];
@@ -234,9 +231,6 @@ pub fn bind(
                         let systime = SystemTime::from(crate::types::Timestamp::from(d).inner);
                         let primitive_date_time = time::PrimitiveDateTime::from(systime);
                         q = q.bind(primitive_date_time);
-                    }
-                    Bson::ObjectId(d) => {
-                        q = q.bind(d.to_string());
                     }
                     _ => {
                         return crate::Result::Err(crate::Error::from("unsupported type!"));
