@@ -44,7 +44,7 @@ mybatis-core = { version = "2.0.1", path = "../mybatis-core", default-features =
 mybatis-macro = { version = "2.0.3", path = "../mybatis-macro", default-features = false, optional = true}
 
 ################################################################
-rbson = { version = "2.0.4"}
+rbson = { version = "2.0.4", features = ["uuid-0_8", "chrono-0_4"] }
 chrono = { version = "0.4", features = ["serde"] }
 #serde
 serde = { version = "1", features = ["derive"] }
