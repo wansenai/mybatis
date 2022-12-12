@@ -21,5 +21,5 @@ mybatis-macro = { version = "2.0.2", path = "../mybatis-macro" }
 serde = { version = "1", features = ["derive"] }
 rbson = "2.0.4"
 dashmap = { version = "5" }
-base64 = "0.13"
+base64 = "0.20"
 async-trait = "0.1"
