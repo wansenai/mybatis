@@ -4,6 +4,11 @@
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis?ref=badge_shield)
 
 
+Due to various reasons, we will no longer maintain it. 
+
+If you have any ideas, feel free to contact us at any time Jameszow@wansen.email
+
+------
 Summer MyBatis is an ORM framework based on rust language and mybatis framework. It is used to simplify development. Developers do not need to pay attention to complex SQL. They can carry out business development through dynamic SQL dialect. It can save your time. Use 
 [sqlx-core crate](https://crates.io/crates/sqlx-core)、
 [tokio crate](https://crates.io/crates/tokio)、
