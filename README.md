@@ -29,7 +29,7 @@ In addition, its speed is very fast.
 * Add mybatis dependency
     
     ```rust
-    mybatis = { version = "2.0.3"}
+    mybatis = { version = "2.0.4"}
     ```
 
 * Example

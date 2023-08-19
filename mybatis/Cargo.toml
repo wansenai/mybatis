@@ -1,6 +1,6 @@
 [package]
 name = "mybatis"
-version = "2.0.3"
+version = "2.0.4"
 edition = "2021"
 rust-version = "1.59.0"
 authors = ["James Zow <Jameszow@163.com>"]
@@ -39,8 +39,8 @@ format_bson = ["mybatis-core/format_bson"]
 
 [dependencies]
 mybatis-util = { version = "2.0.0", path = "../mybatis-util", default-features = false}
-mybatis-sql = { version = "2.0.0", path = "../mybatis-sql", default-features = false, optional = true}
-mybatis-core = { version = "2.0.0", path = "../mybatis-core", default-features = false, optional = true}
+mybatis-sql = { version = "2.0.1", path = "../mybatis-sql", default-features = false, optional = true}
+mybatis-core = { version = "2.0.1", path = "../mybatis-core", default-features = false, optional = true}
 mybatis-macro = { version = "2.0.3", path = "../mybatis-macro", default-features = false, optional = true}
 
 ################################################################
