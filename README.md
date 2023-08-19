@@ -1,4 +1,4 @@
-# Summer MyBatis
+# MyBatis
 
 ![Build Status](https://github.com/rust-lang/book/workflows/CI/badge.svg)
 [![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fsummer-os%2Fsummer-mybatis?ref=badge_shield)
