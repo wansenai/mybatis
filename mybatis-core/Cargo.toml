@@ -40,5 +40,5 @@ time = { version = "0.2.16", features = ["serde"] }
 #only pg
 bit-vec = { version = "0.6", features = ["serde"], optional = true }
 bigdecimal_ = { version = "0.2.0", package = "bigdecimal", features = ["serde"] }
-base64 = "0.13.0"
+base64 = "0.21.4"
 hex = "0.4"
